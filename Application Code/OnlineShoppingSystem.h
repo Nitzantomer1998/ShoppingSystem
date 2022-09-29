@@ -7,4 +7,8 @@
 #include <string.h>
 
 
+// Enums
+typedef enum { false, true } bool;
+
+
 #endif //ONLINESHOPPINGSYSTEM_ONLINESHOPPINGSYSTEM_H
