@@ -11,4 +11,8 @@
 typedef enum { false, true } bool;
 
 
+// Strings
+char* copyString(char* string);
+
+
 #endif //ONLINESHOPPINGSYSTEM_ONLINESHOPPINGSYSTEM_H
