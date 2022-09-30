@@ -13,6 +13,7 @@ typedef enum { false, true } bool;
 
 // Strings
 char* copyString(char* string);
+int initializeInt();
 
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
