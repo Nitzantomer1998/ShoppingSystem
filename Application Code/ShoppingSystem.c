@@ -1,4 +1,4 @@
-#include "OnlineShoppingSystem.h"
+#include "ShoppingSystem.h"
 
 
 // Strings
@@ -11,4 +11,13 @@ char* copyString(char* string)
 
     strcpy_s(memoryAllocateString, strlen(string) + 1, string);
     return memoryAllocateString;
+}
+int initializeInt()
+{
+    // Initialize string from the user and convert it into an Integer
+    // Note: if the input isn't an Integer the return value will be -1 ("Failed")
+    char string[500] = { '\0' };
+
+    scanf_s(" %[^\n]", string, (unsigned)sizeof(string));
+    return convertStringToInt(string);
 }
