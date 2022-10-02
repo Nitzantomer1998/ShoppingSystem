@@ -21,3 +21,19 @@ int initializeInt()
     scanf_s(" %[^\n]", string, (unsigned)sizeof(string));
     return convertStringToInt(string);
 }
+int convertStringToInt(char* string)
+{
+    // Converting the given string into an Integer
+    // Note: if the input isn't an Integer the return value will be -1 ("Failed")
+    int sum = 0;
+
+    for (int i = 0; i < strlen(string); i++)
+    {
+        if (string[i] < '0' || string[i] > '9')
+            return -1;
+
+        else
+            sum = sum * 10 + (string[i] - '0');
+    }
+    return sum;
+}
