@@ -15,6 +15,7 @@ typedef enum { false, true } bool;
 char* copyString(char* string);
 int initializeInt();
 int convertStringToInt(char* string);
+float initializeFloat();
 
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
