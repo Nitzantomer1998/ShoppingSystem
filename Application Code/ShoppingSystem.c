@@ -37,3 +37,12 @@ int convertStringToInt(char* string)
     }
     return sum;
 }
+float initializeFloat()
+{
+    // Initialize string from the user and convert it into a Float
+    // Note: if the input isn't a Float the return value will be -1 ("Failed")
+    char string[500] = { '\0' };
+
+    scanf_s(" %[^\n]", string, (unsigned)sizeof(string));
+    return convertStringToFloat(string);
+}
