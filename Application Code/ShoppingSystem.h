@@ -16,6 +16,7 @@ char* copyString(char* string);
 int initializeInt();
 int convertStringToInt(char* string);
 float initializeFloat();
+float convertStringToFloat(char* string);
 
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
