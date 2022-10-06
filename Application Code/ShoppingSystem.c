@@ -46,3 +46,24 @@ float initializeFloat()
     scanf_s(" %[^\n]", string, (unsigned)sizeof(string));
     return convertStringToFloat(string);
 }
+float convertStringToFloat(char* string)
+{
+    // Converting the given string into a Float
+    // Note: if the input isn't a Float the return value will be -1 ("Failed")
+    int dividePower = 1;
+    int sum = 0;
+
+    for (int i = 0; i < strlen(string); i++)
+    {
+        if (string[i] >= '0' && string[i] <= '9')
+            sum = sum * 10 + (string[i] - '0');
+
+        else if (string[i] == '.')
+            for (int j = 1; j < strlen(string) - i; j++)
+                dividePower = dividePower * 10;
+
+        else
+            return -1;
+    }
+    return (float)sum / (float)dividePower;
+}
