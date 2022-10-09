@@ -67,3 +67,29 @@ float convertStringToFloat(char* string)
     }
     return (float)sum / (float)dividePower;
 }
+
+// Folders And Files
+void checkFolder()
+{
+    // Checking if the folders exist, else create them
+    if (doesFileExists(FOLDER_DATA) == false)
+        createFolder(FOLDER_DATA);
+
+    if (doesFileExists(FOLDER_DATA_USERS) == false)
+        createFolder(FOLDER_DATA_USERS);
+
+    if (doesFileExists(FOLDER_DATA_ORDERS) == false)
+        createFolder(FOLDER_DATA_ORDERS);
+
+    if (doesFileExists(FOLDER_DATA_TICKETS) == false)
+        createFolder(FOLDER_DATA_TICKETS);
+
+    if (doesFileExists(FOLDER_DATA_CATALOGS) == false)
+        createFolder(FOLDER_DATA_CATALOGS);
+
+    if (doesFileExists(FOLDER_DATA_ORDERS_SUMMARY) == false)
+        createFolder(FOLDER_DATA_ORDERS_SUMMARY);
+
+    if (doesFileExists(FOLDER_DATA_TICKETS_SUMMARY) == false)
+        createFolder(FOLDER_DATA_TICKETS_SUMMARY);
+}
