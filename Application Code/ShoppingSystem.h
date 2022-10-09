@@ -25,5 +25,8 @@ int convertStringToInt(char* string);
 float initializeFloat();
 float convertStringToFloat(char* string);
 
+// Folders And Files
+void checkFolder();
+
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
