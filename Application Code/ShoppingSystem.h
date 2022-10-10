@@ -15,6 +15,14 @@
 #define FOLDER_DATA_ORDERS_SUMMARY "Data\\Orders\\Summary\\"
 #define FOLDER_DATA_TICKETS_SUMMARY "Data\\Tickets\\Summary\\"
 
+// Files
+#define FILE_TEMP "Data\\Temp.csv"
+#define FILE_MANAGERS "Data\\Users\\Managers.csv"
+#define FILE_CUSTOMERS "Data\\Users\\Customers.csv"
+#define FILE_CATALOGS "Data\\Catalogs\\Catalog.csv"
+#define FILE_ORDERS_SUMMARY "Data\\Orders\\Summary\\OrdersSummary.csv"
+#define FILE_TICKETS_SUMMARY "Data\\Tickets\\Summary\\TicketsSummary.csv"
+
 // Enums
 typedef enum { false, true } bool;
 
