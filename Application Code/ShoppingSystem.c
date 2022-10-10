@@ -93,3 +93,24 @@ void checkFolder()
     if (doesFileExists(FOLDER_DATA_TICKETS_SUMMARY) == false)
         createFolder(FOLDER_DATA_TICKETS_SUMMARY);
 }
+void checkFiles()
+{
+    // Checking if the files exist, else create them
+    if (doesFileExists(FILE_TEMP) == false)
+        writeFile(FILE_TEMP, "");
+
+    if (doesFileExists(FILE_MANAGERS) == false)
+        writeFile(FILE_MANAGERS, "ID,Name,Password,Phone");
+
+    if (doesFileExists(FILE_CUSTOMERS) == false)
+        writeFile(FILE_CUSTOMERS, "ID,Name,Password,Phone,Points");
+
+    if (doesFileExists(FILE_CATALOGS) == false)
+        writeFile(FILE_CATALOGS, "Name,Company,Category,Price,Quantity");
+
+    if (doesFileExists(FILE_TICKETS_SUMMARY) == false)
+        writeFile(FILE_TICKETS_SUMMARY, "Ticket No.,Customer ID,Date,Status");
+
+    if (doesFileExists(FILE_ORDERS_SUMMARY) == false)
+        writeFile(FILE_ORDERS_SUMMARY, "Order No.,Customer ID,Total,Date,Status");
+}
