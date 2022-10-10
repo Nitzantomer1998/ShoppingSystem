@@ -35,6 +35,7 @@ float convertStringToFloat(char* string);
 
 // Folders And Files
 void checkFolder();
+void checkFiles();
 
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
