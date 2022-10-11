@@ -114,3 +114,9 @@ void checkFiles()
     if (doesFileExists(FILE_ORDERS_SUMMARY) == false)
         writeFile(FILE_ORDERS_SUMMARY, "Order No.,Customer ID,Total,Date,Status");
 }
+void createFolder(char* folderName)
+{
+    // Creating new folder with the sent name
+    if (mkdir(folderName))
+        exit(true);
+}
