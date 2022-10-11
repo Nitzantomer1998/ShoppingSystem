@@ -1,6 +1,7 @@
 #ifndef SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
 #define SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
 
+
 // Libraries
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,6 +38,7 @@ float convertStringToFloat(char* string);
 // Folders And Files
 void checkFolder();
 void checkFiles();
+void createFolder(char* folderName);
 
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
