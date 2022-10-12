@@ -39,6 +39,7 @@ float convertStringToFloat(char* string);
 void checkFolder();
 void checkFiles();
 void createFolder(char* folderName);
+void resetFile(char* fileName);
 
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
