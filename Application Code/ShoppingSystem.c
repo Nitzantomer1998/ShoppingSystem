@@ -120,3 +120,14 @@ void createFolder(char* folderName)
     if (mkdir(folderName))
         exit(true);
 }
+void resetFile(char* fileName)
+{
+    // Reset the sent file
+    FILE* file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, fileName, "w")))
+        exit(true);
+
+    fclose(file);
+}
