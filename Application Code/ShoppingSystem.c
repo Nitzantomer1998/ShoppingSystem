@@ -131,3 +131,17 @@ void resetFile(char* fileName)
 
     fclose(file);
 }
+void writeFile(char* fileName, char* data)
+{
+    // Saving the sent data into the desirable file
+    FILE* file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, fileName, "a+")))
+        exit(true);
+
+    else
+        fprintf(file, "%s\n", data);
+
+    fclose(file);
+}
