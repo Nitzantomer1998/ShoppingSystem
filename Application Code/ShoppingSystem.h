@@ -40,6 +40,7 @@ void checkFolder();
 void checkFiles();
 void createFolder(char* folderName);
 void resetFile(char* fileName);
+void writeFile(char* fileName, char* data);
 
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
