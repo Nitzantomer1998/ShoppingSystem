@@ -145,3 +145,22 @@ void writeFile(char* fileName, char* data)
 
     fclose(file);
 }
+void copyFile(char* destinationFileName, char* sourceFileName)
+{
+    // Copy source file content into destination file
+    char buffer[500] = { '\0' };
+    FILE* file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, sourceFileName, "r")))
+        exit(true);
+
+    else
+    {
+        resetFile(destinationFileName);
+
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned)sizeof(buffer)) == 1)
+            writeFile(destinationFileName, buffer);
+    }
+    fclose(file);
+}
