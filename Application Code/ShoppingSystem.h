@@ -41,6 +41,7 @@ void checkFiles();
 void createFolder(char* folderName);
 void resetFile(char* fileName);
 void writeFile(char* fileName, char* data);
+void copyFile(char* destinationFileName, char* sourceFileName);
 
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
