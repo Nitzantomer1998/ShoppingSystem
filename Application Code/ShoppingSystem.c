@@ -164,3 +164,9 @@ void copyFile(char* destinationFileName, char* sourceFileName)
     }
     fclose(file);
 }
+bool doesFileExists(char* fileName)
+{
+    // Checking if the sent file exist and return accordingly
+    struct stat buffer;
+    return stat(fileName, &buffer) == false;
+}
