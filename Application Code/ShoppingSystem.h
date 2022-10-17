@@ -28,6 +28,16 @@
 // Enums
 typedef enum { false, true } bool;
 
+// Structs
+typedef struct User
+{
+    char* ID;
+    char* name;
+    char* password;
+    char* phone;
+    float points;
+} User;
+
 // Strings
 char* copyString(char* string);
 int initializeInt();
