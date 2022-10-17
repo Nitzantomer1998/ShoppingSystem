@@ -38,6 +38,9 @@ typedef struct User
     float points;
 } User;
 
+// Global Variable
+char* IDENTITY = NULL;
+
 // Strings
 char* copyString(char* string);
 int initializeInt();
