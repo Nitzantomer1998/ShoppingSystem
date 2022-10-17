@@ -170,3 +170,64 @@ bool doesFileExists(char* fileName)
     struct stat buffer;
     return stat(fileName, &buffer) == false;
 }
+
+// User
+void verifyUserId(User* user)
+{
+    // Initialize the user ID till its valid
+    // Note: the ID check is according to Israel ID's
+    char userID[100] = { '\0' };
+    bool isIdValid = false;
+
+    while (isIdValid == false)
+    {
+        isIdValid = true;
+
+        printf("User ID -->");
+        scanf_s(" %[^\n]", userID, (unsigned)sizeof(userID));
+
+        IDENTITY = copyString(userID);
+
+        long idVal = strtol(userID, NULL, 10);
+        int Digit1 = 0, Digit2 = 0, Digit3 = 0, Digit4 = 0, Digit5 = 0, Digit6 = 0, Digit7 = 0, Digit8 = 0, Digit9 = 0;
+
+        if (idVal < 10000000 || idVal > 999999999)
+        {
+            printf("Error: User ID Contains Eight To Nine Digits\n");
+            isIdValid = false;
+        }
+
+        Digit1 = idVal / 100000000 * 1;
+        Digit2 = idVal / 10000000 % 10 * 2;
+        Digit3 = idVal / 1000000 % 10 * 1;
+        Digit4 = idVal / 100000 % 10 * 2;
+        Digit5 = idVal / 10000 % 10 * 1;
+        Digit6 = idVal / 1000 % 10 * 2;
+        Digit7 = idVal / 100 % 10 * 1;
+        Digit8 = idVal / 10 % 10 * 2;
+        Digit9 = idVal % 10;
+
+        if (Digit1 > 9 || Digit2 > 9 || Digit3 > 9 || Digit4 > 9 || Digit5 > 9 || Digit6 > 9 || Digit7 > 9 || Digit8 > 9 || Digit9 > 9)
+        {
+            Digit1 = (Digit1 / 10) + (Digit1 % 10);
+            Digit2 = (Digit2 / 10) + (Digit2 % 10);
+            Digit3 = (Digit3 / 10) + (Digit3 % 10);
+            Digit4 = (Digit4 / 10) + (Digit4 % 10);
+            Digit5 = (Digit5 / 10) + (Digit5 % 10);
+            Digit6 = (Digit6 / 10) + (Digit6 % 10);
+            Digit7 = (Digit7 / 10) + (Digit7 % 10);
+            Digit8 = (Digit8 / 10) + (Digit8 % 10);
+            Digit9 = (Digit9 / 10) + (Digit9 % 10);
+        }
+
+        if ((Digit1 + Digit2 + Digit3 + Digit4 + Digit5 + Digit6 + Digit7 + Digit8 + Digit9) % 10 != 0)
+        {
+            printf("Error: Incorrect ID\n");
+            isIdValid = false;
+        }
+
+        if (isIdValid == false)
+            printf("\n");
+    }
+    user->ID = copyString(userID);
+}
