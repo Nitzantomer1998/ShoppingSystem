@@ -57,5 +57,8 @@ void writeFile(char* fileName, char* data);
 void copyFile(char* destinationFileName, char* sourceFileName);
 bool doesFileExists(char* fileName);
 
+// User
+void verifyUserId(User* user);
+
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
