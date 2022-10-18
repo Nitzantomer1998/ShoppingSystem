@@ -231,3 +231,28 @@ void verifyUserId(User* user)
     }
     user->ID = copyString(userID);
 }
+void verifyUserName(User* user)
+{
+    // Initialize the username till its valid
+    char userName[100] = { '\0' };
+    bool isNameValid = false;
+
+    while (isNameValid == false)
+    {
+        isNameValid = true;
+
+        printf("User Name -->");
+        scanf_s(" %[^\n]", userName, (unsigned)sizeof(userName));
+
+        for (int i = 0; i < strlen(userName); i++)
+        {
+            if (((userName[i] >= 'a' && userName[i] <= 'z') || (userName[i] >= 'A' && userName[i] <= 'Z') || userName[i] == ' ') == false)
+            {
+                printf("Error: User Name Contain Only English Alphabet\n\n");
+                isNameValid = false;
+                break;
+            }
+        }
+    }
+    user->name = copyString(userName);
+}
