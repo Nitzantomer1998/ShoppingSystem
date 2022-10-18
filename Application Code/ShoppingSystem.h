@@ -59,6 +59,7 @@ bool doesFileExists(char* fileName);
 
 // User
 void verifyUserId(User* user);
+void verifyUserName(User* user);
 
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
