@@ -256,3 +256,59 @@ void verifyUserName(User* user)
     }
     user->name = copyString(userName);
 }
+void verifyUserPassword(User* user)
+{
+    // Initialize the user password till its valid
+    int lettersCounter = 0;
+    int numbersCounter = 0;
+    char userPassword[100] = { '\0' };
+    bool isPasswordValid = false;
+
+    while (isPasswordValid == false)
+    {
+        lettersCounter = 0;
+        numbersCounter = 0;
+        isPasswordValid = true;
+
+        printf("User Password -->");
+        scanf_s(" %[^\n]", userPassword, (unsigned)sizeof(userPassword));
+
+        if (strlen(userPassword) < MIN_PASSWORD_LENGTH)
+        {
+            printf("Error: User Password Contain At Least Six Characters\n");
+            isPasswordValid = false;
+        }
+
+        for (int i = 0; i < strlen(userPassword); i++)
+        {
+            if ((userPassword[i] >= 'a' && userPassword[i] <= 'z') || (userPassword[i] >= 'A' && userPassword[i] <= 'Z'))
+                lettersCounter++;
+
+            else if (userPassword[i] >= '0' && userPassword[i] <= '9')
+                numbersCounter++;
+
+            else
+            {
+                printf("Error: User Password Contain Only English Alphabet And Digits\n");
+                isPasswordValid = false;
+                break;
+            }
+        }
+
+        if (lettersCounter < MIN_PASSWORD_LETTERS)
+        {
+            printf("Error: User Password Contain At Least One English Alphabet\n");
+            isPasswordValid = false;
+        }
+
+        if (numbersCounter < MIN_PASSWORD_DIGITS)
+        {
+            printf("Error: User Password Contain At Least One Digit\n");
+            isPasswordValid = false;
+        }
+
+        if (isPasswordValid == false)
+            printf("\n");
+    }
+    user->password = copyString(userPassword);
+}
