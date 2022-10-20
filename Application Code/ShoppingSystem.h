@@ -25,6 +25,15 @@
 #define FILE_ORDERS_SUMMARY "Data\\Orders\\Summary\\OrdersSummary.csv"
 #define FILE_TICKETS_SUMMARY "Data\\Tickets\\Summary\\TicketsSummary.csv"
 
+// Consts
+#define MIN_PASSWORD_LENGTH 6
+#define MIN_PASSWORD_DIGITS 1
+#define MIN_PASSWORD_LETTERS 1
+
+// Global Variable
+char* IDENTITY = NULL;
+
+
 // Enums
 typedef enum { false, true } bool;
 
@@ -37,9 +46,6 @@ typedef struct User
     char* phone;
     float points;
 } User;
-
-// Global Variable
-char* IDENTITY = NULL;
 
 // Strings
 char* copyString(char* string);
