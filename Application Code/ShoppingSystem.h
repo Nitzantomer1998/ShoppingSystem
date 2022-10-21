@@ -26,6 +26,7 @@
 #define FILE_TICKETS_SUMMARY "Data\\Tickets\\Summary\\TicketsSummary.csv"
 
 // Consts
+#define PHONE_LENGTH 10
 #define MIN_PASSWORD_LENGTH 6
 #define MIN_PASSWORD_DIGITS 1
 #define MIN_PASSWORD_LETTERS 1
