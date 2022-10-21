@@ -312,3 +312,39 @@ void verifyUserPassword(User* user)
     }
     user->password = copyString(userPassword);
 }
+void verifyUserPhone(User* user)
+{
+    // Initialize the user phone number till its valid
+    // Note: the Phone check is according to Israel Phone's
+    char userPhone[100] = { '\0' };
+    bool isPhoneValid = false;
+
+    while (isPhoneValid == false)
+    {
+        isPhoneValid = true;
+
+        printf("User Phone -->");
+        scanf_s(" %[^\n]", userPhone, (unsigned)sizeof(userPhone));
+
+        for (int i = 0; i < strlen(userPhone); i++)
+        {
+            if (userPhone[i] < '0' || userPhone[i] > '9')
+            {
+                printf("Error: User Phone Number Contain Only Digits\n");
+                isPhoneValid = false;
+                break;
+            }
+
+            if (strlen(userPhone) != PHONE_LENGTH)
+            {
+                printf("Error: User Phone Number Contain Ten Digits\n");
+                isPhoneValid = false;
+                break;
+            }
+        }
+
+        if (isPhoneValid == false)
+            printf("\n");
+    }
+    user->phone = copyString(userPhone);
+}
