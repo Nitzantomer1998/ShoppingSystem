@@ -348,3 +348,21 @@ void verifyUserPhone(User* user)
     }
     user->phone = copyString(userPhone);
 }
+void verifyUserAge()
+{
+    // Checking the user age, in order to determine if he is allowed to own an account
+    printf("User Age -->");
+    int userAge = initializeInt();
+
+    if (userAge < MIN_AGE)
+    {
+        printf("Error: We Are Sorry, The Minimum User Age Is Sixteen\n");
+        exit(true);
+    }
+
+    else if (userAge > MAX_AGE)
+    {
+        printf("Error: Sorry If You Are Truly %d Years Old You Probably Death, Goodbye\n", userAge);
+        exit(true);
+    }
+}
