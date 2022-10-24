@@ -72,6 +72,7 @@ void verifyUserName(User* user);
 void verifyUserPassword(User* user);
 void verifyUserPhone(User* user);
 void verifyUserAge();
+void verifyUserTermsAndConditions();
 
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
