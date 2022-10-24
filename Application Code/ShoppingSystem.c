@@ -366,3 +366,25 @@ void verifyUserAge()
         exit(true);
     }
 }
+void verifyUserTermsAndConditions()
+{
+    // Checking if the user agreed to the system term and condition in order to create an account
+    int selection = 0;
+
+    while (selection < 1 || selection > 2)
+    {
+        printf("\n[Terms and Conditions]\n");
+        printf("Blah Blah Blah ...\n");
+        printf("\nDo You Agree To The Terms And Conditions\n'1' Yes    '2' No\nInput -->");
+
+        selection = initializeInt();
+        if (selection < 1 || selection > 2)
+            printf("Error: Invalid Input, Try Between [1 To 2]\n");
+    }
+
+    if (selection == 2)
+    {
+        printf("Error: We Are Sorry To Hear, Goodbye\n");
+        exit(true);
+    }
+}
