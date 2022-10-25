@@ -67,13 +67,16 @@ void writeFile(char* fileName, char* data);
 void copyFile(char* destinationFileName, char* sourceFileName);
 bool doesFileExists(char* fileName);
 
-// User
+// User Authentication
 void verifyUserId(User* user);
 void verifyUserName(User* user);
 void verifyUserPassword(User* user);
 void verifyUserPhone(User* user);
 void verifyUserAge();
 void verifyUserTermsAndConditions();
+
+// User
+void registerUser(UserType userType);
 
 
 #endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
