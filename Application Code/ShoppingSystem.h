@@ -39,6 +39,7 @@ char* IDENTITY = NULL;
 
 // Enums
 typedef enum { false, true } bool;
+typedef enum { none, customer, manager } UserType;
 
 // Structs
 typedef struct User
