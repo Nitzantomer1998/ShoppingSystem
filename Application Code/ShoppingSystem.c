@@ -171,7 +171,7 @@ bool doesFileExists(char* fileName)
     return stat(fileName, &buffer) == false;
 }
 
-// User
+// User Authentication
 void verifyUserId(User* user)
 {
     // Initialize the user ID till its valid
@@ -387,4 +387,41 @@ void verifyUserTermsAndConditions()
         printf("Error: We Are Sorry To Hear, Goodbye\n");
         exit(true);
     }
+}
+// User
+void registerUser(UserType userType)
+{
+    // Register the user to the users system database
+    char buffer[500] = { '\0' };
+    User user = { NULL, NULL, NULL, NULL, 0 };
+
+    printf("\n[User Registration]\n");
+    verifyUserId(&user);
+    verifyUserName(&user);
+    verifyUserPassword(&user);
+    verifyUserPhone(&user);
+    verifyUserAge();
+    verifyUserTermsAndConditions();
+
+    if (retrieveUserType())
+    {
+        printf("Error: User Already Exist In The System\n\n");
+        return;
+    }
+
+    if (userType == customer)
+        sprintf_s(buffer, (unsigned)sizeof(buffer), "%s,%s,%s,%s,%.2f", user.ID, user.name, user.password, user.phone, 0.0);
+
+    else
+        sprintf_s(buffer, (unsigned)sizeof(buffer), "%s,%s,%s,%s", user.ID, user.name, user.password, user.phone);
+
+    writeFile(userType == customer ? FILE_CUSTOMERS : FILE_MANAGERS, buffer);
+
+
+    printf("\n[Registered User]\n");
+    printf("ID --> %s\n", user.ID);
+    printf("Name --> %s\n", user.name);
+    printf("Password --> %s\n", user.password);
+    printf("Phone --> %s\n", user.phone);
+    printf("User Have Been Successfully Registered To The System\n\n");
 }
