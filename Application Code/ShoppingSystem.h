@@ -77,6 +77,7 @@ void verifyUserTermsAndConditions();
 
 // User
 void registerUser(UserType userType);
+void printUserProfile();
 
 
-#endif //SHOPPINGSYSTEM_SHOPPINGSYSTEM_H
+#endif
