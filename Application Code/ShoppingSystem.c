@@ -388,6 +388,7 @@ void verifyUserTermsAndConditions()
         exit(true);
     }
 }
+
 // User
 void registerUser(UserType userType)
 {
@@ -424,4 +425,21 @@ void registerUser(UserType userType)
     printf("Password --> %s\n", user.password);
     printf("Phone --> %s\n", user.phone);
     printf("User Have Been Successfully Registered To The System\n\n");
+}
+void printUserProfile()
+{
+    // Printing the current logged-in user information
+    UserType userType = retrieveUserType();
+    User user = retrieveUser(userType == customer ? FILE_CUSTOMERS : FILE_MANAGERS, userType);
+
+    printf("\n[User Information]\n");
+    printf("ID --> %s\n", user.ID);
+    printf("Name --> %s\n", user.name);
+    printf("Password --> %s\n", user.password);
+    printf("Phone --> %s\n", user.phone);
+
+    if (userType == customer)
+        printf("Online Shopping Points --> %.2f\n", user.points);
+
+    printf("User Information Have Been Successfully Printed\n");
 }
