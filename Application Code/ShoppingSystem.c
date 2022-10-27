@@ -443,3 +443,61 @@ void printUserProfile()
 
     printf("User Information Have Been Successfully Printed\n");
 }
+void updateUserProfile()
+{
+    // Updating the user information as he desires
+    char userID[100] = { '\0' };
+    char userName[100] = { '\0' };
+    char userPassword[100] = { '\0' };
+    char userPhone[100] = { '\0' };
+    char userPoints[100] = { '\0' };
+    char buffer[500] = { '\0' };
+    UserType userType = retrieveUserType();
+    User user = { NULL, NULL, NULL, NULL, 0 };
+    FILE* file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, userType == customer ? FILE_CUSTOMERS : FILE_MANAGERS, "r")))
+        exit(true);
+
+    else
+    {
+        resetFile(FILE_TEMP);
+
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned)sizeof(buffer)) == 1)
+        {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userID, (unsigned)sizeof(userID), userName, (unsigned)sizeof(userName), userPassword, (unsigned)sizeof(userPassword), userPhone, (unsigned)sizeof(userPhone), userPoints, (unsigned)sizeof(userPoints));
+
+            if (strcmp(userID, IDENTITY) == 0)
+            {
+                user.ID = copyString(userID);
+                user.name = copyString(userName);
+                user.password = copyString(userPassword);
+                user.phone = copyString(userPhone);
+
+                userProfileUpdateMenu(&user);
+
+                if (userType == customer)
+                    sprintf_s(buffer, (unsigned)sizeof(buffer), "%s,%s,%s,%s,%s", user.ID, user.name, user.password, user.phone, userPoints);
+
+                else
+                    sprintf_s(buffer, (unsigned)sizeof(buffer), "%s,%s,%s,%s", user.ID, user.name, user.password, user.phone);
+            }
+            writeFile(FILE_TEMP, buffer);
+        }
+    }
+    fclose(file);
+    copyFile(userType == customer ? FILE_CUSTOMERS : FILE_MANAGERS, FILE_TEMP);
+
+
+    printf("\n[Updated User]\n");
+    printf("ID --> %s\n", user.ID);
+    printf("Name --> %s\n", user.name);
+    printf("Password --> %s\n", user.password);
+    printf("Phone --> %s\n", user.phone);
+
+    if (userType == customer)
+        printf("Online Shopping Points --> %.2f\n", user.points);
+
+    printf("User Have Been Successfully Updated\n");
+}
