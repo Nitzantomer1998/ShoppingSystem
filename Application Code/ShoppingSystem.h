@@ -79,6 +79,7 @@ void verifyUserTermsAndConditions();
 void registerUser(UserType userType);
 void printUserProfile();
 void updateUserProfile();
+void userLogin();
 
 
 #endif
