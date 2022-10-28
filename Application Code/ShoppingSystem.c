@@ -501,3 +501,43 @@ void updateUserProfile()
 
     printf("User Have Been Successfully Updated\n");
 }
+void userLogin()
+{
+    // Login the user into the system
+    char userID[100] = { '\0' };
+    char userPassword[100] = { '\0' };
+    bool isLoggedIn = true;
+
+    printf("\n[User Login]\n");
+
+    printf("User ID -->");
+    scanf_s(" %[^\n]", userID, (unsigned)sizeof(userID));
+
+    printf("User Password -->");
+    scanf_s(" %[^\n]", userPassword, (unsigned)sizeof(userPassword));
+
+    IDENTITY = copyString(userID);
+    UserType userType = retrieveUserType();
+
+    if (userType != none)
+    {
+        User user = retrieveUser(userType == customer ? FILE_CUSTOMERS : FILE_MANAGERS, userType);
+
+        if (strcmp(userPassword, user.password) == 0)
+        {
+            printf("User Have Been Successfully Logged In To The System\n");
+
+            if (userType == customer)
+                customerMenu();
+
+            else
+                managerMenu();
+        }
+
+        else
+            isLoggedIn = false;
+    }
+
+    if (userType == none || isLoggedIn == false)
+        printf("Error: Invalid Input, Have Not Found Match Data In Our System\n\n");
+}
