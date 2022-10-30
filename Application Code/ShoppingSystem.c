@@ -541,3 +541,37 @@ void userLogin()
     if (userType == none || isLoggedIn == false)
         printf("Error: Invalid Input, Have Not Found Match Data In Our System\n\n");
 }
+void updateUserPoints(float decreasePoints)
+{
+    // Updating the user shopping points by decreasing from the sent parameter
+    char userID[100] = { '\0' };
+    char userName[100] = { '\0' };
+    char userPassword[100] = { '\0' };
+    char userPhone[100] = { '\0' };
+    char userPoints[100] = { '\0' };
+    char buffer[500] = { '\0' };
+    FILE* file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, FILE_CUSTOMERS, "r")))
+        exit(true);
+
+    else
+    {
+        resetFile(FILE_TEMP);
+
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned)sizeof(buffer)) == 1)
+        {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userID, (unsigned)sizeof(userID), userName, (unsigned)sizeof(userName), userPassword, (unsigned)sizeof(userPassword), userPhone, (unsigned)sizeof(userPhone), userPoints, (unsigned)sizeof(userPoints));
+
+            if (strcmp(userID, IDENTITY) == 0)
+            {
+                printf("\nUser Current Amount Of Online Shopping System --> %.2f\n", convertStringToFloat(userPoints) - decreasePoints);
+                sprintf_s(buffer, (unsigned)sizeof(buffer), "%s,%s,%s,%s,%.2f", userID, userName, userPassword, userPhone, convertStringToFloat(userPoints) - decreasePoints);
+            }
+            writeFile(FILE_TEMP, buffer);
+        }
+    }
+    fclose(file);
+    copyFile(FILE_CUSTOMERS, FILE_TEMP);
+}
