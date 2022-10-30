@@ -80,6 +80,7 @@ void registerUser(UserType userType);
 void printUserProfile();
 void updateUserProfile();
 void userLogin();
+void updateUserPoints(float decreasePoints);
 
 
 #endif
