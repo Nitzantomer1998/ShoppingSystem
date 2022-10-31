@@ -575,3 +575,36 @@ void updateUserPoints(float decreasePoints)
     fclose(file);
     copyFile(FILE_CUSTOMERS, FILE_TEMP);
 }
+User retrieveUser(char *fileName, UserType userType) {
+    // Returning User with the current logged-in user information
+    char userID[100] = {'\0'};
+    char userName[100] = {'\0'};
+    char userPassword[100] = {'\0'};
+    char userPhone[100] = {'\0'};
+    char userPoints[100] = {'\0'};
+    char buffer[500] = {'\0'};
+    User user = {NULL, NULL, NULL, NULL, 0};
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, fileName, "r")))
+        exit(true);
+
+    else {
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userID, (unsigned) sizeof(userID), userName,
+                     (unsigned) sizeof(userName), userPassword, (unsigned) sizeof(userPassword), userPhone,
+                     (unsigned) sizeof(userPhone), userPoints, (unsigned) sizeof(userPoints));
+
+            if (strcmp(userID, IDENTITY) == 0) {
+                user.ID = copyString(userID);
+                user.name = copyString(userName);
+                user.password = copyString(userPassword);
+                user.phone = copyString(userPhone);
+                user.points = userType == customer ? convertStringToFloat(userPoints) : 0;
+            }
+        }
+    }
+    fclose(file);
+    return user;
+}
