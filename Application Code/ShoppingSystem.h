@@ -81,6 +81,7 @@ void printUserProfile();
 void updateUserProfile();
 void userLogin();
 void updateUserPoints(float decreasePoints);
+User retrieveUser(char *fileName, UserType userType);
 
 
 #endif
