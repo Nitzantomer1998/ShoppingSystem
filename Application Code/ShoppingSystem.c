@@ -608,3 +608,15 @@ User retrieveUser(char *fileName, UserType userType) {
     fclose(file);
     return user;
 }
+UserType retrieveUserType() {
+    // Returning the current logged-in user his user type
+    User user = retrieveUser(FILE_CUSTOMERS, customer);
+    if (user.ID)
+        return customer;
+
+    user = retrieveUser(FILE_MANAGERS, manager);
+    if (user.ID)
+        return manager;
+
+    return none;
+}
