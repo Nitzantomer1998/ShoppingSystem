@@ -620,3 +620,28 @@ UserType retrieveUserType() {
 
     return none;
 }
+
+
+// Product Authentication
+void verifyProductName(Product *product) {
+    // Initialize the product name till its valid
+    char productName[100] = {'\0'};
+    bool isNameValid = false;
+
+    while (isNameValid == false) {
+        isNameValid = true;
+
+        printf("Product Name -->");
+        scanf_s(" %[^\n]", productName, (unsigned) sizeof(productName));
+
+        for (int i = 0; i < strlen(productName); i++) {
+            if (((productName[i] >= 'a' && productName[i] <= 'z') || (productName[i] >= 'A' && productName[i] <= 'Z') ||
+                 productName[i] == ' ') == false) {
+                printf("Error: Product Name Contain Only English Alphabet\n\n");
+                isNameValid = false;
+                break;
+            }
+        }
+    }
+    product->name = copyString(productName);
+}
