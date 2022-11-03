@@ -50,6 +50,13 @@ typedef struct User
     char* phone;
     float points;
 } User;
+typedef struct Product {
+    char *name;
+    char *company;
+    char *category;
+    float price;
+    int quantity;
+} Product;
 
 // Strings
 char* copyString(char* string);
