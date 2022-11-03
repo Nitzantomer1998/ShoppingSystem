@@ -91,5 +91,7 @@ void updateUserPoints(float decreasePoints);
 User retrieveUser(char *fileName, UserType userType);
 UserType retrieveUserType();
 
+// Product Authentication
+void verifyProductName(Product *product);
 
 #endif
