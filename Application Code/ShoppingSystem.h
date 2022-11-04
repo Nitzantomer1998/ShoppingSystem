@@ -93,5 +93,7 @@ UserType retrieveUserType();
 
 // Product Authentication
 void verifyProductName(Product *product);
+void verifyProductCompany(Product *product);
+
 
 #endif
