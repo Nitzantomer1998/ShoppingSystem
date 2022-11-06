@@ -667,3 +667,25 @@ void verifyProductCompany(Product *product) {
     }
     product->company = copyString(productCompany);
 }
+void verifyProductCategory(Product *product) {
+    // Initialize the product category name till its valid
+    char productCategory[100] = {'\0'};
+    bool isCategoryValid = false;
+
+    while (isCategoryValid == false) {
+        isCategoryValid = true;
+
+        printf("Product Category -->");
+        scanf_s(" %[^\n]", productCategory, (unsigned) sizeof(productCategory));
+
+        for (int i = 0; i < strlen(productCategory); i++) {
+            if (((productCategory[i] >= 'a' && productCategory[i] <= 'z') ||
+                 (productCategory[i] >= 'A' && productCategory[i] <= 'Z') || productCategory[i] == ' ') == false) {
+                printf("Error: Product Category Name Contain Only English Alphabet\n\n");
+                isCategoryValid = false;
+                break;
+            }
+        }
+    }
+    product->category = copyString(productCategory);
+}
