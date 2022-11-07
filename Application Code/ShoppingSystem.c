@@ -689,3 +689,16 @@ void verifyProductCategory(Product *product) {
     }
     product->category = copyString(productCategory);
 }
+void verifyProductPrice(Product *product) {
+    // Initialize the product price till its valid
+    float productPrice = 0;
+
+    while (productPrice <= 0) {
+        printf("Product Price -->");
+        productPrice = initializeFloat();
+
+        if (productPrice <= 0)
+            printf("Error: Product Price Must Be Greater Than Zero\n\n");
+    }
+    product->price = productPrice;
+}
