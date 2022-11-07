@@ -95,6 +95,7 @@ UserType retrieveUserType();
 void verifyProductName(Product *product);
 void verifyProductCompany(Product *product);
 void verifyProductCategory(Product *product);
+void verifyProductPrice(Product *product);
 
 
 #endif
