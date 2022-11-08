@@ -702,3 +702,16 @@ void verifyProductPrice(Product *product) {
     }
     product->price = productPrice;
 }
+void verifyProductQuantity(Product *product) {
+    // Initialize the product quantity till its valid
+    int productQuantity = 0;
+
+    while (productQuantity < 1) {
+        printf("Product Quantity -->");
+        productQuantity = initializeInt();
+
+        if (productQuantity < 1)
+            printf("Error: Product Quantity Must Be Integer Greater Than Zero\n\n");
+    }
+    product->quantity = productQuantity;
+}
