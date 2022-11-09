@@ -715,3 +715,31 @@ void verifyProductQuantity(Product *product) {
     }
     product->quantity = productQuantity;
 }
+
+// Product
+bool doesProductExist(char *fileName, char *productName, char *productCompany) {
+    // Checking if the product exist in the catalog system database and return accordingly
+    char nameString[100] = {'\0'};
+    char companyString[100] = {'\0'};
+    char buffer[200] = {'\0'};
+    bool isProductExist = false;
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, fileName, "r")))
+        exit(true);
+
+    else {
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%*[^,],%*[^,],%*[^,]", nameString, (unsigned) sizeof(nameString),
+                     companyString, (unsigned) sizeof(companyString));
+
+            if (strcmp(nameString, productName) == 0 && strcmp(companyString, productCompany) == 0) {
+                isProductExist = true;
+                break;
+            }
+        }
+    }
+    fclose(file);
+    return isProductExist;
+}
