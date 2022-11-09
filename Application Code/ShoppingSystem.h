@@ -99,4 +99,8 @@ void verifyProductPrice(Product *product);
 void verifyProductQuantity(Product *product);
 
 
+// Product
+bool doesProductExist(char *fileName, char *productName, char *productCompany);
+
+
 #endif
