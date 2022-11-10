@@ -743,3 +743,33 @@ bool doesProductExist(char *fileName, char *productName, char *productCompany) {
     fclose(file);
     return isProductExist;
 }
+void addProductToCatalog() {
+    // Adding product to the system catalog database
+    char buffer[500] = {'\0'};
+    Product product = {NULL, NULL, NULL, 0, 0};
+
+    printf("\n[Adding Product]\n");
+    verifyProductName(&product);
+    verifyProductCompany(&product);
+    verifyProductCategory(&product);
+    verifyProductPrice(&product);
+    verifyProductQuantity(&product);
+
+    if (doesProductExist(FILE_CATALOGS, product.name, product.company)) {
+        printf("Error: Product Already Exist In The System\n");
+        return;
+    }
+
+    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%.2f,%d", product.name, product.company, product.category,
+              product.price, product.quantity);
+    writeFile(FILE_CATALOGS, buffer);
+
+
+    printf("\n[Added Product]\n");
+    printf("Name --> %s\n", product.name);
+    printf("Company --> %s\n", product.company);
+    printf("Category --> %s\n", product.category);
+    printf("Price --> %.2f\n", product.price);
+    printf("Quantity --> %d\n", product.quantity);
+    printf("Product Have Been Successfully Added To The Catalog\n");
+}
