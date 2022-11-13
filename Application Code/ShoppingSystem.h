@@ -103,6 +103,7 @@ void verifyProductQuantity(Product *product);
 bool doesProductExist(char *fileName, char *productName, char *productCompany);
 void addProductToCatalog();
 void deleteProductFromCatalog();
+void updateProductInCatalog();
 
 
 #endif
