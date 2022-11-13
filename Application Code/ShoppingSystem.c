@@ -818,3 +818,53 @@ void deleteProductFromCatalog() {
     printf("Quantity --> %d\n", product.quantity);
     printf("Product Have Been Successfully Deleted From The Catalog\n");
 }
+void updateProductInCatalog() {
+    // Updating product from the system catalog database
+    char productName[100] = {'\0'};
+    char productCompany[100] = {'\0'};
+    char productCategory[100] = {'\0'};
+    char productPrice[100] = {'\0'};
+    char productQuantity[100] = {'\0'};
+    char buffer[500] = {'\0'};
+    Product product = {NULL, NULL, NULL, 0, 0};
+    FILE *file;
+    errno_t err;
+
+    printf("\n[Updating Product]");
+    product = selectProduct(retrieveRequestedCatalog());
+    if (product.name == NULL)
+        return;
+
+    if ((err = fopen_s(&file, FILE_CATALOGS, "r")))
+        exit(true);
+
+    else {
+        productUpdateMenu(&product);
+
+        resetFile(FILE_TEMP);
+
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", productName, (unsigned) sizeof(productName),
+                     productCompany, (unsigned) sizeof(productCompany), productCategory,
+                     (unsigned) sizeof(productCompany), productPrice, (unsigned) sizeof(productPrice), productQuantity,
+                     (unsigned) sizeof(productQuantity));
+
+            if (strcmp(productName, product.name) == 0 && strcmp(productCompany, product.company) == 0)
+                sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%.2f,%d", productName, productCompany,
+                          productCategory, product.price, product.quantity);
+
+            writeFile(FILE_TEMP, buffer);
+        }
+    }
+    fclose(file);
+    copyFile(FILE_CATALOGS, FILE_TEMP);
+
+
+    printf("\n[Updated Product]\n");
+    printf("Name --> %s\n", product.name);
+    printf("Company --> %s\n", product.company);
+    printf("Category --> %s\n", product.category);
+    printf("Price --> %.2f\n", product.price);
+    printf("Quantity --> %d\n", product.quantity);
+    printf("Product Have Been Successfully Updated In The Catalog\n");
+}
