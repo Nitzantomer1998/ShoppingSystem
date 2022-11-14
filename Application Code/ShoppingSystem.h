@@ -57,6 +57,10 @@ typedef struct Product {
     float price;
     int quantity;
 } Product;
+typedef struct Cart {
+    int itemsCounter;
+    Product *products;
+} Cart;
 
 // Strings
 char* copyString(char* string);
