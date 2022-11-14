@@ -868,3 +868,22 @@ void updateProductInCatalog() {
     printf("Quantity --> %d\n", product.quantity);
     printf("Product Have Been Successfully Updated In The Catalog\n");
 }
+Product selectProduct(Cart cart) {
+    // Printing the available catalog, selecting product from it and retrieve the selected product
+    if (cart.itemsCounter == 0) {
+        printf("Error: There Are No Available Products\n");
+        Product product = {NULL, NULL, NULL, 0, 0};
+        return product;
+    }
+
+    int selection = 0;
+    while (selection < 1 || selection > cart.itemsCounter) {
+        printCart(cart);
+        printf("Select Product -->");
+        selection = initializeInt();
+
+        if (selection < 1 || selection > cart.itemsCounter)
+            printf("Error: Invalid Input, Try Between [1 To %d]\n", cart.itemsCounter);
+    }
+    return cart.products[selection - 1];
+}
