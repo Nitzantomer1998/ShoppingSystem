@@ -108,6 +108,7 @@ bool doesProductExist(char *fileName, char *productName, char *productCompany);
 void addProductToCatalog();
 void deleteProductFromCatalog();
 void updateProductInCatalog();
+Product selectProduct(Cart cart);
 
 
 #endif
