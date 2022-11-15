@@ -887,3 +887,38 @@ Product selectProduct(Cart cart) {
     }
     return cart.products[selection - 1];
 }
+Product retrieveProduct(char *nameString, char *companyString) {
+    // Returning the product that match to the sent data
+    char productName[100] = {'\0'};
+    char productCompany[100] = {'\0'};
+    char productCategory[100] = {'\0'};
+    char productPrice[100] = {'\0'};
+    char productQuantity[100] = {'\0'};
+    char buffer[500] = {'\0'};
+    Product product = {NULL, NULL, NULL, 0, 0};
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, FILE_CATALOGS, "r")))
+        exit(true);
+
+    else {
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", productName, (unsigned) sizeof(productName),
+                     productCompany, (unsigned) sizeof(productCompany), productCategory,
+                     (unsigned) sizeof(productCategory), productPrice, (unsigned) sizeof(productPrice), productQuantity,
+                     (unsigned) sizeof(productQuantity));
+
+            if (strcmp(productName, nameString) == 0 && strcmp(productCompany, companyString) == 0) {
+                product.name = copyString(productName);
+                product.company = copyString(productCompany);
+                product.category = copyString(productCategory);
+                product.price = convertStringToFloat(productPrice);
+                product.quantity = convertStringToInt(productQuantity);
+                break;
+            }
+        }
+    }
+    fclose(file);
+    return product;
+}
