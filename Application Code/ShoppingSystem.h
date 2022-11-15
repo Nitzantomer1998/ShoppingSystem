@@ -109,6 +109,7 @@ void addProductToCatalog();
 void deleteProductFromCatalog();
 void updateProductInCatalog();
 Product selectProduct(Cart cart);
+Product retrieveProduct(char *nameString, char *companyString);
 
 
 #endif
