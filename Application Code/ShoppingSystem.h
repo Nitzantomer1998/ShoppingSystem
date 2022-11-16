@@ -111,5 +111,7 @@ void updateProductInCatalog();
 Product selectProduct(Cart cart);
 Product retrieveProduct(char *nameString, char *companyString);
 
+// Cart
+void addProductToCart(Cart *cart);
 
 #endif
