@@ -922,3 +922,29 @@ Product retrieveProduct(char *nameString, char *companyString) {
     fclose(file);
     return product;
 }
+// Cart
+void addProductToCart(Cart *cart) {
+    // Adding product to the user cart
+    printf("\n[Adding Product]");
+
+    Product product = selectProduct(retrieveRequestedCatalog());
+    if (product.name == NULL)
+        return;
+
+    cart->products = (Product *) realloc(cart->products, sizeof(Product) * (cart->itemsCounter + 1));
+    cart->products[cart->itemsCounter].name = copyString(product.name);
+    cart->products[cart->itemsCounter].company = copyString(product.company);
+    cart->products[cart->itemsCounter].category = copyString(product.category);
+    cart->products[cart->itemsCounter].price = product.price;
+    cart->products[cart->itemsCounter].quantity = selectProductQuantity(product);
+    cart->itemsCounter++;
+
+
+    printf("\n[Added Product]\n");
+    printf("Name --> %s\n", cart->products[cart->itemsCounter - 1].name);
+    printf("Company --> %s\n", cart->products[cart->itemsCounter - 1].company);
+    printf("Category --> %s\n", cart->products[cart->itemsCounter - 1].category);
+    printf("Price --> %.2f\n", cart->products[cart->itemsCounter - 1].price);
+    printf("Quantity --> %d\n", cart->products[cart->itemsCounter - 1].quantity);
+    printf("Product Have Been Successfully Added To The Cart\n");
+}
