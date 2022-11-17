@@ -113,5 +113,7 @@ Product retrieveProduct(char *nameString, char *companyString);
 
 // Cart
 void addProductToCart(Cart *cart);
+void deleteProductFromCart(Cart *cart);
+
 
 #endif
