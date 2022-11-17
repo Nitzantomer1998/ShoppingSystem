@@ -948,3 +948,34 @@ void addProductToCart(Cart *cart) {
     printf("Quantity --> %d\n", cart->products[cart->itemsCounter - 1].quantity);
     printf("Product Have Been Successfully Added To The Cart\n");
 }
+void deleteProductFromCart(Cart *cart) {
+    // Deleting product from the user cart
+    printf("\n[Deleting Product]");
+
+    Product product = selectProduct(*cart);
+    if (product.name == NULL)
+        return;
+
+    for (int i = 0; i < cart->itemsCounter - 1; i++) {
+        if (strcmp(cart->products[i].name, product.name) == 0 &&
+            strcmp(cart->products[i].company, product.company) == 0) {
+            cart->products[i].name = copyString(cart->products[cart->itemsCounter - 1].name);
+            cart->products[i].company = copyString(cart->products[cart->itemsCounter - 1].company);
+            cart->products[i].category = copyString(cart->products[cart->itemsCounter - 1].category);
+            cart->products[i].price = cart->products[cart->itemsCounter - 1].price;
+            cart->products[i].quantity = cart->products[cart->itemsCounter - 1].quantity;
+            break;
+        }
+    }
+    cart->itemsCounter--;
+    cart->products = (Product *) realloc(cart->products, sizeof(Product) * cart->itemsCounter);
+
+
+    printf("\n[Deleted Product]\n");
+    printf("Name --> %s\n", product.name);
+    printf("Company --> %s\n", product.company);
+    printf("Category --> %s\n", product.category);
+    printf("Price --> %.2f\n", product.price);
+    printf("Quantity --> %d\n", product.quantity);
+    printf("Product Have Been Successfully Deleted From The Cart\n");
+}
