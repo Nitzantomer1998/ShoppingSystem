@@ -979,3 +979,29 @@ void deleteProductFromCart(Cart *cart) {
     printf("Quantity --> %d\n", product.quantity);
     printf("Product Have Been Successfully Deleted From The Cart\n");
 }
+void updateProductInCart(Cart *cart) {
+    // Updating product from the user cart
+    printf("\n[Updating Product Quantity]");
+
+    Product product = selectProduct(*cart);
+    if (product.name == NULL)
+        return;
+
+    for (int i = 0; i < cart->itemsCounter; i++) {
+        if (strcmp(cart->products[i].name, product.name) == 0 &&
+            strcmp(cart->products[i].company, product.company) == 0) {
+            product.quantity = selectProductQuantity(retrieveProduct(product.name, product.company));
+            cart->products[i].quantity = product.quantity;
+            break;
+        }
+    }
+
+
+    printf("\n[Updated Product]\n");
+    printf("Name --> %s\n", product.name);
+    printf("Company --> %s\n", product.company);
+    printf("Category --> %s\n", product.category);
+    printf("Price --> %.2f\n", product.price);
+    printf("Quantity --> %d\n", product.quantity);
+    printf("Product Have Been Successfully Updated In The Cart\n");
+}
