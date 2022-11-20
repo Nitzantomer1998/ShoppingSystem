@@ -1005,3 +1005,21 @@ void updateProductInCart(Cart *cart) {
     printf("Quantity --> %d\n", product.quantity);
     printf("Product Have Been Successfully Updated In The Cart\n");
 }
+void printCart(Cart cart) {
+    // Printing the sent cart
+    printf("\n[Available Cart]\n");
+
+    if (cart.itemsCounter == 0) {
+        printf("Error: Did Not Found Any Products In The Cart\n");
+        return;
+    }
+
+    for (int i = 0; i < cart.itemsCounter; i++) {
+        if (i == 0)
+            printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "Product No.", "Name", "Company", "Category", "Price",
+                   "Quantity");
+
+        printf("%-15d%-15s%-15s%-15s%-15.2f%-15d\n", i + 1, cart.products[i].name, cart.products[i].company,
+               cart.products[i].category, cart.products[i].price, cart.products[i].quantity);
+    }
+}
