@@ -116,6 +116,7 @@ void addProductToCart(Cart *cart);
 void deleteProductFromCart(Cart *cart);
 void updateProductInCart(Cart *cart);
 void printCart(Cart cart);
+void purchaseCart(Cart *cart);
 
 
 #endif
