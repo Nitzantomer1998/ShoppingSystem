@@ -1023,3 +1023,20 @@ void printCart(Cart cart) {
                cart.products[i].category, cart.products[i].price, cart.products[i].quantity);
     }
 }
+void purchaseCart(Cart *cart) {
+    // Purchasing the sent user cart
+    if (cart->itemsCounter == 0) {
+        printf("Error: There's Noting To Purchase In Your Cart\n");
+        return;
+    }
+
+    if (purchaseCartMenu(*cart) == 2)
+        return;
+
+    deliveryProcess();
+    paymentProcess(calculateCartTotal(*cart));
+    writeOrder(cart);
+    updateCatalogAfterPurchase(cart);
+
+    printf("You Have Successfully Purchase The Cart\n");
+}
