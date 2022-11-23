@@ -1040,3 +1040,43 @@ void purchaseCart(Cart *cart) {
 
     printf("You Have Successfully Purchase The Cart\n");
 }
+void updateCatalogAfterPurchase(Cart *cart) {
+    // Updating products from the system catalog database after user has made a purchase
+    char productName[100] = {'\0'};
+    char productCompany[100] = {'\0'};
+    char productCategory[100] = {'\0'};
+    char productPrice[100] = {'\0'};
+    char productQuantity[100] = {'\0'};
+    char buffer[500] = {'\0'};
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, FILE_CATALOGS, "r")))
+        exit(true);
+
+    else {
+        resetFile(FILE_TEMP);
+
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", productName, (unsigned) sizeof(productName),
+                     productCompany, (unsigned) sizeof(productCompany), productCategory,
+                     (unsigned) sizeof(productCompany), productPrice, (unsigned) sizeof(productPrice), productQuantity,
+                     (unsigned) sizeof(productQuantity));
+
+            for (int i = cart->itemsCounter - 1; i >= 0; i--) {
+                if (strcmp(productName, cart->products[i].name) == 0 &&
+                    strcmp(productCompany, cart->products[i].company) == 0) {
+                    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s,%d", productName, productCompany,
+                              productCategory, productPrice,
+                              convertStringToInt(productQuantity) - cart->products[i].quantity);
+
+                    cart->itemsCounter--;
+                    cart->products = (Product *) realloc(cart->products, sizeof(Product) * cart->itemsCounter);
+                }
+            }
+            writeFile(FILE_TEMP, buffer);
+        }
+    }
+    fclose(file);
+    copyFile(FILE_CATALOGS, FILE_TEMP);
+}
