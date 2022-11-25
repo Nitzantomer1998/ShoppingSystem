@@ -1080,3 +1080,11 @@ void updateCatalogAfterPurchase(Cart *cart) {
     fclose(file);
     copyFile(FILE_CATALOGS, FILE_TEMP);
 }
+float calculateCartTotal(Cart cart) {
+    float totalPrice = 0;
+
+    for (int i = 0; i < cart.itemsCounter; i++)
+        totalPrice = totalPrice + cart.products[i].price * (float) cart.products[i].quantity;
+
+    return totalPrice;
+}
