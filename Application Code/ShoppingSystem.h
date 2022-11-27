@@ -119,6 +119,7 @@ void printCart(Cart cart);
 void purchaseCart(Cart *cart);
 void updateCatalogAfterPurchase(Cart *cart);
 float calculateCartTotal(Cart cart);
+Cart retrieveRequestedCatalog();
 
 
 #endif
