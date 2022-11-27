@@ -1088,3 +1088,56 @@ float calculateCartTotal(Cart cart) {
 
     return totalPrice;
 }
+Cart retrieveRequestedCatalog() {
+    // Returning Cart full of the items in the system according to the requested filter
+    char productName[100] = {'\0'};
+    char productCompany[100] = {'\0'};
+    char productCategory[100] = {'\0'};
+    char productPrice[100] = {'\0'};
+    char productQuantity[100] = {'\0'};
+    char buffer[500] = {'\0'};
+    char *filterBy = NULL;
+    char *filterWord = NULL;
+    Cart cart = {0, NULL};
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, FILE_CATALOGS, "r")))
+        exit(true);
+
+    else {
+        catalogFilterMenu(&filterBy, &filterWord);
+
+        if (filterBy) {
+            if (strcmp(filterBy, "Name") == 0)
+                filterBy = productName;
+
+            else if (strcmp(filterBy, "Company") == 0)
+                filterBy = productCompany;
+
+            else
+                filterBy = productCategory;
+        }
+
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", productName, (unsigned) sizeof(productName),
+                     productCompany, (unsigned) sizeof(productCompany), productCategory,
+                     (unsigned) sizeof(productCompany), productPrice, (unsigned) sizeof(productPrice), productQuantity,
+                     (unsigned) sizeof(productQuantity));
+
+            if (convertStringToInt(productQuantity) > 0) {
+                if (filterBy == NULL || (filterBy != NULL && strcmp(filterBy, filterWord) == 0)) {
+                    cart.products = (Product *) realloc(cart.products, sizeof(Product) * (cart.itemsCounter + 1));
+                    cart.products[cart.itemsCounter].name = copyString(productName);
+                    cart.products[cart.itemsCounter].company = copyString(productCompany);
+                    cart.products[cart.itemsCounter].category = copyString(productCategory);
+                    cart.products[cart.itemsCounter].price = convertStringToFloat(productPrice);
+                    cart.products[cart.itemsCounter].quantity = convertStringToInt(productQuantity);
+                    cart.itemsCounter++;
+                }
+            }
+        }
+    }
+    fclose(file);
+    return cart;
+}
