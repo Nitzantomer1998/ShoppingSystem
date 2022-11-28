@@ -122,4 +122,8 @@ float calculateCartTotal(Cart cart);
 Cart retrieveRequestedCatalog();
 
 
+// Delivery
+void verifyCountry();
+
+
 #endif
