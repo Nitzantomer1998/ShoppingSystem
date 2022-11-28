@@ -1141,3 +1141,26 @@ Cart retrieveRequestedCatalog() {
     fclose(file);
     return cart;
 }
+
+// Delivery
+void verifyCountry() {
+    // Initialize the country name till its valid
+    char countryName[100] = {'\0'};
+    bool isCountryValid = false;
+
+    while (isCountryValid == false) {
+        isCountryValid = true;
+
+        printf("Country Name -->");
+        scanf_s(" %[^\n]", countryName, (unsigned) sizeof(countryName));
+
+        for (int i = 0; i < strlen(countryName); i++) {
+            if (((countryName[i] >= 'a' && countryName[i] <= 'z') || (countryName[i] >= 'A' && countryName[i] <= 'Z') ||
+                 countryName[i] == ' ') == false) {
+                printf("Error: Country Name Contain Only English Alphabet\n\n");
+                isCountryValid = false;
+                break;
+            }
+        }
+    }
+}
