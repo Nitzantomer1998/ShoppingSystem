@@ -124,6 +124,7 @@ Cart retrieveRequestedCatalog();
 
 // Delivery
 void verifyCountry();
+void verifyCity();
 
 
 #endif
