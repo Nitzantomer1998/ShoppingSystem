@@ -1164,3 +1164,24 @@ void verifyCountry() {
         }
     }
 }
+void verifyCity() {
+    // Initialize the city name till its valid
+    char cityName[100] = {'\0'};
+    bool isCityValid = false;
+
+    while (isCityValid == false) {
+        isCityValid = true;
+
+        printf("City Name -->");
+        scanf_s(" %[^\n]", cityName, (unsigned) sizeof(cityName));
+
+        for (int i = 0; i < strlen(cityName); i++) {
+            if (((cityName[i] >= 'a' && cityName[i] <= 'z') || (cityName[i] >= 'A' && cityName[i] <= 'Z') ||
+                 cityName[i] == ' ') == false) {
+                printf("City Name Contain Only English Alphabet\n\n");
+                isCityValid = false;
+                break;
+            }
+        }
+    }
+}
