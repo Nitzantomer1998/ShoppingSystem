@@ -1185,3 +1185,24 @@ void verifyCity() {
         }
     }
 }
+void verifyStreet() {
+    // Initialize the street name till its valid
+    char streetName[100] = {'\0'};
+    bool isStreetValid = false;
+
+    while (isStreetValid == false) {
+        isStreetValid = true;
+
+        printf("Street Name -->");
+        scanf_s(" %[^\n]", streetName, (unsigned) sizeof(streetName));
+
+        for (int i = 0; i < strlen(streetName); i++) {
+            if (((streetName[i] >= 'a' && streetName[i] <= 'z') || (streetName[i] >= 'A' && streetName[i] <= 'Z') ||
+                 streetName[i] == ' ') == false) {
+                printf("Error: Street Name Contain Only English Alphabet\n\n");
+                isStreetValid = false;
+                break;
+            }
+        }
+    }
+}
