@@ -1206,3 +1206,15 @@ void verifyStreet() {
         }
     }
 }
+void verifyHomeNumber() {
+    // Initialize the home number till its valid
+    int homeNumber = 0;
+
+    while (homeNumber < 1 || homeNumber > 500) {
+        printf("Home Number -->");
+        homeNumber = initializeInt();
+
+        if (homeNumber < 1 || homeNumber > 500)
+            printf("Error: Invalid Input, Try Between [1 To 500]\n\n");
+    }
+}
