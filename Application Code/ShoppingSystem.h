@@ -126,6 +126,7 @@ Cart retrieveRequestedCatalog();
 void verifyCountry();
 void verifyCity();
 void verifyStreet();
+void verifyHomeNumber();
 
 
 #endif
