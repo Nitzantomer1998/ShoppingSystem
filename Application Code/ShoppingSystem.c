@@ -1218,3 +1218,11 @@ void verifyHomeNumber() {
             printf("Error: Invalid Input, Try Between [1 To 500]\n\n");
     }
 }
+void deliveryProcess() {
+    // Process of the delivery
+    printf("\n[Delivery Process]\n");
+    verifyCountry();
+    verifyCity();
+    verifyStreet();
+    verifyHomeNumber();
+}
