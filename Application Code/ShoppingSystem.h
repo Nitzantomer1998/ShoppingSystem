@@ -127,6 +127,7 @@ void verifyCountry();
 void verifyCity();
 void verifyStreet();
 void verifyHomeNumber();
+void deliveryProcess();
 
 
 #endif
