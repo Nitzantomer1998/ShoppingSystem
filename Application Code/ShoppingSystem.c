@@ -1226,3 +1226,32 @@ void deliveryProcess() {
     verifyStreet();
     verifyHomeNumber();
 }
+
+
+// Payment
+void verifyCreditCard() {
+    // Initialize the credit card till its valid
+    // Note: the credit card checks are according to Israel Credit Card
+    char creditCard[100] = {'\0'};
+    bool isCardValid = false;
+
+    while (isCardValid == false) {
+        isCardValid = true;
+
+        printf("\nCredit Card -->");
+        scanf_s(" %[^\n]", creditCard, (unsigned) sizeof(creditCard));
+
+        for (int i = 0; i < strlen(creditCard); i++) {
+            if (creditCard[i] < '0' || creditCard[i] > '9') {
+                printf("Error: Credit Card Contain Only Digits\n");
+                isCardValid = false;
+                break;
+            }
+        }
+
+        if (strlen(creditCard) != CREDIT_CARD_LENGTH) {
+            printf("Error: Credit Card Must Contain Sixteen Digits\n");
+            isCardValid = false;
+        }
+    }
+}
