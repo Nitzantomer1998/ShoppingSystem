@@ -130,5 +130,7 @@ void verifyStreet();
 void verifyHomeNumber();
 void deliveryProcess();
 
+// Payment
+void verifyCreditCard();
 
 #endif
