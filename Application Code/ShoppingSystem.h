@@ -132,5 +132,6 @@ void deliveryProcess();
 
 // Payment
 void verifyCreditCard();
+void verifyCreditCardCVC();
 
 #endif
