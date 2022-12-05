@@ -1255,3 +1255,16 @@ void verifyCreditCard() {
         }
     }
 }
+void verifyCreditCardCVC() {
+    // Initialize the credit card CVC till its valid
+    // Note: the Credit Cart CVC checks are according to Israel Credit Card CVC
+    int creditCardCVC = 0;
+
+    while (creditCardCVC < 100 || creditCardCVC > 999) {
+        printf("Credit Card CVC -->");
+        creditCardCVC = initializeInt();
+
+        if (creditCardCVC < 100 || creditCardCVC > 999)
+            printf("Error: Invalid Input, Try Between [100 To 999]\n\n");
+    }
+}
