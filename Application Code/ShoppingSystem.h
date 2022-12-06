@@ -140,5 +140,6 @@ void deliveryProcess();
 // Payment
 void verifyCreditCard();
 void verifyCreditCardCVC();
+void verifyCreditCardDate();
 
 #endif
