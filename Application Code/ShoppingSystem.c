@@ -1268,3 +1268,40 @@ void verifyCreditCardCVC() {
             printf("Error: Invalid Input, Try Between [100 To 999]\n\n");
     }
 }
+void verifyCreditCardDate() {
+    // Initialize the credit card date till its valid
+    int creditCardMonthDate = 0;
+    int creditCardYearDate = 0;
+    bool isDateValid = false;
+    Date currentDate = getCurrentDate();
+
+    while (isDateValid == false) {
+        creditCardMonthDate = 0;
+        creditCardYearDate = 0;
+        isDateValid = true;
+
+        while (creditCardMonthDate < 1 || creditCardMonthDate > 12) {
+            printf("Credit Card Expiration Month -->");
+            creditCardMonthDate = initializeInt();
+
+            if (creditCardMonthDate < 1 || creditCardMonthDate > 12)
+                printf("Error: Invalid Input, Try Between [1 To 12]\n\n");
+        }
+
+        while (creditCardYearDate < currentDate.year || creditCardYearDate > CREDIT_CARD_MAX_EXPIRATION_YEAR) {
+            printf("Credit Card Expiration Year -->");
+            creditCardYearDate = initializeInt();
+
+            if (creditCardYearDate < currentDate.year || creditCardYearDate > CREDIT_CARD_MAX_EXPIRATION_YEAR)
+                printf("Error: Invalid Input, Try Between [%d To %d]\n\n", currentDate.year,
+                       CREDIT_CARD_MAX_EXPIRATION_YEAR);
+        }
+
+        if (currentDate.year == creditCardYearDate) {
+            if (currentDate.month >= creditCardMonthDate) {
+                printf("Error: The Credit Card Is Expired\n\n");
+                isDateValid = false;
+            }
+        }
+    }
+}
