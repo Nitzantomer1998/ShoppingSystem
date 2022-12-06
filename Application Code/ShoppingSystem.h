@@ -63,6 +63,12 @@ typedef struct Cart {
     int itemsCounter;
     Product *products;
 } Cart;
+typedef struct Date {
+    int day;
+    int month;
+    int year;
+} Date;
+
 
 // Strings
 char* copyString(char* string);
