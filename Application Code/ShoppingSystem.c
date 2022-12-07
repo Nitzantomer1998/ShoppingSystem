@@ -1305,3 +1305,15 @@ void verifyCreditCardDate() {
         }
     }
 }
+void paymentProcess(float totalCartPrice) {
+    // Process of the payment
+    User user = retrieveUser(FILE_CUSTOMERS, customer);
+
+    printf("\n[Payment Process: Total Of --> %.2f]", totalCartPrice);
+    verifyCreditCard();
+    verifyCreditCardCVC();
+    verifyCreditCardDate();
+
+    updateUserPoints(
+            (user.points > 0 ? shoppingPointsMenu(user, totalCartPrice) : 0) - (float) (totalCartPrice * 0.05));
+}
