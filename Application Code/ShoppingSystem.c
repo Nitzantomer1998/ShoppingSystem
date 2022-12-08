@@ -1317,3 +1317,30 @@ void paymentProcess(float totalCartPrice) {
     updateUserPoints(
             (user.points > 0 ? shoppingPointsMenu(user, totalCartPrice) : 0) - (float) (totalCartPrice * 0.05));
 }
+
+
+// Orders
+void writeOrder(Cart *cart) {
+    // Saving the purchase order in the system history purchases
+    float totalOrderPrice = calculateCartTotal(*cart);
+    char fileName[100] = {'\0'};
+    char buffer[500] = {'\0'};
+
+    for (int i = 0; i < cart->itemsCounter; i++) {
+        if (i == 0) {
+            sprintf_s(fileName, (unsigned) sizeof(fileName), "%s%d.csv", FOLDER_DATA_ORDERS, getOrderFileName());
+            writeFile(fileName, "Name,Company,Category,Price,Quantity,Sum");
+        }
+
+        sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%.2f,%d,%.2f", cart->products[i].name,
+                  cart->products[i].company, cart->products[i].category, cart->products[i].price,
+                  cart->products[i].quantity, cart->products[i].price * (float) cart->products[i].quantity);
+        writeFile(fileName, buffer);
+
+        if (i == cart->itemsCounter - 1) {
+            sprintf_s(buffer, (unsigned) sizeof(buffer), "\n%s,%.2f", "Total:", totalOrderPrice);
+            writeFile(fileName, buffer);
+        }
+    }
+    writeOrderSummary(totalOrderPrice);
+}
