@@ -143,5 +143,8 @@ void verifyCreditCardCVC();
 void verifyCreditCardDate();
 void paymentProcess(float totalCartPrice);
 
+// Orders
+void writeOrder(Cart *cart);
+
 
 #endif
