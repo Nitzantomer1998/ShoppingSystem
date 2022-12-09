@@ -145,6 +145,7 @@ void paymentProcess(float totalCartPrice);
 
 // Orders
 void writeOrder(Cart *cart);
+void writeOrderSummary(float totalOrderPrice);
 
 
 #endif
