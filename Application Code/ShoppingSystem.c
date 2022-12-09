@@ -1344,3 +1344,12 @@ void writeOrder(Cart *cart) {
     }
     writeOrderSummary(totalOrderPrice);
 }
+void writeOrderSummary(float totalOrderPrice) {
+    // Saving the purchase order in the summary orders history
+    char buffer[500] = {'\0'};
+    Date currentDate = getCurrentDate();
+
+    sprintf_s(buffer, (unsigned) sizeof(buffer), "%d,%s,%.2f,%d/%d/%d,%s", getOrderFileName(), IDENTITY,
+              totalOrderPrice, currentDate.day, currentDate.month, currentDate.year, "WAITING");
+    writeFile(FILE_ORDERS_SUMMARY, buffer);
+}
