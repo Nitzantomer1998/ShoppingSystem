@@ -146,6 +146,7 @@ void paymentProcess(float totalCartPrice);
 // Orders
 void writeOrder(Cart *cart);
 void writeOrderSummary(float totalOrderPrice);
+void printOrdersSummary(int **ordersHistory, char ***customersID, bool onlyWaitingOrders);
 
 
 #endif
