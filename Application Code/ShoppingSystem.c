@@ -1353,3 +1353,46 @@ void writeOrderSummary(float totalOrderPrice) {
               totalOrderPrice, currentDate.day, currentDate.month, currentDate.year, "WAITING");
     writeFile(FILE_ORDERS_SUMMARY, buffer);
 }
+void printOrdersSummary(int **ordersHistory, char ***customersID, bool onlyWaitingOrders) {
+    // Printing the summarized of the orders
+    int index = 0;
+    char orderId[100] = {'\0'};
+    char orderCustomerId[100] = {'\0'};
+    char orderPrice[100] = {'\0'};
+    char orderDate[100] = {'\0'};
+    char orderStatus[100] = {'\0'};
+    char buffer[500] = {'\0'};
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, FILE_ORDERS_SUMMARY, "r")))
+        exit(true);
+
+    else {
+        *ordersHistory = NULL;
+        *customersID = NULL;
+
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", orderId, (unsigned) sizeof(orderId), orderCustomerId,
+                     (unsigned) sizeof(orderCustomerId), orderPrice, (unsigned) sizeof(orderPrice), orderDate,
+                     (unsigned) sizeof(orderDate), orderStatus, (unsigned) sizeof(orderStatus));
+
+            if (onlyWaitingOrders == false || (onlyWaitingOrders && strcmp(orderStatus, "WAITING") == 0)) {
+                if (onlyWaitingOrders == true && index == 0)
+                    printf("%-15s%-15s%-15s%-15s%-15s\n", "Order No.", "Customer ID", "Price", "Date", "Status");
+
+                printf("%-15s%-15s%-15s%-15s%-15s\n", orderId, orderCustomerId, orderPrice, orderDate, orderStatus);
+
+                *ordersHistory = (int *) realloc(*ordersHistory, sizeof(int) * (index));
+                (*ordersHistory)[index] = convertStringToInt(orderId);
+
+                *customersID = (char **) realloc(*customersID, sizeof(char *) * (strlen(orderCustomerId) + 1));
+                (*customersID)[index] = copyString(orderCustomerId);
+
+                index++;
+            }
+        }
+    }
+    fclose(file);
+}
+
