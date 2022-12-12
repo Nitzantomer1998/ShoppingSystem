@@ -1396,3 +1396,27 @@ void printOrdersSummary(int **ordersHistory, char ***customersID, bool onlyWaiti
     fclose(file);
 }
 
+void selectOrdersSummary() {
+    // Printing the summarized of the orders and selecting one in order to see the full order
+    int selection = 0;
+    int ordersAmount = getOrderFileName();
+    int *ordersHistory = NULL;
+    char **customersID = NULL;
+
+    if (ordersAmount == 1) {
+        printf("Error: Did Not Had Orders Yet\n");
+        return;
+    }
+
+    while (selection < 1 || selection > ordersAmount - 1) {
+        printf("\n[Orders Summarize]\n");
+        printOrdersSummary(&ordersHistory, &customersID, false);
+
+        printf("Select Order -->");
+        selection = initializeInt();
+
+        if (selection < 1 || selection > ordersAmount - 1)
+            printf("Error: Invalid Input, Try Between [1 To %d]\n\n", ordersAmount - 1);
+    }
+    printOrder(ordersHistory[selection], customersID[selection]);
+}
