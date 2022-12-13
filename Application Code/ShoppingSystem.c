@@ -1420,3 +1420,41 @@ void selectOrdersSummary() {
     }
     printOrder(ordersHistory[selection], customersID[selection]);
 }
+void selectOrderConfirmation() {
+    // Manager accepting waiting in queue orders
+    int selection = 0;
+    int arraySize = 0;
+    int intSize = 0;
+    int *waitingConfirmationOrders = NULL;
+    char **customersID = NULL;
+
+    if (getOrderFileName() == 1) {
+        printf("Error: Did Not Had Orders Yet\n");
+        return;
+    }
+
+    while (true) {
+        printf("\n[Confirm / Unconfirmed Orders]\n");
+        printOrdersSummary(&waitingConfirmationOrders, &customersID, true);
+
+        if (waitingConfirmationOrders == NULL) {
+            printf("Error: Did Not Had Unconfirmed Orders Yet\n");
+            return;
+        }
+
+        arraySize = sizeof(waitingConfirmationOrders);
+        intSize = sizeof(waitingConfirmationOrders[0]);
+
+        printf("Select Order -->");
+        selection = initializeInt();
+
+        for (int i = 0; i < arraySize / intSize; i++) {
+            if (waitingConfirmationOrders[i] == selection) {
+                printOrder(waitingConfirmationOrders[i], customersID[i]);
+                changeOrderStatus(waitingConfirmationOrders[i]);
+                return;
+            }
+        }
+        printf("Error: Invalid Input, Try Available Order ID\n\n");
+    }
+}
