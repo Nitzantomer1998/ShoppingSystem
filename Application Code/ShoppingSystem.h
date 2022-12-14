@@ -149,6 +149,7 @@ void writeOrderSummary(float totalOrderPrice);
 void printOrdersSummary(int **ordersHistory, char ***customersID, bool onlyWaitingOrders);
 void selectOrdersSummary();
 void selectOrderConfirmation();
+void printOrder(int orderNumber, char *orderID);
 
 
 #endif
