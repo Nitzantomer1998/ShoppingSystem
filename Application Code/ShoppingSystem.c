@@ -1458,3 +1458,39 @@ void selectOrderConfirmation() {
         printf("Error: Invalid Input, Try Available Order ID\n\n");
     }
 }
+void printOrder(int orderNumber, char *orderID) {
+    // Printing the order with the sent parameters
+    printf("\n[Order No. --> %d From %s]\n", orderNumber, orderID);
+
+    char productName[100] = {'\0'};
+    char productCompany[100] = {'\0'};
+    char productCategory[100] = {'\0'};
+    char productPrice[100] = {'\0'};
+    char productQuantity[100] = {'\0'};
+    char buffer[500] = {'\0'};
+    FILE *file;
+    errno_t err;
+
+    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s%d.csv", FOLDER_DATA_ORDERS, orderNumber);
+
+    if ((err = fopen_s(&file, buffer, "r")))
+        exit(true);
+
+    else {
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", productName, (unsigned) sizeof(productName),
+                     productCompany, (unsigned) sizeof(productCompany), productCategory,
+                     (unsigned) sizeof(productCategory), productPrice, (unsigned) sizeof(productPrice), productQuantity,
+                     (unsigned) sizeof(productQuantity));
+
+            if (strcmp(productName, "Total:") == 0) {
+                printf("%-15s%-15s\n", productName, productCompany);
+                break;
+            }
+
+            printf("%-15s%-15s%-15s%-15s%-15s\n", productName, productCompany, productCategory, productPrice,
+                   productQuantity);
+        }
+    }
+    fclose(file);
+}
