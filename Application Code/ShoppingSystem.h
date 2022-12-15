@@ -150,6 +150,7 @@ void printOrdersSummary(int **ordersHistory, char ***customersID, bool onlyWaiti
 void selectOrdersSummary();
 void selectOrderConfirmation();
 void printOrder(int orderNumber, char *orderID);
+void changeOrderStatus(int orderNumber);
 
 
 #endif
