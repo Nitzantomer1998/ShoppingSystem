@@ -1494,3 +1494,36 @@ void printOrder(int orderNumber, char *orderID) {
     }
     fclose(file);
 }
+void changeOrderStatus(int orderNumber) {
+    // Confirm the sent order ID
+    char orderId[100] = {'\0'};
+    char orderCustomerId[100] = {'\0'};
+    char orderPrice[100] = {'\0'};
+    char orderDate[100] = {'\0'};
+    char orderStatus[100] = {'\0'};
+    char buffer[500] = {'\0'};
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, FILE_ORDERS_SUMMARY, "r")))
+        exit(true);
+
+    else {
+        resetFile(FILE_TEMP);
+
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", orderId, (unsigned) sizeof(orderId), orderCustomerId,
+                     (unsigned) sizeof(orderCustomerId), orderPrice, (unsigned) sizeof(orderPrice), orderDate,
+                     (unsigned) sizeof(orderDate), orderStatus, (unsigned) sizeof(orderStatus));
+
+            if (orderNumber == convertStringToInt(orderId))
+                sprintf_s(buffer, 500, "%s,%s,%s,%s,%s", orderId, orderCustomerId, orderPrice, orderDate, "CONFIRMED");
+
+            writeFile(FILE_TEMP, buffer);
+        }
+    }
+    fclose(file);
+    copyFile(FILE_ORDERS_SUMMARY, FILE_TEMP);
+
+    printf("Order Has Been Successfully Approved\n");
+}
