@@ -1527,3 +1527,20 @@ void changeOrderStatus(int orderNumber) {
 
     printf("Order Has Been Successfully Approved\n");
 }
+int getOrderFileName() {
+    // Return the number of the current order
+    char buffer[500] = {'\0'};
+    int numberOrder = 0;
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, FILE_ORDERS_SUMMARY, "r")))
+        exit(true);
+
+    else
+        while (fgets(buffer, (unsigned) sizeof(buffer), file))
+            numberOrder++;
+
+    fclose(file);
+    return numberOrder;
+}
