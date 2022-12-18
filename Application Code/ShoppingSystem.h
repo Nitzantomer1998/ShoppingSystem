@@ -153,5 +153,7 @@ void printOrder(int orderNumber, char *orderID);
 void changeOrderStatus(int orderNumber);
 int getOrderFileName();
 
+// Tickets
+void writeTicket();
 
 #endif
