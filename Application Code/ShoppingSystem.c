@@ -1544,3 +1544,29 @@ int getOrderFileName() {
     fclose(file);
     return numberOrder;
 }
+// Tickets
+void writeTicket() {
+    // Saving the ticket in the system history tickets
+    int ticketNumber = getTicketFileName();
+    char ticketInformation[500] = {'\0'};
+    char buffer[500] = {'\0'};
+    char fileName[100] = {'\0'};
+
+    sprintf_s(fileName, (unsigned) sizeof(fileName), "%s%d.csv", FOLDER_DATA_TICKETS, ticketNumber);
+
+    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%d\n%s,%s", "Ticket No: ", ticketNumber, "Customer ID: ",
+              IDENTITY);
+    writeFile(fileName, buffer);
+
+    printf("Ticket Title -->");
+    scanf_s(" %[^\n]", ticketInformation, (unsigned) sizeof(ticketInformation));
+    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s", "Title: ", ticketInformation);
+    writeFile(fileName, buffer);
+
+    printf("Ticket -->");
+    scanf_s(" %[^\n]", ticketInformation, (unsigned) sizeof(ticketInformation));
+    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s", "Ticket: ", ticketInformation);
+    writeFile(fileName, buffer);
+
+    writeTicketSummary();
+}
