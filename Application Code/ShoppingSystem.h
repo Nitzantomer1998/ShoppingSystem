@@ -155,5 +155,7 @@ int getOrderFileName();
 
 // Tickets
 void writeTicket();
+void writeTicketSummary();
+
 
 #endif
