@@ -1570,3 +1570,12 @@ void writeTicket() {
 
     writeTicketSummary();
 }
+void writeTicketSummary() {
+    // Saving the submitted ticket in the summary tickets history
+    char buffer[500] = {'\0'};
+    Date currentDate = getCurrentDate();
+
+    sprintf_s(buffer, (unsigned) sizeof(buffer), "%d,%s,%d/%d/%d,%s", getTicketFileName(), IDENTITY, currentDate.day,
+              currentDate.month, currentDate.year, "WAITING");
+    writeFile(FILE_TICKETS_SUMMARY, buffer);
+}
