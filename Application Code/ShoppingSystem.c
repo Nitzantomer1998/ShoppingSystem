@@ -1579,3 +1579,44 @@ void writeTicketSummary() {
               currentDate.month, currentDate.year, "WAITING");
     writeFile(FILE_TICKETS_SUMMARY, buffer);
 }
+void printTicketsSummary(int **ticketsHistory, char ***customersID, bool onlyWaitingTickets) {
+    // Printing the summarized tickets
+    int index = 0;
+    char ticketId[100] = {'\0'};
+    char ticketCustomerId[100] = {'\0'};
+    char ticketDate[100] = {'\0'};
+    char ticketStatus[100] = {'\0'};
+    char buffer[500] = {'\0'};
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, FILE_TICKETS_SUMMARY, "r")))
+        exit(true);
+
+    else {
+        *ticketsHistory = NULL;
+        *customersID = NULL;
+
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,]", ticketId, (unsigned) sizeof(ticketId), ticketCustomerId,
+                     (unsigned) sizeof(ticketCustomerId), ticketDate, (unsigned) sizeof(ticketDate), ticketStatus,
+                     (unsigned) sizeof(ticketStatus));
+
+            if (onlyWaitingTickets == false || (onlyWaitingTickets && strcmp(ticketStatus, "WAITING") == 0)) {
+                if (onlyWaitingTickets == true && index == 0)
+                    printf("%-15s%-15s%-15s%-15s\n", "Ticket No.", "Customer ID", "Date", "Status");
+
+                printf("%-15s%-15s%-15s%-15s\n", ticketId, ticketCustomerId, ticketDate, ticketStatus);
+
+                *ticketsHistory = (int *) realloc(*ticketsHistory, sizeof(int) * (index));
+                (*ticketsHistory)[index] = convertStringToInt(ticketId);
+
+                *customersID = (char **) realloc(*customersID, sizeof(char *) * (strlen(ticketCustomerId) + 1));
+                (*customersID)[index] = copyString(ticketCustomerId);
+
+                index++;
+            }
+        }
+    }
+    fclose(file);
+}
