@@ -156,6 +156,7 @@ int getOrderFileName();
 // Tickets
 void writeTicket();
 void writeTicketSummary();
+void printTicketsSummary(int **ticketsHistory, char ***customersID, bool onlyWaitingTickets);
 
 
 #endif
