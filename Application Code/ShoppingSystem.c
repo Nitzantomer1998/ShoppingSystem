@@ -1620,3 +1620,27 @@ void printTicketsSummary(int **ticketsHistory, char ***customersID, bool onlyWai
     }
     fclose(file);
 }
+void selectTicketsSummary() {
+    // Printing the summarized of the tickets and selecting one in order to see the full ticket
+    int selection = 0;
+    int ticketsAmount = getTicketFileName();
+    int *ticketsHistory = NULL;
+    char **customersID = NULL;
+
+    if (ticketsAmount == 1) {
+        printf("Error: Did Not Had Tickets Yet\n");
+        return;
+    }
+
+    while (selection < 1 || selection > ticketsAmount - 1) {
+        printf("\n[Tickets Summarize]\n");
+        printTicketsSummary(&ticketsHistory, &customersID, false);
+
+        printf("Select Ticket -->");
+        selection = initializeInt();
+
+        if (selection < 1 || selection > ticketsAmount - 1)
+            printf("Error: Invalid Input, Try Between [1 To %d]\n", ticketsAmount - 1);
+    }
+    printTicket(ticketsHistory[selection], customersID[selection]);
+}
