@@ -1644,3 +1644,42 @@ void selectTicketsSummary() {
     }
     printTicket(ticketsHistory[selection], customersID[selection]);
 }
+
+void selectTicketConfirmation() {
+    // Accepting waiting in queue tickets
+    int selection = 0;
+    int arraySize = 0;
+    int intSize = 0;
+    int *waitingConfirmationTickets = NULL;
+    char **customersID = NULL;
+
+    if (getTicketFileName() == 1) {
+        printf("Error: Did Not Had Tickets Yet\n");
+        return;
+    }
+
+    while (true) {
+        printf("\n[Confirm / Unconfirmed Tickets]\n");
+        printTicketsSummary(&waitingConfirmationTickets, &customersID, true);
+
+        if (waitingConfirmationTickets == NULL) {
+            printf("Error: Did Not Had Unconfirmed Tickets Yet\n");
+            return;
+        }
+
+        arraySize = sizeof(waitingConfirmationTickets);
+        intSize = sizeof(waitingConfirmationTickets[0]);
+
+        printf("Select Ticket -->");
+        selection = initializeInt();
+
+        for (int i = 0; i < arraySize / intSize; i++) {
+            if (waitingConfirmationTickets[i] == selection) {
+                printTicket(waitingConfirmationTickets[i], customersID[i]);
+                changeTicketStatus(waitingConfirmationTickets[i]);
+                return;
+            }
+        }
+        printf("Error: Invalid Input, Try Available Ticket ID\n");
+    }
+}
