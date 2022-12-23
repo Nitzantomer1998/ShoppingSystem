@@ -159,6 +159,7 @@ void writeTicketSummary();
 void printTicketsSummary(int **ticketsHistory, char ***customersID, bool onlyWaitingTickets);
 void selectTicketsSummary();
 void selectTicketConfirmation();
+void printTicket(int ticketNumber, char *ticketID);
 
 
 #endif
