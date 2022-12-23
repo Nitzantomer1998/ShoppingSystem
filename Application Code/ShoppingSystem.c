@@ -1683,3 +1683,26 @@ void selectTicketConfirmation() {
         printf("Error: Invalid Input, Try Available Ticket ID\n");
     }
 }
+void printTicket(int ticketNumber, char *ticketID) {
+    // Printing the ticket with the sent parameters
+    printf("\n[Ticket No. --> %d From %s]\n", ticketNumber, ticketID);
+
+    char title[500] = {'\0'};
+    char submit[500] = {'\0'};
+    char buffer[1000] = {'\0'};
+    FILE *file;
+    errno_t err;
+
+    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s%d.csv", FOLDER_DATA_TICKETS, ticketNumber);
+
+    if ((err = fopen_s(&file, buffer, "r")))
+        exit(true);
+
+    else {
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,]", title, (unsigned) sizeof(title), submit, (unsigned) sizeof(submit));
+            printf("%-15s%-15s\n", title, submit);
+        }
+    }
+    fclose(file);
+}
