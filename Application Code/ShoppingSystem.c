@@ -1706,3 +1706,36 @@ void printTicket(int ticketNumber, char *ticketID) {
     }
     fclose(file);
 }
+void changeTicketStatus(int ticketNumber) {
+    // Confirm the sent ticket ID
+    char ticketId[100] = {'\0'};
+    char ticketCustomerId[100] = {'\0'};
+    char ticketDate[100] = {'\0'};
+    char ticketStatus[100] = {'\0'};
+    char buffer[500] = {'\0'};
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, FILE_TICKETS_SUMMARY, "r")))
+        exit(true);
+
+    else {
+        resetFile(FILE_TEMP);
+
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,]", ticketId, (unsigned) sizeof(ticketId), ticketCustomerId,
+                     (unsigned) sizeof(ticketCustomerId), ticketDate, (unsigned) sizeof(ticketDate), ticketStatus,
+                     (unsigned) sizeof(ticketStatus));
+
+            if (ticketNumber == convertStringToInt(ticketId))
+                sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s", ticketId, ticketCustomerId, ticketDate,
+                          "CONFIRMED");
+
+            writeFile(FILE_TEMP, buffer);
+        }
+    }
+    fclose(file);
+    copyFile(FILE_TICKETS_SUMMARY, FILE_TEMP);
+
+    printf("Ticket Has Been Successfully Approved\n");
+}
