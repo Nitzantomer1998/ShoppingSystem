@@ -1739,3 +1739,20 @@ void changeTicketStatus(int ticketNumber) {
 
     printf("Ticket Has Been Successfully Approved\n");
 }
+int getTicketFileName() {
+    // Return the number of the current ticket
+    char buffer[500] = {'\0'};
+    int ticketNumber = 0;
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, FILE_TICKETS_SUMMARY, "r")))
+        exit(true);
+
+    else
+        while (fgets(buffer, (unsigned) sizeof(buffer), file))
+            ticketNumber++;
+
+    fclose(file);
+    return ticketNumber;
+}
