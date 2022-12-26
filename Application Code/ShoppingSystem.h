@@ -161,6 +161,7 @@ void selectTicketsSummary();
 void selectTicketConfirmation();
 void printTicket(int ticketNumber, char *ticketID);
 void changeTicketStatus(int ticketNumber);
+int getTicketFileName();
 
 
 #endif
