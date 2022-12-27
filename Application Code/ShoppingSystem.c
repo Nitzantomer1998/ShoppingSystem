@@ -1756,3 +1756,24 @@ int getTicketFileName() {
     fclose(file);
     return ticketNumber;
 }
+
+// Date
+Date getCurrentDate() {
+    // Getting the date of the current day (Today)
+    char dayString[100] = {'\0'};
+    char monthString[100] = {'\0'};
+    char yearString[100] = {'\0'};
+    char strDate[100];
+    time_t t = time(NULL);
+    struct tm *tm = localtime(&t);
+    Date date = {0, 0, 0};
+
+    strftime(strDate, sizeof(strDate), "%d %m %Y", tm);
+    sscanf_s(strDate, " %s %s %s", dayString, (unsigned) sizeof(dayString), monthString, (unsigned) sizeof(monthString),
+             yearString, (unsigned) sizeof(yearString));
+
+    date.day = convertStringToInt(dayString);
+    date.month = convertStringToInt(monthString);
+    date.year = convertStringToInt(yearString);
+    return date;
+}
