@@ -165,4 +165,8 @@ void changeTicketStatus(int ticketNumber);
 int getTicketFileName();
 
 
+// Date
+Date getCurrentDate();
+
+
 #endif
