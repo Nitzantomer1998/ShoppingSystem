@@ -167,6 +167,7 @@ int getTicketFileName();
 
 // Date
 Date getCurrentDate();
+int calculateDateDiff(Date date);
 
 
 #endif
