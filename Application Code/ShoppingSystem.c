@@ -1777,3 +1777,20 @@ Date getCurrentDate() {
     date.year = convertStringToInt(yearString);
     return date;
 }
+int calculateDateDiff(Date date) {
+    // Returning the amount of days between the current date and the received one
+    int currentDateInDays = 0;
+    int dateInDays = 0;
+    int daysInEveryMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    Date currentDate = getCurrentDate();
+
+    currentDateInDays = currentDate.year * 365 + currentDate.day;
+    for (int i = 0; i < currentDate.month; i++)
+        currentDateInDays = currentDateInDays + daysInEveryMonth[i];
+
+    dateInDays = date.year * 365 + date.day;
+    for (int i = 0; i < date.month; i++)
+        dateInDays = dateInDays + daysInEveryMonth[i];
+
+    return currentDateInDays - dateInDays;
+}
