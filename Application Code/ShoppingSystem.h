@@ -170,4 +170,7 @@ Date getCurrentDate();
 int calculateDateDiff(Date date);
 
 
+// Menu's
+void systemMenu();
+
 #endif
