@@ -1794,3 +1794,32 @@ int calculateDateDiff(Date date) {
 
     return currentDateInDays - dateInDays;
 }
+
+
+// Menu's
+void systemMenu() {
+    // The system menu
+    while (true) {
+        printf("[Online Shopping System Menu]\n");
+        printf("'1' Register    '2' Login    '3' Exit\nInput -->");
+
+        int selection = initializeInt();
+        switch (selection) {
+            case 1:
+                registrationMenu();
+                break;
+
+            case 2:
+                userLogin();
+                break;
+
+            case 3:
+                printf("You Have Successfully Exit From The System\n");
+                return;
+
+            default:
+                printf("Error: Invalid Input, Try Between [1 To 3]\n\n");
+                break;
+        }
+    }
+}
