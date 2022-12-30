@@ -1823,3 +1823,38 @@ void systemMenu() {
         }
     }
 }
+void registrationMenu() {
+    // The registration menu
+    while (true) {
+        printf("\n[Register As]\n");
+        printf("'1' Customer    '2' Manager    '3' Return\nInput -->");
+
+        int managerCode = 0;
+        int selection = initializeInt();
+        switch (selection) {
+            case 1:
+                registerUser(customer);
+                return;
+
+            case 2:
+                printf("Manager Code -->");
+                managerCode = initializeInt();
+
+                if (managerCode == MANAGER_CODE)
+                    registerUser(manager);
+
+                else
+                    printf("Error: Wrong Code, GoodBye\n\n");
+
+                return;
+
+            case 3:
+                printf("\n");
+                return;
+
+            default:
+                printf("Error: Invalid Input, Try Between [1 To 3]\n");
+                break;
+        }
+    }
+}
