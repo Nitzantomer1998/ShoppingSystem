@@ -174,6 +174,7 @@ int calculateDateDiff(Date date);
 // Menu's
 void systemMenu();
 void registrationMenu();
+void userProfileMenu();
 
 
 #endif
