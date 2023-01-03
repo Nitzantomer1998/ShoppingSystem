@@ -1922,3 +1922,59 @@ void userProfileUpdateMenu(User *user) {
         }
     }
 }
+void catalogFilterMenu(char **filterBy, char **filterWord) {
+    // The filter catalog menu
+    int selection = 0;
+
+    while (selection < 1 || selection > 4) {
+        printf("\n[Catalog Filter Menu]\n");
+        printf("'1' Filter By Name    '2' Filter By Company    '3' Filter By Category    '4' Show All\nInput -->");
+
+        selection = initializeInt();
+        switch (selection) {
+            case 1:
+                *filterBy = "Name";
+                break;
+
+            case 2:
+                *filterBy = "Company";
+                break;
+
+            case 3:
+                *filterBy = "Category";
+                break;
+
+            case 4:
+                break;
+
+            default:
+                printf("Invalid Input, Try Between [1 To 4]\n");
+                break;
+        }
+    }
+
+    if (*filterBy) {
+        char insertedFilterWord[100] = {'\0'};
+        bool isFilterWordValid = false;
+
+        while (isFilterWordValid == false) {
+            isFilterWordValid = true;
+
+            printf("\n[Filter Word]\n");
+
+            printf("Filter Word -->");
+            scanf_s(" %[^\n]", insertedFilterWord, (unsigned) sizeof(insertedFilterWord));
+
+            for (int i = 0; i < strlen(insertedFilterWord); i++) {
+                if (((insertedFilterWord[i] >= 'a' && insertedFilterWord[i] <= 'z') ||
+                     (insertedFilterWord[i] >= 'A' && insertedFilterWord[i] <= 'Z') || insertedFilterWord[i] == ' ') ==
+                    false) {
+                    printf("Error: Filter Contain Only English Alphabet\n");
+                    isFilterWordValid = false;
+                    break;
+                }
+            }
+        }
+        *filterWord = copyString(insertedFilterWord);
+    }
+}
