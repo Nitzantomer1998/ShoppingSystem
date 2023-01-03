@@ -1883,3 +1883,42 @@ void userProfileMenu() {
         }
     }
 }
+void userProfileUpdateMenu(User *user) {
+    // The update profile menu
+    int selection = 0;
+
+    while (selection < 1 || selection > 5) {
+        printf("\n[User Profile Update Menu]\n");
+        printf("'1' User ID    '2' User Name    '3' User Password    '4' User Phone    '5' Return\nInput -->");
+
+        selection = initializeInt();
+        switch (selection) {
+            case 1:
+                printf("\n[User ID Update]\n");
+                verifyUserId(user);
+                break;
+
+            case 2:
+                printf("\n[User Name Update]\n");
+                verifyUserName(user);
+                break;
+
+            case 3:
+                printf("\n[User Password Update]\n");
+                verifyUserPassword(user);
+                break;
+
+            case 4:
+                printf("\n[User Phone Update]\n");
+                verifyUserPhone(user);
+                break;
+
+            case 5:
+                break;
+
+            default:
+                printf("Error: Invalid Input, Try Between [1 To 5]\n");
+                break;
+        }
+    }
+}
