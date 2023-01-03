@@ -175,6 +175,7 @@ int calculateDateDiff(Date date);
 void systemMenu();
 void registrationMenu();
 void userProfileMenu();
+void userProfileUpdateMenu(User *user);
 
 
 #endif
