@@ -176,6 +176,7 @@ void systemMenu();
 void registrationMenu();
 void userProfileMenu();
 void userProfileUpdateMenu(User *user);
+void catalogFilterMenu(char **filterBy, char **filterWord);
 
 
 #endif
