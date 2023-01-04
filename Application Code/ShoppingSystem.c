@@ -1978,3 +1978,41 @@ void catalogFilterMenu(char **filterBy, char **filterWord) {
         *filterWord = copyString(insertedFilterWord);
     }
 }
+void managerMenu() {
+    // The manager menu
+    while (true) {
+        printf("\n[Manager Menu]\n");
+        printf("'1' Store Menu    '2' Profile Menu    '3' Orders Menu    '4' Revenue Menu    '5' Tickets Menu    '6' Log Out\nInput -->");
+
+        int selection = initializeInt();
+        switch (selection) {
+            case 1:
+                managerStoreMenu();
+                break;
+
+            case 2:
+                userProfileMenu();
+                break;
+
+            case 3:
+                ordersMenu();
+                break;
+
+            case 4:
+                revenueMenu();
+                break;
+
+            case 5:
+                ticketsMenu();
+                break;
+
+            case 6:
+                printf("You Have Successfully Logged Out\n\n");
+                return;
+
+            default:
+                printf("Error: Invalid Input, Try Between [1 To 6]\n");
+                break;
+        }
+    }
+}
