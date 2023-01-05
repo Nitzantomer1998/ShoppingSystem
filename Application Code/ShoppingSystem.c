@@ -2016,3 +2016,32 @@ void managerMenu() {
         }
     }
 }
+void managerStoreMenu() {
+    // The manager store menu
+    while (true) {
+        printf("\n[Manager Store Menu]\n");
+        printf("'1' Add Product    '2' Delete Product    '3' Update Product    '4' Return\nInput -->");
+
+        int selection = initializeInt();
+        switch (selection) {
+            case 1:
+                addProductToCatalog();
+                return;
+
+            case 2:
+                deleteProductFromCatalog();
+                return;
+
+            case 3:
+                updateProductInCatalog();
+                return;
+
+            case 4:
+                return;
+
+            default:
+                printf("Error: Invalid Input, Try Between [1 To 4]\n");
+                break;
+        }
+    }
+}
