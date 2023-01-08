@@ -2045,3 +2045,50 @@ void managerStoreMenu() {
         }
     }
 }
+void revenueMenu() {
+    // The manager revenue menu
+    if (getOrderFileName() == 1) {
+        printf("Error: Did Not Had Orders Yet\n");
+        return;
+    }
+
+    while (true) {
+        printf("\n[Revenue Menu]\n");
+        printf("'1' Current Day    '2' Last 7 Days    '3' Last 30 Days    '4' Insert Amount    '5' Return\nInput -->");
+
+        int selection = initializeInt();
+        switch (selection) {
+            case 1:
+                printAskedRevenue(0);
+                return;
+
+            case 2:
+                printAskedRevenue(7);
+                return;
+
+            case 3:
+                printAskedRevenue(30);
+                return;
+
+            case 4:
+                selection = -1;
+
+                while (selection < 0) {
+                    printf("Insert Amount Of Days -->");
+                    selection = initializeInt();
+
+                    if (selection < 0)
+                        printf("Error: Invalid Input, Try Non Negative Integer\n\n");
+                }
+                printAskedRevenue(selection);
+                return;
+
+            case 5:
+                return;
+
+            default:
+                printf("Error: Invalid Input, Try Between [1 To 5]\n");
+                break;
+        }
+    }
+}
