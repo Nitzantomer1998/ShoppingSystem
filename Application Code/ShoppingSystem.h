@@ -179,6 +179,7 @@ void userProfileUpdateMenu(User *user);
 void catalogFilterMenu(char **filterBy, char **filterWord);
 void managerMenu();
 void managerStoreMenu();
+void revenueMenu();
 
 
 #endif
