@@ -2092,3 +2092,28 @@ void revenueMenu() {
         }
     }
 }
+void ordersMenu() {
+    // The manager orders menu
+    while (true) {
+        printf("\n[Orders Menu]\n");
+        printf("1' Print Order    '2' Confirm / Unconfirmed Order    '3' Return\nInput -->");
+
+        int selection = initializeInt();
+        switch (selection) {
+            case 1:
+                selectOrdersSummary();
+                return;
+
+            case 2:
+                selectOrderConfirmation();
+                return;
+
+            case 3:
+                return;
+
+            default:
+                printf("Error: Invalid Input, Try Between [1 To 3]\n");
+                break;
+        }
+    }
+}
