@@ -181,6 +181,7 @@ void managerMenu();
 void managerStoreMenu();
 void revenueMenu();
 void ordersMenu();
+void ticketsMenu();
 
 
 #endif
