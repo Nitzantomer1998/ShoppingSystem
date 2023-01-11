@@ -2117,3 +2117,28 @@ void ordersMenu() {
         }
     }
 }
+void ticketsMenu() {
+    // The manager tickets menu
+    while (true) {
+        printf("\n[Tickets Menu]\n");
+        printf("1' Print Ticket    '2' Confirm / Unconfirmed Ticket    '3' Return\nInput -->");
+
+        int selection = initializeInt();
+        switch (selection) {
+            case 1:
+                selectTicketsSummary();
+                return;
+
+            case 2:
+                selectTicketConfirmation();
+                return;
+
+            case 3:
+                return;
+
+            default:
+                printf("Error: Invalid Input, Try Between [1 To 3]\n");
+                break;
+        }
+    }
+}
