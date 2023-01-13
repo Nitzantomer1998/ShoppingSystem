@@ -182,6 +182,7 @@ void managerStoreMenu();
 void revenueMenu();
 void ordersMenu();
 void ticketsMenu();
+void productUpdateMenu(Product *product);
 
 
 #endif
