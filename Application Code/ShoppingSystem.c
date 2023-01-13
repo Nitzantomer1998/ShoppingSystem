@@ -2315,3 +2315,30 @@ int purchaseCartMenu(Cart cart) {
     }
     return selection;
 }
+float shoppingPointsMenu(User user, float totalPrice) {
+    // The customer shopping points menu
+    int selection = 0;
+    float shoppingPoints = 0;
+
+    while (selection < 1 || selection > 2) {
+        printf("\n[Shopping Points Menu]\n");
+        printf("Available Shopping Points --> %.2f\n", user.points);
+        printf("Would You Like To Use Them?\n'1' Yes    '2' No\nInput -->");
+        selection = initializeInt();
+
+        if (selection < 1 || selection > 2)
+            printf("Error: Invalid Input, Try Between [1 To 2]\n");
+    }
+
+    if (selection == 1) {
+        while (shoppingPoints < 0 || shoppingPoints > totalPrice || shoppingPoints > user.points) {
+            printf("\nInput Shopping Points Amount -->");
+            shoppingPoints = initializeFloat();
+
+            if (shoppingPoints < 0 || shoppingPoints > totalPrice || shoppingPoints > user.points)
+                printf("Error: Invalid Input, Try Between [0 To %.2f]\n",
+                       user.points > totalPrice ? totalPrice : user.points);
+        }
+    }
+    return shoppingPoints;
+}
