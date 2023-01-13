@@ -2342,3 +2342,8 @@ float shoppingPointsMenu(User user, float totalPrice) {
     }
     return shoppingPoints;
 }
+int main() {
+    checkFolder();
+    checkFiles();
+    systemMenu();
+}
