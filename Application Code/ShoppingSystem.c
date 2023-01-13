@@ -2197,3 +2197,32 @@ void customerMenu() {
         }
     }
 }
+void customerStoreMenu(Cart *cart) {
+    // The customer store menu
+    while (true) {
+        printf("\n[Customer Store Menu]\n");
+        printf("'1' Add Product    '2' Delete Product    '3' Update Product    '4' Return\nInput -->");
+
+        int selection = initializeInt();
+        switch (selection) {
+            case 1:
+                addProductToCart(cart);
+                return;
+
+            case 2:
+                deleteProductFromCart(cart);
+                return;
+
+            case 3:
+                updateProductInCart(cart);
+                return;
+
+            case 4:
+                return;
+
+            default:
+                printf("Error: Invalid Input, Try Between [1 To 4]\n");
+                break;
+        }
+    }
+}
