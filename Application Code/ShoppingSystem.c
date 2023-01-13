@@ -2251,3 +2251,39 @@ void cartMenu(Cart *cart) {
         }
     }
 }
+void printAskedRevenue(int revenueDays) {
+    // Printing the system revenue in the sent amount of days
+    int ordersCounter = 0;
+    float totalRevenue = 0;
+    float totalPrice = 0;
+    char dayString[100] = {'\0'};
+    char monthString[100] = {'\0'};
+    char yearString[100] = {'\0'};
+    char priceString[100] = {'\0'};
+    char buffer[500] = {'\0'};
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, FILE_ORDERS_SUMMARY, "r")))
+        exit(true);
+
+    else {
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %*[^,],%*[^,],%[^,],%[^/]/%[^/]/%[^,],%*[^,]", priceString,
+                     (unsigned) sizeof(priceString), dayString, (unsigned) sizeof(dayString), monthString,
+                     (unsigned) sizeof(monthString), yearString, (unsigned) sizeof(yearString));
+
+            Date orderDate = {convertStringToInt(dayString), convertStringToInt(monthString),
+                              convertStringToInt(yearString)};
+            totalPrice = convertStringToFloat(priceString);
+
+            if (calculateDateDiff(orderDate) <= revenueDays) {
+                totalRevenue = totalRevenue + totalPrice;
+                ordersCounter++;
+            }
+        }
+        printf("[Revenue In %d Days]\n", revenueDays);
+        printf("Revenue --> %.2f In %d Orders]\n", totalRevenue, ordersCounter);
+    }
+    fclose(file);
+}
