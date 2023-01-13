@@ -189,6 +189,7 @@ void cartMenu(Cart *cart);
 void printAskedRevenue(int revenueDays);
 int selectProductQuantity(Product product);
 int purchaseCartMenu(Cart cart);
+float shoppingPointsMenu(User user, float totalPrice);
 
 
 #endif
