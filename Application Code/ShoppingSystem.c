@@ -1,34 +1,126 @@
 #include "ShoppingSystem.h"
 
 
+// Folders & Files
+void checkFolder() {
+    // Checking if the folders exist, else create them
+    if (doesFileExists(FOLDER_DATA) == False)
+        createFolder(FOLDER_DATA);
+
+    if (doesFileExists(FOLDER_DATA_USERS) == False)
+        createFolder(FOLDER_DATA_USERS);
+
+    if (doesFileExists(FOLDER_DATA_ORDERS) == False)
+        createFolder(FOLDER_DATA_ORDERS);
+
+    if (doesFileExists(FOLDER_DATA_TICKETS) == False)
+        createFolder(FOLDER_DATA_TICKETS);
+
+    if (doesFileExists(FOLDER_DATA_CATALOGS) == False)
+        createFolder(FOLDER_DATA_CATALOGS);
+
+    if (doesFileExists(FOLDER_DATA_ORDERS_SUMMARY) == False)
+        createFolder(FOLDER_DATA_ORDERS_SUMMARY);
+
+    if (doesFileExists(FOLDER_DATA_TICKETS_SUMMARY) == False)
+        createFolder(FOLDER_DATA_TICKETS_SUMMARY);
+}
+void checkFiles() {
+    // Checking if the files exist, else create them
+    if (doesFileExists(FILE_TEMP) == False)
+        writeFile(FILE_TEMP, "");
+
+    if (doesFileExists(FILE_MANAGERS) == False)
+        writeFile(FILE_MANAGERS, "ID,Name,Password,Phone");
+
+    if (doesFileExists(FILE_CUSTOMERS) == False)
+        writeFile(FILE_CUSTOMERS, "ID,Name,Password,Phone,Points");
+
+    if (doesFileExists(FILE_CATALOGS) == False)
+        writeFile(FILE_CATALOGS, "Name,Company,Category,Price,Quantity");
+
+    if (doesFileExists(FILE_TICKETS_SUMMARY) == False)
+        writeFile(FILE_TICKETS_SUMMARY, "Ticket No.,Customer ID,Date,Status");
+
+    if (doesFileExists(FILE_ORDERS_SUMMARY) == False)
+        writeFile(FILE_ORDERS_SUMMARY, "Order No.,Customer ID,Total,Date,Status");
+}
+void createFolder(char *folderName) {
+    // Creating new folder with the sent name
+    if (mkdir(folderName))
+        exit(True);
+}
+void resetFile(char *fileName) {
+    // Reset the sent file
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, fileName, "w")))
+        exit(True);
+
+    fclose(file);
+}
+void writeFile(char *fileName, char *data) {
+    // Saving the sent data into the desirable file
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, fileName, "a+")))
+        exit(True);
+
+    else
+        fprintf(file, "%s\n", data);
+
+    fclose(file);
+}
+void copyFile(char *destinationFileName, char *sourceFileName) {
+    // Copy source file content into destination file
+    char buffer[500] = {'\0'};
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, sourceFileName, "r")))
+        exit(True);
+
+    else {
+        resetFile(destinationFileName);
+
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1)
+            writeFile(destinationFileName, buffer);
+    }
+    fclose(file);
+}
+Bool doesFileExists(char *fileName) {
+    // Checking if the sent file exist and return accordingly
+    struct stat buffer;
+    return stat(fileName, &buffer) == False;
+}
+
+
 // Strings
-char* copyString(char* string)
-{
+char *copyString(char *string) {
     // Allocates the given string into a new string with initialized needed size of memory
-    char* memoryAllocateString = (char*) malloc(sizeof(char) * (strlen(string) + 1));
+    char *memoryAllocateString = (char *) malloc(sizeof(char) * (strlen(string) + 1));
     if (memoryAllocateString == NULL)
-        exit(true);
+        exit(True);
 
     strcpy_s(memoryAllocateString, strlen(string) + 1, string);
     return memoryAllocateString;
 }
-int initializeInt()
-{
+int initializeInt() {
     // Initialize string from the user and convert it into an Integer
     // Note: if the input isn't an Integer the return value will be -1 ("Failed")
-    char string[500] = { '\0' };
+    char string[500] = {'\0'};
 
-    scanf_s(" %[^\n]", string, (unsigned)sizeof(string));
+    scanf_s(" %[^\n]", string, (unsigned) sizeof(string));
     return convertStringToInt(string);
 }
-int convertStringToInt(char* string)
-{
+int convertStringToInt(char *string) {
     // Converting the given string into an Integer
     // Note: if the input isn't an Integer the return value will be -1 ("Failed")
     int sum = 0;
 
-    for (int i = 0; i < strlen(string); i++)
-    {
+    for (int i = 0; i < strlen(string); i++) {
         if (string[i] < '0' || string[i] > '9')
             return -1;
 
@@ -37,24 +129,21 @@ int convertStringToInt(char* string)
     }
     return sum;
 }
-float initializeFloat()
-{
+float initializeFloat() {
     // Initialize string from the user and convert it into a Float
     // Note: if the input isn't a Float the return value will be -1 ("Failed")
-    char string[500] = { '\0' };
+    char string[500] = {'\0'};
 
-    scanf_s(" %[^\n]", string, (unsigned)sizeof(string));
+    scanf_s(" %[^\n]", string, (unsigned) sizeof(string));
     return convertStringToFloat(string);
 }
-float convertStringToFloat(char* string)
-{
+float convertStringToFloat(char *string) {
     // Converting the given string into a Float
     // Note: if the input isn't a Float the return value will be -1 ("Failed")
     int dividePower = 1;
     int sum = 0;
 
-    for (int i = 0; i < strlen(string); i++)
-    {
+    for (int i = 0; i < strlen(string); i++) {
         if (string[i] >= '0' && string[i] <= '9')
             sum = sum * 10 + (string[i] - '0');
 
@@ -65,314 +154,187 @@ float convertStringToFloat(char* string)
         else
             return -1;
     }
-    return (float)sum / (float)dividePower;
+    return (float) sum / (float) dividePower;
 }
 
-// Folders And Files
-void checkFolder()
-{
-    // Checking if the folders exist, else create them
-    if (doesFileExists(FOLDER_DATA) == false)
-        createFolder(FOLDER_DATA);
 
-    if (doesFileExists(FOLDER_DATA_USERS) == false)
-        createFolder(FOLDER_DATA_USERS);
-
-    if (doesFileExists(FOLDER_DATA_ORDERS) == false)
-        createFolder(FOLDER_DATA_ORDERS);
-
-    if (doesFileExists(FOLDER_DATA_TICKETS) == false)
-        createFolder(FOLDER_DATA_TICKETS);
-
-    if (doesFileExists(FOLDER_DATA_CATALOGS) == false)
-        createFolder(FOLDER_DATA_CATALOGS);
-
-    if (doesFileExists(FOLDER_DATA_ORDERS_SUMMARY) == false)
-        createFolder(FOLDER_DATA_ORDERS_SUMMARY);
-
-    if (doesFileExists(FOLDER_DATA_TICKETS_SUMMARY) == false)
-        createFolder(FOLDER_DATA_TICKETS_SUMMARY);
-}
-void checkFiles()
-{
-    // Checking if the files exist, else create them
-    if (doesFileExists(FILE_TEMP) == false)
-        writeFile(FILE_TEMP, "");
-
-    if (doesFileExists(FILE_MANAGERS) == false)
-        writeFile(FILE_MANAGERS, "ID,Name,Password,Phone");
-
-    if (doesFileExists(FILE_CUSTOMERS) == false)
-        writeFile(FILE_CUSTOMERS, "ID,Name,Password,Phone,Points");
-
-    if (doesFileExists(FILE_CATALOGS) == false)
-        writeFile(FILE_CATALOGS, "Name,Company,Category,Price,Quantity");
-
-    if (doesFileExists(FILE_TICKETS_SUMMARY) == false)
-        writeFile(FILE_TICKETS_SUMMARY, "Ticket No.,Customer ID,Date,Status");
-
-    if (doesFileExists(FILE_ORDERS_SUMMARY) == false)
-        writeFile(FILE_ORDERS_SUMMARY, "Order No.,Customer ID,Total,Date,Status");
-}
-void createFolder(char* folderName)
-{
-    // Creating new folder with the sent name
-    if (mkdir(folderName))
-        exit(true);
-}
-void resetFile(char* fileName)
-{
-    // Reset the sent file
-    FILE* file;
-    errno_t err;
-
-    if ((err = fopen_s(&file, fileName, "w")))
-        exit(true);
-
-    fclose(file);
-}
-void writeFile(char* fileName, char* data)
-{
-    // Saving the sent data into the desirable file
-    FILE* file;
-    errno_t err;
-
-    if ((err = fopen_s(&file, fileName, "a+")))
-        exit(true);
-
-    else
-        fprintf(file, "%s\n", data);
-
-    fclose(file);
-}
-void copyFile(char* destinationFileName, char* sourceFileName)
-{
-    // Copy source file content into destination file
-    char buffer[500] = { '\0' };
-    FILE* file;
-    errno_t err;
-
-    if ((err = fopen_s(&file, sourceFileName, "r")))
-        exit(true);
-
-    else
-    {
-        resetFile(destinationFileName);
-
-        while (fscanf_s(file, " %[^\n]", buffer, (unsigned)sizeof(buffer)) == 1)
-            writeFile(destinationFileName, buffer);
-    }
-    fclose(file);
-}
-bool doesFileExists(char* fileName)
-{
-    // Checking if the sent file exist and return accordingly
-    struct stat buffer;
-    return stat(fileName, &buffer) == false;
-}
-
-// User Authentication
-void verifyUserId(User* user)
-{
+// User
+void verifyUserId(User *user) {
     // Initialize the user ID till its valid
     // Note: the ID check is according to Israel ID's
-    char userID[100] = { '\0' };
-    bool isIdValid = false;
+    char userID[100] = {'\0'};
+    Bool isIdValid = False;
 
-    while (isIdValid == false)
-    {
-        isIdValid = true;
+    while (isIdValid == False) {
+        isIdValid = True;
 
         printf("User ID -->");
-        scanf_s(" %[^\n]", userID, (unsigned)sizeof(userID));
+        scanf_s(" %[^\n]", userID, (unsigned) sizeof(userID));
 
         IDENTITY = copyString(userID);
 
         long idVal = strtol(userID, NULL, 10);
-        int Digit1 = 0, Digit2 = 0, Digit3 = 0, Digit4 = 0, Digit5 = 0, Digit6 = 0, Digit7 = 0, Digit8 = 0, Digit9 = 0;
+        int digit1 = 0, digit2 = 0, digit3 = 0, digit4 = 0, digit5 = 0, digit6 = 0, digit7 = 0, digit8 = 0, digit9 = 0;
 
-        if (idVal < 10000000 || idVal > 999999999)
-        {
+        if (idVal < 10000000 || idVal > 999999999) {
             printf("Error: User ID Contains Eight To Nine Digits\n");
-            isIdValid = false;
+            isIdValid = False;
         }
 
-        Digit1 = idVal / 100000000 * 1;
-        Digit2 = idVal / 10000000 % 10 * 2;
-        Digit3 = idVal / 1000000 % 10 * 1;
-        Digit4 = idVal / 100000 % 10 * 2;
-        Digit5 = idVal / 10000 % 10 * 1;
-        Digit6 = idVal / 1000 % 10 * 2;
-        Digit7 = idVal / 100 % 10 * 1;
-        Digit8 = idVal / 10 % 10 * 2;
-        Digit9 = idVal % 10;
+        digit1 = idVal / 100000000 * 1;
+        digit2 = idVal / 10000000 % 10 * 2;
+        digit3 = idVal / 1000000 % 10 * 1;
+        digit4 = idVal / 100000 % 10 * 2;
+        digit5 = idVal / 10000 % 10 * 1;
+        digit6 = idVal / 1000 % 10 * 2;
+        digit7 = idVal / 100 % 10 * 1;
+        digit8 = idVal / 10 % 10 * 2;
+        digit9 = idVal % 10;
 
-        if (Digit1 > 9 || Digit2 > 9 || Digit3 > 9 || Digit4 > 9 || Digit5 > 9 || Digit6 > 9 || Digit7 > 9 || Digit8 > 9 || Digit9 > 9)
-        {
-            Digit1 = (Digit1 / 10) + (Digit1 % 10);
-            Digit2 = (Digit2 / 10) + (Digit2 % 10);
-            Digit3 = (Digit3 / 10) + (Digit3 % 10);
-            Digit4 = (Digit4 / 10) + (Digit4 % 10);
-            Digit5 = (Digit5 / 10) + (Digit5 % 10);
-            Digit6 = (Digit6 / 10) + (Digit6 % 10);
-            Digit7 = (Digit7 / 10) + (Digit7 % 10);
-            Digit8 = (Digit8 / 10) + (Digit8 % 10);
-            Digit9 = (Digit9 / 10) + (Digit9 % 10);
+        if (digit1 > 9 || digit2 > 9 || digit3 > 9 || digit4 > 9 || digit5 > 9 || digit6 > 9 || digit7 > 9 ||
+            digit8 > 9 || digit9 > 9) {
+            digit1 = (digit1 / 10) + (digit1 % 10);
+            digit2 = (digit2 / 10) + (digit2 % 10);
+            digit3 = (digit3 / 10) + (digit3 % 10);
+            digit4 = (digit4 / 10) + (digit4 % 10);
+            digit5 = (digit5 / 10) + (digit5 % 10);
+            digit6 = (digit6 / 10) + (digit6 % 10);
+            digit7 = (digit7 / 10) + (digit7 % 10);
+            digit8 = (digit8 / 10) + (digit8 % 10);
+            digit9 = (digit9 / 10) + (digit9 % 10);
         }
 
-        if ((Digit1 + Digit2 + Digit3 + Digit4 + Digit5 + Digit6 + Digit7 + Digit8 + Digit9) % 10 != 0)
-        {
+        if ((digit1 + digit2 + digit3 + digit4 + digit5 + digit6 + digit7 + digit8 + digit9) % 10 != 0) {
             printf("Error: Incorrect ID\n");
-            isIdValid = false;
+            isIdValid = False;
         }
 
-        if (isIdValid == false)
+        if (isIdValid == False)
             printf("\n");
     }
     user->ID = copyString(userID);
 }
-void verifyUserName(User* user)
-{
+void verifyUserName(User *user) {
     // Initialize the username till its valid
-    char userName[100] = { '\0' };
-    bool isNameValid = false;
+    char userName[100] = {'\0'};
+    Bool isNameValid = False;
 
-    while (isNameValid == false)
-    {
-        isNameValid = true;
+    while (isNameValid == False) {
+        isNameValid = True;
 
         printf("User Name -->");
-        scanf_s(" %[^\n]", userName, (unsigned)sizeof(userName));
+        scanf_s(" %[^\n]", userName, (unsigned) sizeof(userName));
 
-        for (int i = 0; i < strlen(userName); i++)
-        {
-            if (((userName[i] >= 'a' && userName[i] <= 'z') || (userName[i] >= 'A' && userName[i] <= 'Z') || userName[i] == ' ') == false)
-            {
+        for (int i = 0; i < strlen(userName); i++) {
+            if (((userName[i] >= 'a' && userName[i] <= 'z') || (userName[i] >= 'A' && userName[i] <= 'Z') ||
+                 userName[i] == ' ') == False) {
                 printf("Error: User Name Contain Only English Alphabet\n\n");
-                isNameValid = false;
+                isNameValid = False;
                 break;
             }
         }
     }
     user->name = copyString(userName);
 }
-void verifyUserPassword(User* user)
-{
+void verifyUserPassword(User *user) {
     // Initialize the user password till its valid
     int lettersCounter = 0;
     int numbersCounter = 0;
-    char userPassword[100] = { '\0' };
-    bool isPasswordValid = false;
+    char userPassword[100] = {'\0'};
+    Bool isPasswordValid = False;
 
-    while (isPasswordValid == false)
-    {
+    while (isPasswordValid == False) {
         lettersCounter = 0;
         numbersCounter = 0;
-        isPasswordValid = true;
+        isPasswordValid = True;
 
         printf("User Password -->");
-        scanf_s(" %[^\n]", userPassword, (unsigned)sizeof(userPassword));
+        scanf_s(" %[^\n]", userPassword, (unsigned) sizeof(userPassword));
 
-        if (strlen(userPassword) < MIN_PASSWORD_LENGTH)
-        {
+        if (strlen(userPassword) < MIN_PASSWORD_LENGTH) {
             printf("Error: User Password Contain At Least Six Characters\n");
-            isPasswordValid = false;
+            isPasswordValid = False;
         }
 
-        for (int i = 0; i < strlen(userPassword); i++)
-        {
-            if ((userPassword[i] >= 'a' && userPassword[i] <= 'z') || (userPassword[i] >= 'A' && userPassword[i] <= 'Z'))
+        for (int i = 0; i < strlen(userPassword); i++) {
+            if ((userPassword[i] >= 'a' && userPassword[i] <= 'z') ||
+                (userPassword[i] >= 'A' && userPassword[i] <= 'Z'))
                 lettersCounter++;
 
             else if (userPassword[i] >= '0' && userPassword[i] <= '9')
                 numbersCounter++;
 
-            else
-            {
+            else {
                 printf("Error: User Password Contain Only English Alphabet And Digits\n");
-                isPasswordValid = false;
+                isPasswordValid = False;
                 break;
             }
         }
 
-        if (lettersCounter < MIN_PASSWORD_LETTERS)
-        {
+        if (lettersCounter < MIN_PASSWORD_LETTERS) {
             printf("Error: User Password Contain At Least One English Alphabet\n");
-            isPasswordValid = false;
+            isPasswordValid = False;
         }
 
-        if (numbersCounter < MIN_PASSWORD_DIGITS)
-        {
+        if (numbersCounter < MIN_PASSWORD_DIGITS) {
             printf("Error: User Password Contain At Least One Digit\n");
-            isPasswordValid = false;
+            isPasswordValid = False;
         }
 
-        if (isPasswordValid == false)
+        if (isPasswordValid == False)
             printf("\n");
     }
     user->password = copyString(userPassword);
 }
-void verifyUserPhone(User* user)
-{
+void verifyUserPhone(User *user) {
     // Initialize the user phone number till its valid
     // Note: the Phone check is according to Israel Phone's
-    char userPhone[100] = { '\0' };
-    bool isPhoneValid = false;
+    char userPhone[100] = {'\0'};
+    Bool isPhoneValid = False;
 
-    while (isPhoneValid == false)
-    {
-        isPhoneValid = true;
+    while (isPhoneValid == False) {
+        isPhoneValid = True;
 
         printf("User Phone -->");
-        scanf_s(" %[^\n]", userPhone, (unsigned)sizeof(userPhone));
+        scanf_s(" %[^\n]", userPhone, (unsigned) sizeof(userPhone));
 
-        for (int i = 0; i < strlen(userPhone); i++)
-        {
-            if (userPhone[i] < '0' || userPhone[i] > '9')
-            {
+        for (int i = 0; i < strlen(userPhone); i++) {
+            if (userPhone[i] < '0' || userPhone[i] > '9') {
                 printf("Error: User Phone Number Contain Only Digits\n");
-                isPhoneValid = false;
+                isPhoneValid = False;
                 break;
             }
 
-            if (strlen(userPhone) != PHONE_LENGTH)
-            {
+            if (strlen(userPhone) != PHONE_LENGTH) {
                 printf("Error: User Phone Number Contain Ten Digits\n");
-                isPhoneValid = false;
+                isPhoneValid = False;
                 break;
             }
         }
 
-        if (isPhoneValid == false)
+        if (isPhoneValid == False)
             printf("\n");
     }
     user->phone = copyString(userPhone);
 }
-void verifyUserAge()
-{
+void verifyUserAge() {
     // Checking the user age, in order to determine if he is allowed to own an account
     printf("User Age -->");
     int userAge = initializeInt();
 
-    if (userAge < MIN_AGE)
-    {
+    if (userAge < MIN_AGE) {
         printf("Error: We Are Sorry, The Minimum User Age Is Sixteen\n");
-        exit(true);
-    }
-
-    else if (userAge > MAX_AGE)
-    {
+        exit(True);
+    } else if (userAge > MAX_AGE) {
         printf("Error: Sorry If You Are Truly %d Years Old You Probably Death, Goodbye\n", userAge);
-        exit(true);
+        exit(True);
     }
 }
-void verifyUserTermsAndConditions()
-{
+void verifyUserTermsAndConditions() {
     // Checking if the user agreed to the system term and condition in order to create an account
     int selection = 0;
 
-    while (selection < 1 || selection > 2)
-    {
+    while (selection < 1 || selection > 2) {
         printf("\n[Terms and Conditions]\n");
         printf("Blah Blah Blah ...\n");
         printf("\nDo You Agree To The Terms And Conditions\n'1' Yes    '2' No\nInput -->");
@@ -382,19 +344,15 @@ void verifyUserTermsAndConditions()
             printf("Error: Invalid Input, Try Between [1 To 2]\n");
     }
 
-    if (selection == 2)
-    {
+    if (selection == 2) {
         printf("Error: We Are Sorry To Hear, Goodbye\n");
-        exit(true);
+        exit(True);
     }
 }
-
-// User
-void registerUser(UserType userType)
-{
+void registerUser(UserType userType) {
     // Register the user to the users system database
-    char buffer[500] = { '\0' };
-    User user = { NULL, NULL, NULL, NULL, 0 };
+    char buffer[500] = {'\0'};
+    User user = {NULL, NULL, NULL, NULL, 0};
 
     printf("\n[User Registration]\n");
     verifyUserId(&user);
@@ -404,19 +362,19 @@ void registerUser(UserType userType)
     verifyUserAge();
     verifyUserTermsAndConditions();
 
-    if (retrieveUserType())
-    {
+    if (retrieveUserType()) {
         printf("Error: User Already Exist In The System\n\n");
         return;
     }
 
-    if (userType == customer)
-        sprintf_s(buffer, (unsigned)sizeof(buffer), "%s,%s,%s,%s,%.2f", user.ID, user.name, user.password, user.phone, 0.0);
+    if (userType == Customer)
+        sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s,%.2f", user.ID, user.name, user.password, user.phone,
+                  0.0);
 
     else
-        sprintf_s(buffer, (unsigned)sizeof(buffer), "%s,%s,%s,%s", user.ID, user.name, user.password, user.phone);
+        sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s", user.ID, user.name, user.password, user.phone);
 
-    writeFile(userType == customer ? FILE_CUSTOMERS : FILE_MANAGERS, buffer);
+    writeFile(userType == Customer ? FILE_CUSTOMERS : FILE_MANAGERS, buffer);
 
 
     printf("\n[Registered User]\n");
@@ -426,11 +384,10 @@ void registerUser(UserType userType)
     printf("Phone --> %s\n", user.phone);
     printf("User Have Been Successfully Registered To The System\n\n");
 }
-void printUserProfile()
-{
+void printUserProfile() {
     // Printing the current logged-in user information
     UserType userType = retrieveUserType();
-    User user = retrieveUser(userType == customer ? FILE_CUSTOMERS : FILE_MANAGERS, userType);
+    User user = retrieveUser(userType == Customer ? FILE_CUSTOMERS : FILE_MANAGERS, userType);
 
     printf("\n[User Information]\n");
     printf("ID --> %s\n", user.ID);
@@ -438,38 +395,36 @@ void printUserProfile()
     printf("Password --> %s\n", user.password);
     printf("Phone --> %s\n", user.phone);
 
-    if (userType == customer)
+    if (userType == Customer)
         printf("Online Shopping Points --> %.2f\n", user.points);
 
     printf("User Information Have Been Successfully Printed\n");
 }
-void updateUserProfile()
-{
+void updateUserProfile() {
     // Updating the user information as he desires
-    char userID[100] = { '\0' };
-    char userName[100] = { '\0' };
-    char userPassword[100] = { '\0' };
-    char userPhone[100] = { '\0' };
-    char userPoints[100] = { '\0' };
-    char buffer[500] = { '\0' };
+    char userID[100] = {'\0'};
+    char userName[100] = {'\0'};
+    char userPassword[100] = {'\0'};
+    char userPhone[100] = {'\0'};
+    char userPoints[100] = {'\0'};
+    char buffer[500] = {'\0'};
     UserType userType = retrieveUserType();
-    User user = { NULL, NULL, NULL, NULL, 0 };
-    FILE* file;
+    User user = {NULL, NULL, NULL, NULL, 0};
+    FILE *file;
     errno_t err;
 
-    if ((err = fopen_s(&file, userType == customer ? FILE_CUSTOMERS : FILE_MANAGERS, "r")))
-        exit(true);
+    if ((err = fopen_s(&file, userType == Customer ? FILE_CUSTOMERS : FILE_MANAGERS, "r")))
+        exit(True);
 
-    else
-    {
+    else {
         resetFile(FILE_TEMP);
 
-        while (fscanf_s(file, " %[^\n]", buffer, (unsigned)sizeof(buffer)) == 1)
-        {
-            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userID, (unsigned)sizeof(userID), userName, (unsigned)sizeof(userName), userPassword, (unsigned)sizeof(userPassword), userPhone, (unsigned)sizeof(userPhone), userPoints, (unsigned)sizeof(userPoints));
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userID, (unsigned) sizeof(userID), userName,
+                     (unsigned) sizeof(userName), userPassword, (unsigned) sizeof(userPassword), userPhone,
+                     (unsigned) sizeof(userPhone), userPoints, (unsigned) sizeof(userPoints));
 
-            if (strcmp(userID, IDENTITY) == 0)
-            {
+            if (strcmp(userID, IDENTITY) == 0) {
                 user.ID = copyString(userID);
                 user.name = copyString(userName);
                 user.password = copyString(userPassword);
@@ -477,17 +432,19 @@ void updateUserProfile()
 
                 userProfileUpdateMenu(&user);
 
-                if (userType == customer)
-                    sprintf_s(buffer, (unsigned)sizeof(buffer), "%s,%s,%s,%s,%s", user.ID, user.name, user.password, user.phone, userPoints);
+                if (userType == Customer)
+                    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s,%s", user.ID, user.name, user.password,
+                              user.phone, userPoints);
 
                 else
-                    sprintf_s(buffer, (unsigned)sizeof(buffer), "%s,%s,%s,%s", user.ID, user.name, user.password, user.phone);
+                    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s", user.ID, user.name, user.password,
+                              user.phone);
             }
             writeFile(FILE_TEMP, buffer);
         }
     }
     fclose(file);
-    copyFile(userType == customer ? FILE_CUSTOMERS : FILE_MANAGERS, FILE_TEMP);
+    copyFile(userType == Customer ? FILE_CUSTOMERS : FILE_MANAGERS, FILE_TEMP);
 
 
     printf("\n[Updated User]\n");
@@ -496,78 +453,73 @@ void updateUserProfile()
     printf("Password --> %s\n", user.password);
     printf("Phone --> %s\n", user.phone);
 
-    if (userType == customer)
+    if (userType == Customer)
         printf("Online Shopping Points --> %.2f\n", user.points);
 
     printf("User Have Been Successfully Updated\n");
 }
-void userLogin()
-{
+void userLogin() {
     // Login the user into the system
-    char userID[100] = { '\0' };
-    char userPassword[100] = { '\0' };
-    bool isLoggedIn = true;
+    char userID[100] = {'\0'};
+    char userPassword[100] = {'\0'};
+    Bool isLoggedIn = True;
 
     printf("\n[User Login]\n");
 
     printf("User ID -->");
-    scanf_s(" %[^\n]", userID, (unsigned)sizeof(userID));
+    scanf_s(" %[^\n]", userID, (unsigned) sizeof(userID));
 
     printf("User Password -->");
-    scanf_s(" %[^\n]", userPassword, (unsigned)sizeof(userPassword));
+    scanf_s(" %[^\n]", userPassword, (unsigned) sizeof(userPassword));
 
     IDENTITY = copyString(userID);
     UserType userType = retrieveUserType();
 
-    if (userType != none)
-    {
-        User user = retrieveUser(userType == customer ? FILE_CUSTOMERS : FILE_MANAGERS, userType);
+    if (userType != None) {
+        User user = retrieveUser(userType == Customer ? FILE_CUSTOMERS : FILE_MANAGERS, userType);
 
-        if (strcmp(userPassword, user.password) == 0)
-        {
+        if (strcmp(userPassword, user.password) == 0) {
             printf("User Have Been Successfully Logged In To The System\n");
 
-            if (userType == customer)
+            if (userType == Customer)
                 customerMenu();
 
             else
                 managerMenu();
-        }
-
-        else
-            isLoggedIn = false;
+        } else
+            isLoggedIn = False;
     }
 
-    if (userType == none || isLoggedIn == false)
+    if (userType == None || isLoggedIn == False)
         printf("Error: Invalid Input, Have Not Found Match Data In Our System\n\n");
 }
-void updateUserPoints(float decreasePoints)
-{
+void updateUserPoints(float decreasePoints) {
     // Updating the user shopping points by decreasing from the sent parameter
-    char userID[100] = { '\0' };
-    char userName[100] = { '\0' };
-    char userPassword[100] = { '\0' };
-    char userPhone[100] = { '\0' };
-    char userPoints[100] = { '\0' };
-    char buffer[500] = { '\0' };
-    FILE* file;
+    char userID[100] = {'\0'};
+    char userName[100] = {'\0'};
+    char userPassword[100] = {'\0'};
+    char userPhone[100] = {'\0'};
+    char userPoints[100] = {'\0'};
+    char buffer[500] = {'\0'};
+    FILE *file;
     errno_t err;
 
     if ((err = fopen_s(&file, FILE_CUSTOMERS, "r")))
-        exit(true);
+        exit(True);
 
-    else
-    {
+    else {
         resetFile(FILE_TEMP);
 
-        while (fscanf_s(file, " %[^\n]", buffer, (unsigned)sizeof(buffer)) == 1)
-        {
-            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userID, (unsigned)sizeof(userID), userName, (unsigned)sizeof(userName), userPassword, (unsigned)sizeof(userPassword), userPhone, (unsigned)sizeof(userPhone), userPoints, (unsigned)sizeof(userPoints));
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userID, (unsigned) sizeof(userID), userName,
+                     (unsigned) sizeof(userName), userPassword, (unsigned) sizeof(userPassword), userPhone,
+                     (unsigned) sizeof(userPhone), userPoints, (unsigned) sizeof(userPoints));
 
-            if (strcmp(userID, IDENTITY) == 0)
-            {
-                printf("\nUser Current Amount Of Online Shopping System --> %.2f\n", convertStringToFloat(userPoints) - decreasePoints);
-                sprintf_s(buffer, (unsigned)sizeof(buffer), "%s,%s,%s,%s,%.2f", userID, userName, userPassword, userPhone, convertStringToFloat(userPoints) - decreasePoints);
+            if (strcmp(userID, IDENTITY) == 0) {
+                printf("\nUser Current Amount Of Online Shopping System --> %.2f\n",
+                       convertStringToFloat(userPoints) - decreasePoints);
+                sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s,%.2f", userID, userName, userPassword,
+                          userPhone, convertStringToFloat(userPoints) - decreasePoints);
             }
             writeFile(FILE_TEMP, buffer);
         }
@@ -588,9 +540,9 @@ User retrieveUser(char *fileName, UserType userType) {
     errno_t err;
 
     if ((err = fopen_s(&file, fileName, "r")))
-        exit(true);
+        exit(True);
 
-    else {
+    else
         while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
             sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userID, (unsigned) sizeof(userID), userName,
                      (unsigned) sizeof(userName), userPassword, (unsigned) sizeof(userPassword), userPhone,
@@ -601,44 +553,44 @@ User retrieveUser(char *fileName, UserType userType) {
                 user.name = copyString(userName);
                 user.password = copyString(userPassword);
                 user.phone = copyString(userPhone);
-                user.points = userType == customer ? convertStringToFloat(userPoints) : 0;
+                user.points = userType == Customer ? convertStringToFloat(userPoints) : 0;
             }
         }
-    }
+
     fclose(file);
     return user;
 }
 UserType retrieveUserType() {
     // Returning the current logged-in user his user type
-    User user = retrieveUser(FILE_CUSTOMERS, customer);
+    User user = retrieveUser(FILE_CUSTOMERS, Customer);
     if (user.ID)
-        return customer;
+        return Customer;
 
-    user = retrieveUser(FILE_MANAGERS, manager);
+    user = retrieveUser(FILE_MANAGERS, Manager);
     if (user.ID)
-        return manager;
+        return Manager;
 
-    return none;
+    return None;
 }
 
 
-// Product Authentication
+// Product
 void verifyProductName(Product *product) {
     // Initialize the product name till its valid
     char productName[100] = {'\0'};
-    bool isNameValid = false;
+    Bool isNameValid = False;
 
-    while (isNameValid == false) {
-        isNameValid = true;
+    while (isNameValid == False) {
+        isNameValid = True;
 
         printf("Product Name -->");
         scanf_s(" %[^\n]", productName, (unsigned) sizeof(productName));
 
         for (int i = 0; i < strlen(productName); i++) {
             if (((productName[i] >= 'a' && productName[i] <= 'z') || (productName[i] >= 'A' && productName[i] <= 'Z') ||
-                 productName[i] == ' ') == false) {
+                 productName[i] == ' ') == False) {
                 printf("Error: Product Name Contain Only English Alphabet\n\n");
-                isNameValid = false;
+                isNameValid = False;
                 break;
             }
         }
@@ -648,19 +600,19 @@ void verifyProductName(Product *product) {
 void verifyProductCompany(Product *product) {
     // Initialize the product company name till its valid
     char productCompany[100] = {'\0'};
-    bool isCompanyValid = false;
+    Bool isCompanyValid = False;
 
-    while (isCompanyValid == false) {
-        isCompanyValid = true;
+    while (isCompanyValid == False) {
+        isCompanyValid = True;
 
         printf("Product Company -->");
         scanf_s(" %[^\n]", productCompany, (unsigned) sizeof(productCompany));
 
         for (int i = 0; i < strlen(productCompany); i++) {
             if (((productCompany[i] >= 'a' && productCompany[i] <= 'z') ||
-                 (productCompany[i] >= 'A' && productCompany[i] <= 'Z') || productCompany[i] == ' ') == false) {
+                 (productCompany[i] >= 'A' && productCompany[i] <= 'Z') || productCompany[i] == ' ') == False) {
                 printf("Error: Product Company Name Contain Only English Alphabet\n\n");
-                isCompanyValid = false;
+                isCompanyValid = False;
                 break;
             }
         }
@@ -670,19 +622,19 @@ void verifyProductCompany(Product *product) {
 void verifyProductCategory(Product *product) {
     // Initialize the product category name till its valid
     char productCategory[100] = {'\0'};
-    bool isCategoryValid = false;
+    Bool isCategoryValid = False;
 
-    while (isCategoryValid == false) {
-        isCategoryValid = true;
+    while (isCategoryValid == False) {
+        isCategoryValid = True;
 
         printf("Product Category -->");
         scanf_s(" %[^\n]", productCategory, (unsigned) sizeof(productCategory));
 
         for (int i = 0; i < strlen(productCategory); i++) {
             if (((productCategory[i] >= 'a' && productCategory[i] <= 'z') ||
-                 (productCategory[i] >= 'A' && productCategory[i] <= 'Z') || productCategory[i] == ' ') == false) {
+                 (productCategory[i] >= 'A' && productCategory[i] <= 'Z') || productCategory[i] == ' ') == False) {
                 printf("Error: Product Category Name Contain Only English Alphabet\n\n");
-                isCategoryValid = false;
+                isCategoryValid = False;
                 break;
             }
         }
@@ -714,34 +666,6 @@ void verifyProductQuantity(Product *product) {
             printf("Error: Product Quantity Must Be Integer Greater Than Zero\n\n");
     }
     product->quantity = productQuantity;
-}
-
-// Product
-bool doesProductExist(char *fileName, char *productName, char *productCompany) {
-    // Checking if the product exist in the catalog system database and return accordingly
-    char nameString[100] = {'\0'};
-    char companyString[100] = {'\0'};
-    char buffer[200] = {'\0'};
-    bool isProductExist = false;
-    FILE *file;
-    errno_t err;
-
-    if ((err = fopen_s(&file, fileName, "r")))
-        exit(true);
-
-    else {
-        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
-            sscanf_s(buffer, " %[^,],%[^,],%*[^,],%*[^,],%*[^,]", nameString, (unsigned) sizeof(nameString),
-                     companyString, (unsigned) sizeof(companyString));
-
-            if (strcmp(nameString, productName) == 0 && strcmp(companyString, productCompany) == 0) {
-                isProductExist = true;
-                break;
-            }
-        }
-    }
-    fclose(file);
-    return isProductExist;
 }
 void addProductToCatalog() {
     // Adding product to the system catalog database
@@ -791,7 +715,7 @@ void deleteProductFromCatalog() {
         return;
 
     if ((err = fopen_s(&file, FILE_CATALOGS, "r")))
-        exit(true);
+        exit(True);
 
     else {
         resetFile(FILE_TEMP);
@@ -836,7 +760,7 @@ void updateProductInCatalog() {
         return;
 
     if ((err = fopen_s(&file, FILE_CATALOGS, "r")))
-        exit(true);
+        exit(True);
 
     else {
         productUpdateMenu(&product);
@@ -867,6 +791,32 @@ void updateProductInCatalog() {
     printf("Price --> %.2f\n", product.price);
     printf("Quantity --> %d\n", product.quantity);
     printf("Product Have Been Successfully Updated In The Catalog\n");
+}
+Bool doesProductExist(char *fileName, char *productName, char *productCompany) {
+    // Checking if the product exist in the catalog system database and return accordingly
+    char nameString[100] = {'\0'};
+    char companyString[100] = {'\0'};
+    char buffer[200] = {'\0'};
+    Bool isProductExist = False;
+    FILE *file;
+    errno_t err;
+
+    if ((err = fopen_s(&file, fileName, "r")))
+        exit(True);
+
+    else {
+        while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
+            sscanf_s(buffer, " %[^,],%[^,],%*[^,],%*[^,],%*[^,]", nameString, (unsigned) sizeof(nameString),
+                     companyString, (unsigned) sizeof(companyString));
+
+            if (strcmp(nameString, productName) == 0 && strcmp(companyString, productCompany) == 0) {
+                isProductExist = True;
+                break;
+            }
+        }
+    }
+    fclose(file);
+    return isProductExist;
 }
 Product selectProduct(Cart cart) {
     // Printing the available catalog, selecting product from it and retrieve the selected product
@@ -900,7 +850,7 @@ Product retrieveProduct(char *nameString, char *companyString) {
     errno_t err;
 
     if ((err = fopen_s(&file, FILE_CATALOGS, "r")))
-        exit(true);
+        exit(True);
 
     else {
         while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
@@ -922,6 +872,8 @@ Product retrieveProduct(char *nameString, char *companyString) {
     fclose(file);
     return product;
 }
+
+
 // Cart
 void addProductToCart(Cart *cart) {
     // Adding product to the user cart
@@ -1052,7 +1004,7 @@ void updateCatalogAfterPurchase(Cart *cart) {
     errno_t err;
 
     if ((err = fopen_s(&file, FILE_CATALOGS, "r")))
-        exit(true);
+        exit(True);
 
     else {
         resetFile(FILE_TEMP);
@@ -1103,7 +1055,7 @@ Cart retrieveRequestedCatalog() {
     errno_t err;
 
     if ((err = fopen_s(&file, FILE_CATALOGS, "r")))
-        exit(true);
+        exit(True);
 
     else {
         catalogFilterMenu(&filterBy, &filterWord);
@@ -1142,23 +1094,24 @@ Cart retrieveRequestedCatalog() {
     return cart;
 }
 
+
 // Delivery
 void verifyCountry() {
     // Initialize the country name till its valid
     char countryName[100] = {'\0'};
-    bool isCountryValid = false;
+    Bool isCountryValid = False;
 
-    while (isCountryValid == false) {
-        isCountryValid = true;
+    while (isCountryValid == False) {
+        isCountryValid = True;
 
         printf("Country Name -->");
         scanf_s(" %[^\n]", countryName, (unsigned) sizeof(countryName));
 
         for (int i = 0; i < strlen(countryName); i++) {
             if (((countryName[i] >= 'a' && countryName[i] <= 'z') || (countryName[i] >= 'A' && countryName[i] <= 'Z') ||
-                 countryName[i] == ' ') == false) {
+                 countryName[i] == ' ') == False) {
                 printf("Error: Country Name Contain Only English Alphabet\n\n");
-                isCountryValid = false;
+                isCountryValid = False;
                 break;
             }
         }
@@ -1167,19 +1120,19 @@ void verifyCountry() {
 void verifyCity() {
     // Initialize the city name till its valid
     char cityName[100] = {'\0'};
-    bool isCityValid = false;
+    Bool isCityValid = False;
 
-    while (isCityValid == false) {
-        isCityValid = true;
+    while (isCityValid == False) {
+        isCityValid = True;
 
         printf("City Name -->");
         scanf_s(" %[^\n]", cityName, (unsigned) sizeof(cityName));
 
         for (int i = 0; i < strlen(cityName); i++) {
             if (((cityName[i] >= 'a' && cityName[i] <= 'z') || (cityName[i] >= 'A' && cityName[i] <= 'Z') ||
-                 cityName[i] == ' ') == false) {
+                 cityName[i] == ' ') == False) {
                 printf("City Name Contain Only English Alphabet\n\n");
-                isCityValid = false;
+                isCityValid = False;
                 break;
             }
         }
@@ -1188,19 +1141,19 @@ void verifyCity() {
 void verifyStreet() {
     // Initialize the street name till its valid
     char streetName[100] = {'\0'};
-    bool isStreetValid = false;
+    Bool isStreetValid = False;
 
-    while (isStreetValid == false) {
-        isStreetValid = true;
+    while (isStreetValid == False) {
+        isStreetValid = True;
 
         printf("Street Name -->");
         scanf_s(" %[^\n]", streetName, (unsigned) sizeof(streetName));
 
         for (int i = 0; i < strlen(streetName); i++) {
             if (((streetName[i] >= 'a' && streetName[i] <= 'z') || (streetName[i] >= 'A' && streetName[i] <= 'Z') ||
-                 streetName[i] == ' ') == false) {
+                 streetName[i] == ' ') == False) {
                 printf("Error: Street Name Contain Only English Alphabet\n\n");
-                isStreetValid = false;
+                isStreetValid = False;
                 break;
             }
         }
@@ -1233,10 +1186,10 @@ void verifyCreditCard() {
     // Initialize the credit card till its valid
     // Note: the credit card checks are according to Israel Credit Card
     char creditCard[100] = {'\0'};
-    bool isCardValid = false;
+    Bool isCardValid = False;
 
-    while (isCardValid == false) {
-        isCardValid = true;
+    while (isCardValid == False) {
+        isCardValid = True;
 
         printf("\nCredit Card -->");
         scanf_s(" %[^\n]", creditCard, (unsigned) sizeof(creditCard));
@@ -1244,14 +1197,14 @@ void verifyCreditCard() {
         for (int i = 0; i < strlen(creditCard); i++) {
             if (creditCard[i] < '0' || creditCard[i] > '9') {
                 printf("Error: Credit Card Contain Only Digits\n");
-                isCardValid = false;
+                isCardValid = False;
                 break;
             }
         }
 
         if (strlen(creditCard) != CREDIT_CARD_LENGTH) {
             printf("Error: Credit Card Must Contain Sixteen Digits\n");
-            isCardValid = false;
+            isCardValid = False;
         }
     }
 }
@@ -1272,13 +1225,13 @@ void verifyCreditCardDate() {
     // Initialize the credit card date till its valid
     int creditCardMonthDate = 0;
     int creditCardYearDate = 0;
-    bool isDateValid = false;
+    Bool isDateValid = False;
     Date currentDate = getCurrentDate();
 
-    while (isDateValid == false) {
+    while (isDateValid == False) {
         creditCardMonthDate = 0;
         creditCardYearDate = 0;
-        isDateValid = true;
+        isDateValid = True;
 
         while (creditCardMonthDate < 1 || creditCardMonthDate > 12) {
             printf("Credit Card Expiration Month -->");
@@ -1300,14 +1253,14 @@ void verifyCreditCardDate() {
         if (currentDate.year == creditCardYearDate) {
             if (currentDate.month >= creditCardMonthDate) {
                 printf("Error: The Credit Card Is Expired\n\n");
-                isDateValid = false;
+                isDateValid = False;
             }
         }
     }
 }
 void paymentProcess(float totalCartPrice) {
     // Process of the payment
-    User user = retrieveUser(FILE_CUSTOMERS, customer);
+    User user = retrieveUser(FILE_CUSTOMERS, Customer);
 
     printf("\n[Payment Process: Total Of --> %.2f]", totalCartPrice);
     verifyCreditCard();
@@ -1353,7 +1306,7 @@ void writeOrderSummary(float totalOrderPrice) {
               totalOrderPrice, currentDate.day, currentDate.month, currentDate.year, "WAITING");
     writeFile(FILE_ORDERS_SUMMARY, buffer);
 }
-void printOrdersSummary(int **ordersHistory, char ***customersID, bool onlyWaitingOrders) {
+void printOrdersSummary(int **ordersHistory, char ***customersID, Bool onlyWaitingOrders) {
     // Printing the summarized of the orders
     int index = 0;
     char orderId[100] = {'\0'};
@@ -1366,7 +1319,7 @@ void printOrdersSummary(int **ordersHistory, char ***customersID, bool onlyWaiti
     errno_t err;
 
     if ((err = fopen_s(&file, FILE_ORDERS_SUMMARY, "r")))
-        exit(true);
+        exit(True);
 
     else {
         *ordersHistory = NULL;
@@ -1377,8 +1330,8 @@ void printOrdersSummary(int **ordersHistory, char ***customersID, bool onlyWaiti
                      (unsigned) sizeof(orderCustomerId), orderPrice, (unsigned) sizeof(orderPrice), orderDate,
                      (unsigned) sizeof(orderDate), orderStatus, (unsigned) sizeof(orderStatus));
 
-            if (onlyWaitingOrders == false || (onlyWaitingOrders && strcmp(orderStatus, "WAITING") == 0)) {
-                if (onlyWaitingOrders == true && index == 0)
+            if (onlyWaitingOrders == False || (onlyWaitingOrders && strcmp(orderStatus, "WAITING") == 0)) {
+                if (onlyWaitingOrders == True && index == 0)
                     printf("%-15s%-15s%-15s%-15s%-15s\n", "Order No.", "Customer ID", "Price", "Date", "Status");
 
                 printf("%-15s%-15s%-15s%-15s%-15s\n", orderId, orderCustomerId, orderPrice, orderDate, orderStatus);
@@ -1395,7 +1348,6 @@ void printOrdersSummary(int **ordersHistory, char ***customersID, bool onlyWaiti
     }
     fclose(file);
 }
-
 void selectOrdersSummary() {
     // Printing the summarized of the orders and selecting one in order to see the full order
     int selection = 0;
@@ -1410,7 +1362,7 @@ void selectOrdersSummary() {
 
     while (selection < 1 || selection > ordersAmount - 1) {
         printf("\n[Orders Summarize]\n");
-        printOrdersSummary(&ordersHistory, &customersID, false);
+        printOrdersSummary(&ordersHistory, &customersID, False);
 
         printf("Select Order -->");
         selection = initializeInt();
@@ -1433,9 +1385,9 @@ void selectOrderConfirmation() {
         return;
     }
 
-    while (true) {
+    while (True) {
         printf("\n[Confirm / Unconfirmed Orders]\n");
-        printOrdersSummary(&waitingConfirmationOrders, &customersID, true);
+        printOrdersSummary(&waitingConfirmationOrders, &customersID, True);
 
         if (waitingConfirmationOrders == NULL) {
             printf("Error: Did Not Had Unconfirmed Orders Yet\n");
@@ -1474,7 +1426,7 @@ void printOrder(int orderNumber, char *orderID) {
     sprintf_s(buffer, (unsigned) sizeof(buffer), "%s%d.csv", FOLDER_DATA_ORDERS, orderNumber);
 
     if ((err = fopen_s(&file, buffer, "r")))
-        exit(true);
+        exit(True);
 
     else {
         while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
@@ -1506,7 +1458,7 @@ void changeOrderStatus(int orderNumber) {
     errno_t err;
 
     if ((err = fopen_s(&file, FILE_ORDERS_SUMMARY, "r")))
-        exit(true);
+        exit(True);
 
     else {
         resetFile(FILE_TEMP);
@@ -1535,7 +1487,7 @@ int getOrderFileName() {
     errno_t err;
 
     if ((err = fopen_s(&file, FILE_ORDERS_SUMMARY, "r")))
-        exit(true);
+        exit(True);
 
     else
         while (fgets(buffer, (unsigned) sizeof(buffer), file))
@@ -1544,6 +1496,8 @@ int getOrderFileName() {
     fclose(file);
     return numberOrder;
 }
+
+
 // Tickets
 void writeTicket() {
     // Saving the ticket in the system history tickets
@@ -1579,7 +1533,7 @@ void writeTicketSummary() {
               currentDate.month, currentDate.year, "WAITING");
     writeFile(FILE_TICKETS_SUMMARY, buffer);
 }
-void printTicketsSummary(int **ticketsHistory, char ***customersID, bool onlyWaitingTickets) {
+void printTicketsSummary(int **ticketsHistory, char ***customersID, Bool onlyWaitingTickets) {
     // Printing the summarized tickets
     int index = 0;
     char ticketId[100] = {'\0'};
@@ -1591,7 +1545,7 @@ void printTicketsSummary(int **ticketsHistory, char ***customersID, bool onlyWai
     errno_t err;
 
     if ((err = fopen_s(&file, FILE_TICKETS_SUMMARY, "r")))
-        exit(true);
+        exit(True);
 
     else {
         *ticketsHistory = NULL;
@@ -1602,8 +1556,8 @@ void printTicketsSummary(int **ticketsHistory, char ***customersID, bool onlyWai
                      (unsigned) sizeof(ticketCustomerId), ticketDate, (unsigned) sizeof(ticketDate), ticketStatus,
                      (unsigned) sizeof(ticketStatus));
 
-            if (onlyWaitingTickets == false || (onlyWaitingTickets && strcmp(ticketStatus, "WAITING") == 0)) {
-                if (onlyWaitingTickets == true && index == 0)
+            if (onlyWaitingTickets == False || (onlyWaitingTickets && strcmp(ticketStatus, "WAITING") == 0)) {
+                if (onlyWaitingTickets == True && index == 0)
                     printf("%-15s%-15s%-15s%-15s\n", "Ticket No.", "Customer ID", "Date", "Status");
 
                 printf("%-15s%-15s%-15s%-15s\n", ticketId, ticketCustomerId, ticketDate, ticketStatus);
@@ -1634,7 +1588,7 @@ void selectTicketsSummary() {
 
     while (selection < 1 || selection > ticketsAmount - 1) {
         printf("\n[Tickets Summarize]\n");
-        printTicketsSummary(&ticketsHistory, &customersID, false);
+        printTicketsSummary(&ticketsHistory, &customersID, False);
 
         printf("Select Ticket -->");
         selection = initializeInt();
@@ -1644,7 +1598,6 @@ void selectTicketsSummary() {
     }
     printTicket(ticketsHistory[selection], customersID[selection]);
 }
-
 void selectTicketConfirmation() {
     // Accepting waiting in queue tickets
     int selection = 0;
@@ -1658,9 +1611,9 @@ void selectTicketConfirmation() {
         return;
     }
 
-    while (true) {
+    while (True) {
         printf("\n[Confirm / Unconfirmed Tickets]\n");
-        printTicketsSummary(&waitingConfirmationTickets, &customersID, true);
+        printTicketsSummary(&waitingConfirmationTickets, &customersID, True);
 
         if (waitingConfirmationTickets == NULL) {
             printf("Error: Did Not Had Unconfirmed Tickets Yet\n");
@@ -1696,7 +1649,7 @@ void printTicket(int ticketNumber, char *ticketID) {
     sprintf_s(buffer, (unsigned) sizeof(buffer), "%s%d.csv", FOLDER_DATA_TICKETS, ticketNumber);
 
     if ((err = fopen_s(&file, buffer, "r")))
-        exit(true);
+        exit(True);
 
     else {
         while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
@@ -1717,7 +1670,7 @@ void changeTicketStatus(int ticketNumber) {
     errno_t err;
 
     if ((err = fopen_s(&file, FILE_TICKETS_SUMMARY, "r")))
-        exit(true);
+        exit(True);
 
     else {
         resetFile(FILE_TEMP);
@@ -1747,7 +1700,7 @@ int getTicketFileName() {
     errno_t err;
 
     if ((err = fopen_s(&file, FILE_TICKETS_SUMMARY, "r")))
-        exit(true);
+        exit(True);
 
     else
         while (fgets(buffer, (unsigned) sizeof(buffer), file))
@@ -1756,6 +1709,7 @@ int getTicketFileName() {
     fclose(file);
     return ticketNumber;
 }
+
 
 // Date
 Date getCurrentDate() {
@@ -1799,7 +1753,7 @@ int calculateDateDiff(Date date) {
 // Menu's
 void systemMenu() {
     // The system menu
-    while (true) {
+    while (True) {
         printf("[Online Shopping System Menu]\n");
         printf("'1' Register    '2' Login    '3' Exit\nInput -->");
 
@@ -1825,7 +1779,7 @@ void systemMenu() {
 }
 void registrationMenu() {
     // The registration menu
-    while (true) {
+    while (True) {
         printf("\n[Register As]\n");
         printf("'1' Customer    '2' Manager    '3' Return\nInput -->");
 
@@ -1833,7 +1787,7 @@ void registrationMenu() {
         int selection = initializeInt();
         switch (selection) {
             case 1:
-                registerUser(customer);
+                registerUser(Customer);
                 return;
 
             case 2:
@@ -1841,7 +1795,7 @@ void registrationMenu() {
                 managerCode = initializeInt();
 
                 if (managerCode == MANAGER_CODE)
-                    registerUser(manager);
+                    registerUser(Manager);
 
                 else
                     printf("Error: Wrong Code, GoodBye\n\n");
@@ -1860,7 +1814,7 @@ void registrationMenu() {
 }
 void userProfileMenu() {
     // The profile menu
-    while (true) {
+    while (True) {
         printf("\n[Profile Menu]\n");
         printf("1' Print User Profile    '2' Update User Profile    '3' Return\nInput -->");
 
@@ -1955,10 +1909,10 @@ void catalogFilterMenu(char **filterBy, char **filterWord) {
 
     if (*filterBy) {
         char insertedFilterWord[100] = {'\0'};
-        bool isFilterWordValid = false;
+        Bool isFilterWordValid = False;
 
-        while (isFilterWordValid == false) {
-            isFilterWordValid = true;
+        while (isFilterWordValid == False) {
+            isFilterWordValid = True;
 
             printf("\n[Filter Word]\n");
 
@@ -1968,9 +1922,9 @@ void catalogFilterMenu(char **filterBy, char **filterWord) {
             for (int i = 0; i < strlen(insertedFilterWord); i++) {
                 if (((insertedFilterWord[i] >= 'a' && insertedFilterWord[i] <= 'z') ||
                      (insertedFilterWord[i] >= 'A' && insertedFilterWord[i] <= 'Z') || insertedFilterWord[i] == ' ') ==
-                    false) {
+                    False) {
                     printf("Error: Filter Contain Only English Alphabet\n");
-                    isFilterWordValid = false;
+                    isFilterWordValid = False;
                     break;
                 }
             }
@@ -1979,8 +1933,8 @@ void catalogFilterMenu(char **filterBy, char **filterWord) {
     }
 }
 void managerMenu() {
-    // The manager menu
-    while (true) {
+    // The Manager menu
+    while (True) {
         printf("\n[Manager Menu]\n");
         printf("'1' Store Menu    '2' Profile Menu    '3' Orders Menu    '4' Revenue Menu    '5' Tickets Menu    '6' Log Out\nInput -->");
 
@@ -2017,8 +1971,8 @@ void managerMenu() {
     }
 }
 void managerStoreMenu() {
-    // The manager store menu
-    while (true) {
+    // The Manager store menu
+    while (True) {
         printf("\n[Manager Store Menu]\n");
         printf("'1' Add Product    '2' Delete Product    '3' Update Product    '4' Return\nInput -->");
 
@@ -2046,13 +2000,13 @@ void managerStoreMenu() {
     }
 }
 void revenueMenu() {
-    // The manager revenue menu
+    // The Manager revenue menu
     if (getOrderFileName() == 1) {
         printf("Error: Did Not Had Orders Yet\n");
         return;
     }
 
-    while (true) {
+    while (True) {
         printf("\n[Revenue Menu]\n");
         printf("'1' Current Day    '2' Last 7 Days    '3' Last 30 Days    '4' Insert Amount    '5' Return\nInput -->");
 
@@ -2093,8 +2047,8 @@ void revenueMenu() {
     }
 }
 void ordersMenu() {
-    // The manager orders menu
-    while (true) {
+    // The Manager orders menu
+    while (True) {
         printf("\n[Orders Menu]\n");
         printf("1' Print Order    '2' Confirm / Unconfirmed Order    '3' Return\nInput -->");
 
@@ -2118,8 +2072,8 @@ void ordersMenu() {
     }
 }
 void ticketsMenu() {
-    // The manager tickets menu
-    while (true) {
+    // The Manager tickets menu
+    while (True) {
         printf("\n[Tickets Menu]\n");
         printf("1' Print Ticket    '2' Confirm / Unconfirmed Ticket    '3' Return\nInput -->");
 
@@ -2143,7 +2097,7 @@ void ticketsMenu() {
     }
 }
 void productUpdateMenu(Product *product) {
-    // The manager product update menu
+    // The Manager product update menu
     int selection = 0;
 
     while (selection < 1 || selection > 2) {
@@ -2162,10 +2116,10 @@ void productUpdateMenu(Product *product) {
         verifyProductQuantity(product);
 }
 void customerMenu() {
-    // The customer menu
+    // The Customer menu
     Cart cart = {0, NULL};
 
-    while (true) {
+    while (True) {
         printf("\n[Customer Menu]\n");
         printf("'1' Store Menu    '2' Profile Menu    '3' Cart Menu    '4' Submit Ticket    '5' Log Out\nInput -->");
 
@@ -2198,8 +2152,8 @@ void customerMenu() {
     }
 }
 void customerStoreMenu(Cart *cart) {
-    // The customer store menu
-    while (true) {
+    // The Customer store menu
+    while (True) {
         printf("\n[Customer Store Menu]\n");
         printf("'1' Add Product    '2' Delete Product    '3' Update Product    '4' Return\nInput -->");
 
@@ -2227,8 +2181,8 @@ void customerStoreMenu(Cart *cart) {
     }
 }
 void cartMenu(Cart *cart) {
-    // The customer Cart menu
-    while (true) {
+    // The Customer Cart menu
+    while (True) {
         printf("\n[Cart Menu]\n");
         printf("'1' Print Cart    '2' Purchase Cart    '3' Return\nInput -->");
 
@@ -2265,7 +2219,7 @@ void printAskedRevenue(int revenueDays) {
     errno_t err;
 
     if ((err = fopen_s(&file, FILE_ORDERS_SUMMARY, "r")))
-        exit(true);
+        exit(True);
 
     else {
         while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
@@ -2287,6 +2241,11 @@ void printAskedRevenue(int revenueDays) {
     }
     fclose(file);
 }
+int main() {
+    checkFolder();
+    checkFiles();
+    systemMenu();
+}
 int selectProductQuantity(Product product) {
     // Selecting product quantity menu
     int productQuantity = 0;
@@ -2301,7 +2260,7 @@ int selectProductQuantity(Product product) {
     return productQuantity;
 }
 int purchaseCartMenu(Cart cart) {
-    // The customer purchase menu
+    // The Customer purchase menu
     int selection = 0;
 
     while (selection < 1 || selection > 2) {
@@ -2316,7 +2275,7 @@ int purchaseCartMenu(Cart cart) {
     return selection;
 }
 float shoppingPointsMenu(User user, float totalPrice) {
-    // The customer shopping points menu
+    // The Customer shopping points menu
     int selection = 0;
     float shoppingPoints = 0;
 
@@ -2341,9 +2300,4 @@ float shoppingPointsMenu(User user, float totalPrice) {
         }
     }
     return shoppingPoints;
-}
-int main() {
-    checkFolder();
-    checkFiles();
-    systemMenu();
 }
