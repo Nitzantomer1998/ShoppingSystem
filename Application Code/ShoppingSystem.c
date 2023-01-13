@@ -2287,3 +2287,16 @@ void printAskedRevenue(int revenueDays) {
     }
     fclose(file);
 }
+int selectProductQuantity(Product product) {
+    // Selecting product quantity menu
+    int productQuantity = 0;
+
+    while (productQuantity < 1 || productQuantity > product.quantity) {
+        printf("Product Quantity -->");
+        productQuantity = initializeInt();
+
+        if (productQuantity < 1 || productQuantity > product.quantity)
+            printf("Error: Invalid Input, Try Between [1 To %d]\n\n", product.quantity);
+    }
+    return productQuantity;
+}
