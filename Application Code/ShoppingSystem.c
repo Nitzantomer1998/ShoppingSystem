@@ -2300,3 +2300,18 @@ int selectProductQuantity(Product product) {
     }
     return productQuantity;
 }
+int purchaseCartMenu(Cart cart) {
+    // The customer purchase menu
+    int selection = 0;
+
+    while (selection < 1 || selection > 2) {
+        printf("\n[Purchase Cart Menu]");
+        printCart(cart);
+        printf("\nAre You Sure You Would Like To Finish Your Order?\n'1' Yes    '2' No\nInput -->");
+        selection = initializeInt();
+
+        if (selection < 1 || selection > 2)
+            printf("Error: Invalid Input, Try Between [1 To 2]\n");
+    }
+    return selection;
+}
