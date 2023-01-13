@@ -188,6 +188,7 @@ void customerStoreMenu(Cart *cart);
 void cartMenu(Cart *cart);
 void printAskedRevenue(int revenueDays);
 int selectProductQuantity(Product product);
+int purchaseCartMenu(Cart cart);
 
 
 #endif
