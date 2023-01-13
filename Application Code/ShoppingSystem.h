@@ -185,6 +185,7 @@ void ticketsMenu();
 void productUpdateMenu(Product *product);
 void customerMenu();
 void customerStoreMenu(Cart *cart);
+void cartMenu(Cart *cart);
 
 
 #endif
