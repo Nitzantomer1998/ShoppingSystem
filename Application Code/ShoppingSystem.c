@@ -2226,3 +2226,28 @@ void customerStoreMenu(Cart *cart) {
         }
     }
 }
+void cartMenu(Cart *cart) {
+    // The customer Cart menu
+    while (true) {
+        printf("\n[Cart Menu]\n");
+        printf("'1' Print Cart    '2' Purchase Cart    '3' Return\nInput -->");
+
+        int selection = initializeInt();
+        switch (selection) {
+            case 1:
+                printCart(*cart);
+                return;
+
+            case 2:
+                purchaseCart(cart);
+                return;
+
+            case 3:
+                return;
+
+            default:
+                printf("Error: Invalid Input, Try Between [1 To 3]\n");
+                break;
+        }
+    }
+}
