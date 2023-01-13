@@ -2142,3 +2142,22 @@ void ticketsMenu() {
         }
     }
 }
+void productUpdateMenu(Product *product) {
+    // The manager product update menu
+    int selection = 0;
+
+    while (selection < 1 || selection > 2) {
+        printf("\n[Product Update Menu]\n");
+        printf("'1' Product Price    '2' Product Quantity\nInput -->");
+        selection = initializeInt();
+
+        if (selection < 1 || selection > 2)
+            printf("Error: Invalid Input, Try Between [1 To 2]\n");
+    }
+
+    if (selection == 1)
+        verifyProductPrice(product);
+
+    else
+        verifyProductQuantity(product);
+}
