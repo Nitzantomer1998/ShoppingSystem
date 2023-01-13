@@ -2161,3 +2161,39 @@ void productUpdateMenu(Product *product) {
     else
         verifyProductQuantity(product);
 }
+void customerMenu() {
+    // The customer menu
+    Cart cart = {0, NULL};
+
+    while (true) {
+        printf("\n[Customer Menu]\n");
+        printf("'1' Store Menu    '2' Profile Menu    '3' Cart Menu    '4' Submit Ticket    '5' Log Out\nInput -->");
+
+        int selection = initializeInt();
+        switch (selection) {
+            case 1:
+                customerStoreMenu(&cart);
+                break;
+
+            case 2:
+                userProfileMenu();
+                break;
+
+            case 3:
+                cartMenu(&cart);
+                break;
+
+            case 4:
+                writeTicket();
+                break;
+
+            case 5:
+                printf("You Have Successfully Logged Out From The System\n\n");
+                return;
+
+            default:
+                printf("Error: Invalid Input, Try Between [1 To 5]\n");
+                break;
+        }
+    }
+}
