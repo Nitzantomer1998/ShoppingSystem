@@ -48,20 +48,16 @@ void checkFiles() {
 void createFolder(char *folderName) {
     // Creating new folder with the sent name
     int ret = mkdir(folderName);
-    if (ret == -1) {
-        printf("Error creating folder %s: %s\n", folderName, strerror(errno));
-        exit(EXIT_FAILURE);
-    }
+    if (ret == -1)
+        exit(True);
 }
 void resetFile(char *fileName) {
     // Reset the sent file
     FILE *file;
     errno_t err;
 
-    if ((err = fopen_s(&file, fileName, "w"))) {
-        printf("Error opening file %s: %s\n", fileName, strerror(err));
-        exit(EXIT_FAILURE);
-    }
+    if ((err = fopen_s(&file, fileName, "w")))
+        exit(True);
 
     fclose(file);
 }
@@ -70,10 +66,10 @@ void writeFile(char *fileName, char *data) {
     FILE *file;
     errno_t err;
 
-    if ((err = fopen_s(&file, fileName, "a+"))) {
-        printf("Error creating file %s: %s\n", fileName, strerror(err));
-        exit(EXIT_FAILURE);
-    } else
+    if ((err = fopen_s(&file, fileName, "a+")))
+        exit(True);
+    
+    else
         fprintf(file, "%s\n", data);
 
     fclose(file);
@@ -84,10 +80,10 @@ void copyFile(char *destinationFileName, char *sourceFileName) {
     FILE *file;
     errno_t err;
 
-    if ((err = fopen_s(&file, sourceFileName, "r"))) {
-        printf("Error creating file %s: %s\n", sourceFileName, strerror(err));
-        exit(EXIT_FAILURE);
-    } else {
+    if ((err = fopen_s(&file, sourceFileName, "r")))
+        exit(True);
+    
+    else {
         resetFile(destinationFileName);
 
         while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1)
@@ -165,26 +161,26 @@ float convertStringToFloat(char *string) {
 }
 
 
-// User
-void verifyUserId(User *user) {
+// sUser
+void verifyUserId(sUser *user) {
     // Initialize the user ID till its valid
     // Note: the ID check is according to Israel ID's
-    char userID[100] = {'\0'};
-    Bool isIdValid = False;
+    char userId[100] = {'\0'};
+    eBool isIdValid = False;
 
     while (isIdValid == False) {
         isIdValid = True;
 
-        printf("User ID -->");
-        scanf_s(" %[^\n]", userID, (unsigned) sizeof(userID));
+        printf("sUser ID -->");
+        scanf_s(" %[^\n]", userId, (unsigned) sizeof(userId));
 
-        IDENTITY = copyString(userID);
+        gIdentity = copyString(userId);
 
-        long idVal = strtol(userID, NULL, 10);
+        long idVal = strtol(userId, NULL, 10);
         int digit1 = 0, digit2 = 0, digit3 = 0, digit4 = 0, digit5 = 0, digit6 = 0, digit7 = 0, digit8 = 0, digit9 = 0;
 
         if (idVal < 10000000 || idVal > 999999999) {
-            printf("Error: User ID Contains Eight To Nine Digits\n");
+            printf("Error: sUser ID Contains Eight To Nine Digits\n");
             isIdValid = False;
         }
 
@@ -219,47 +215,53 @@ void verifyUserId(User *user) {
         if (isIdValid == False)
             printf("\n");
     }
-    user->ID = copyString(userID);
+    if (user->id)
+        free(user->id);
+
+    user->id = copyString(userId);
 }
-void verifyUserName(User *user) {
+void verifyUserName(sUser *user) {
     // Initialize the username till its valid
     char userName[100] = {'\0'};
-    Bool isNameValid = False;
+    eBool isNameValid = False;
 
     while (isNameValid == False) {
         isNameValid = True;
 
-        printf("User Name -->");
+        printf("sUser Name -->");
         scanf_s(" %[^\n]", userName, (unsigned) sizeof(userName));
 
         for (int i = 0; i < strlen(userName); i++) {
             if (((userName[i] >= 'a' && userName[i] <= 'z') || (userName[i] >= 'A' && userName[i] <= 'Z') ||
                  userName[i] == ' ') == False) {
-                printf("Error: User Name Contain Only English Alphabet\n\n");
+                printf("Error: sUser Name Contain Only English Alphabet\n\n");
                 isNameValid = False;
                 break;
             }
         }
     }
+    if (user->name)
+        free(user->name);
+
     user->name = copyString(userName);
 }
-void verifyUserPassword(User *user) {
+void verifyUserPassword(sUser *user) {
     // Initialize the user password till its valid
     int lettersCounter = 0;
     int numbersCounter = 0;
     char userPassword[100] = {'\0'};
-    Bool isPasswordValid = False;
+    eBool isPasswordValid = False;
 
     while (isPasswordValid == False) {
         lettersCounter = 0;
         numbersCounter = 0;
         isPasswordValid = True;
 
-        printf("User Password -->");
+        printf("sUser Password -->");
         scanf_s(" %[^\n]", userPassword, (unsigned) sizeof(userPassword));
 
         if (strlen(userPassword) < MIN_PASSWORD_LENGTH) {
-            printf("Error: User Password Contain At Least Six Characters\n");
+            printf("Error: sUser Password Contain At Least Six Characters\n");
             isPasswordValid = False;
         }
 
@@ -272,48 +274,51 @@ void verifyUserPassword(User *user) {
                 numbersCounter++;
 
             else {
-                printf("Error: User Password Contain Only English Alphabet And Digits\n");
+                printf("Error: sUser Password Contain Only English Alphabet And Digits\n");
                 isPasswordValid = False;
                 break;
             }
         }
 
         if (lettersCounter < MIN_PASSWORD_LETTERS) {
-            printf("Error: User Password Contain At Least One English Alphabet\n");
+            printf("Error: sUser Password Contain At Least One English Alphabet\n");
             isPasswordValid = False;
         }
 
         if (numbersCounter < MIN_PASSWORD_DIGITS) {
-            printf("Error: User Password Contain At Least One Digit\n");
+            printf("Error: sUser Password Contain At Least One Digit\n");
             isPasswordValid = False;
         }
 
         if (isPasswordValid == False)
             printf("\n");
     }
+    if (user->password)
+        free(user->password);
+
     user->password = copyString(userPassword);
 }
-void verifyUserPhone(User *user) {
+void verifyUserPhone(sUser *user) {
     // Initialize the user phone number till its valid
     // Note: the Phone check is according to Israel Phone's
     char userPhone[100] = {'\0'};
-    Bool isPhoneValid = False;
+    eBool isPhoneValid = False;
 
     while (isPhoneValid == False) {
         isPhoneValid = True;
 
-        printf("User Phone -->");
+        printf("sUser Phone -->");
         scanf_s(" %[^\n]", userPhone, (unsigned) sizeof(userPhone));
 
         for (int i = 0; i < strlen(userPhone); i++) {
             if (userPhone[i] < '0' || userPhone[i] > '9') {
-                printf("Error: User Phone Number Contain Only Digits\n");
+                printf("Error: sUser Phone Number Contain Only Digits\n");
                 isPhoneValid = False;
                 break;
             }
 
             if (strlen(userPhone) != PHONE_LENGTH) {
-                printf("Error: User Phone Number Contain Ten Digits\n");
+                printf("Error: sUser Phone Number Contain Ten Digits\n");
                 isPhoneValid = False;
                 break;
             }
@@ -322,15 +327,18 @@ void verifyUserPhone(User *user) {
         if (isPhoneValid == False)
             printf("\n");
     }
+    if (user->phone)
+        free(user->phone);
+
     user->phone = copyString(userPhone);
 }
 void verifyUserAge() {
     // Checking the user age, in order to determine if he is allowed to own an account
-    printf("User Age -->");
+    printf("sUser Age -->");
     int userAge = initializeInt();
 
     if (userAge < MIN_AGE) {
-        printf("Error: We Are Sorry, The Minimum User Age Is Sixteen\n");
+        printf("Error: We Are Sorry, The Minimum sUser Age Is Sixteen\n");
         exit(True);
     } else if (userAge > MAX_AGE) {
         printf("Error: Sorry If You Are Truly %d Years Old You Probably Death, Goodbye\n", userAge);
@@ -356,12 +364,12 @@ void verifyUserTermsAndConditions() {
         exit(True);
     }
 }
-void registerUser(UserType userType) {
+void registerUser(eUserType userType) {
     // Register the user to the users system database
     char buffer[500] = {'\0'};
-    User user = {NULL, NULL, NULL, NULL, 0};
+    sUser user = {NULL, NULL, NULL, NULL, 0};
 
-    printf("\n[User Registration]\n");
+    printf("\n[sUser Registration]\n");
     verifyUserId(&user);
     verifyUserName(&user);
     verifyUserPassword(&user);
@@ -370,34 +378,34 @@ void registerUser(UserType userType) {
     verifyUserTermsAndConditions();
 
     if (retrieveUserType()) {
-        printf("Error: User Already Exist In The System\n\n");
+        printf("Error: sUser Already Exist In The System\n\n");
         return;
     }
 
     if (userType == Customer)
-        sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s,%.2f", user.ID, user.name, user.password, user.phone,
+        sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s,%.2f", user.id, user.name, user.password, user.phone,
                   0.0);
 
     else
-        sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s", user.ID, user.name, user.password, user.phone);
+        sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s", user.id, user.name, user.password, user.phone);
 
     writeFile(userType == Customer ? FILE_CUSTOMERS : FILE_MANAGERS, buffer);
 
 
-    printf("\n[Registered User]\n");
-    printf("ID --> %s\n", user.ID);
+    printf("\n[Registered sUser]\n");
+    printf("ID --> %s\n", user.id);
     printf("Name --> %s\n", user.name);
     printf("Password --> %s\n", user.password);
     printf("Phone --> %s\n", user.phone);
-    printf("User Have Been Successfully Registered To The System\n\n");
+    printf("sUser Have Been Successfully Registered To The System\n\n");
 }
 void printUserProfile() {
     // Printing the current logged-in user information
-    UserType userType = retrieveUserType();
-    User user = retrieveUser(userType == Customer ? FILE_CUSTOMERS : FILE_MANAGERS, userType);
+    eUserType userType = retrieveUserType();
+    sUser user = retrieveUser(userType == Customer ? FILE_CUSTOMERS : FILE_MANAGERS, userType);
 
-    printf("\n[User Information]\n");
-    printf("ID --> %s\n", user.ID);
+    printf("\n[sUser Information]\n");
+    printf("ID --> %s\n", user.id);
     printf("Name --> %s\n", user.name);
     printf("Password --> %s\n", user.password);
     printf("Phone --> %s\n", user.phone);
@@ -405,18 +413,18 @@ void printUserProfile() {
     if (userType == Customer)
         printf("Online Shopping Points --> %.2f\n", user.points);
 
-    printf("User Information Have Been Successfully Printed\n");
+    printf("sUser Information Have Been Successfully Printed\n");
 }
 void updateUserProfile() {
     // Updating the user information as he desires
-    char userID[100] = {'\0'};
+    char userId[100] = {'\0'};
     char userName[100] = {'\0'};
     char userPassword[100] = {'\0'};
     char userPhone[100] = {'\0'};
     char userPoints[100] = {'\0'};
     char buffer[500] = {'\0'};
-    UserType userType = retrieveUserType();
-    User user = {NULL, NULL, NULL, NULL, 0};
+    eUserType userType = retrieveUserType();
+    sUser user = {NULL, NULL, NULL, NULL, 0};
     FILE *file;
     errno_t err;
 
@@ -427,12 +435,12 @@ void updateUserProfile() {
         resetFile(FILE_TEMP);
 
         while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
-            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userID, (unsigned) sizeof(userID), userName,
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userId, (unsigned) sizeof(userId), userName,
                      (unsigned) sizeof(userName), userPassword, (unsigned) sizeof(userPassword), userPhone,
                      (unsigned) sizeof(userPhone), userPoints, (unsigned) sizeof(userPoints));
 
-            if (strcmp(userID, IDENTITY) == 0) {
-                user.ID = copyString(userID);
+            if (strcmp(userId, gIdentity) == 0) {
+                user.id = copyString(userId);
                 user.name = copyString(userName);
                 user.password = copyString(userPassword);
                 user.phone = copyString(userPhone);
@@ -440,11 +448,11 @@ void updateUserProfile() {
                 userProfileUpdateMenu(&user);
 
                 if (userType == Customer)
-                    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s,%s", user.ID, user.name, user.password,
+                    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s,%s", user.id, user.name, user.password,
                               user.phone, userPoints);
 
                 else
-                    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s", user.ID, user.name, user.password,
+                    sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s", user.id, user.name, user.password,
                               user.phone);
             }
             writeFile(FILE_TEMP, buffer);
@@ -454,8 +462,8 @@ void updateUserProfile() {
     copyFile(userType == Customer ? FILE_CUSTOMERS : FILE_MANAGERS, FILE_TEMP);
 
 
-    printf("\n[Updated User]\n");
-    printf("ID --> %s\n", user.ID);
+    printf("\n[Updated sUser]\n");
+    printf("ID --> %s\n", user.id);
     printf("Name --> %s\n", user.name);
     printf("Password --> %s\n", user.password);
     printf("Phone --> %s\n", user.phone);
@@ -463,30 +471,33 @@ void updateUserProfile() {
     if (userType == Customer)
         printf("Online Shopping Points --> %.2f\n", user.points);
 
-    printf("User Have Been Successfully Updated\n");
+    printf("sUser Have Been Successfully Updated\n");
 }
 void userLogin() {
     // Login the user into the system
-    char userID[100] = {'\0'};
+    char userId[100] = {'\0'};
     char userPassword[100] = {'\0'};
-    Bool isLoggedIn = True;
+    eBool isLoggedIn = True;
 
-    printf("\n[User Login]\n");
+    printf("\n[sUser Login]\n");
 
-    printf("User ID -->");
-    scanf_s(" %[^\n]", userID, (unsigned) sizeof(userID));
+    printf("sUser ID -->");
+    scanf_s(" %[^\n]", userId, (unsigned) sizeof(userId));
 
-    printf("User Password -->");
+    printf("sUser Password -->");
     scanf_s(" %[^\n]", userPassword, (unsigned) sizeof(userPassword));
 
-    IDENTITY = copyString(userID);
-    UserType userType = retrieveUserType();
+    if (gIdentity)
+        free(gIdentity);
+    
+    gIdentity = copyString(userId);
+    eUserType userType = retrieveUserType();
 
     if (userType != None) {
-        User user = retrieveUser(userType == Customer ? FILE_CUSTOMERS : FILE_MANAGERS, userType);
+        sUser user = retrieveUser(userType == Customer ? FILE_CUSTOMERS : FILE_MANAGERS, userType);
 
         if (strcmp(userPassword, user.password) == 0) {
-            printf("User Have Been Successfully Logged In To The System\n");
+            printf("sUser Have Been Successfully Logged In To The System\n");
 
             if (userType == Customer)
                 customerMenu();
@@ -502,7 +513,7 @@ void userLogin() {
 }
 void updateUserPoints(float decreasePoints) {
     // Updating the user shopping points by decreasing from the sent parameter
-    char userID[100] = {'\0'};
+    char userId[100] = {'\0'};
     char userName[100] = {'\0'};
     char userPassword[100] = {'\0'};
     char userPhone[100] = {'\0'};
@@ -518,14 +529,14 @@ void updateUserPoints(float decreasePoints) {
         resetFile(FILE_TEMP);
 
         while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
-            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userID, (unsigned) sizeof(userID), userName,
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userId, (unsigned) sizeof(userId), userName,
                      (unsigned) sizeof(userName), userPassword, (unsigned) sizeof(userPassword), userPhone,
                      (unsigned) sizeof(userPhone), userPoints, (unsigned) sizeof(userPoints));
 
-            if (strcmp(userID, IDENTITY) == 0) {
-                printf("\nUser Current Amount Of Online Shopping System --> %.2f\n",
+            if (strcmp(userId, gIdentity) == 0) {
+                printf("\nsUser Current Amount Of Online Shopping System --> %.2f\n",
                        convertStringToFloat(userPoints) - decreasePoints);
-                sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s,%.2f", userID, userName, userPassword,
+                sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s,%.2f", userId, userName, userPassword,
                           userPhone, convertStringToFloat(userPoints) - decreasePoints);
             }
             writeFile(FILE_TEMP, buffer);
@@ -534,15 +545,15 @@ void updateUserPoints(float decreasePoints) {
     fclose(file);
     copyFile(FILE_CUSTOMERS, FILE_TEMP);
 }
-User retrieveUser(char *fileName, UserType userType) {
-    // Returning User with the current logged-in user information
-    char userID[100] = {'\0'};
+sUser retrieveUser(char *fileName, eUserType userType) {
+    // Returning sUser with the current logged-in user information
+    char userId[100] = {'\0'};
     char userName[100] = {'\0'};
     char userPassword[100] = {'\0'};
     char userPhone[100] = {'\0'};
     char userPoints[100] = {'\0'};
     char buffer[500] = {'\0'};
-    User user = {NULL, NULL, NULL, NULL, 0};
+    sUser user = {NULL, NULL, NULL, NULL, 0};
     FILE *file;
     errno_t err;
 
@@ -551,12 +562,12 @@ User retrieveUser(char *fileName, UserType userType) {
 
     else
         while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
-            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userID, (unsigned) sizeof(userID), userName,
+            sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", userId, (unsigned) sizeof(userId), userName,
                      (unsigned) sizeof(userName), userPassword, (unsigned) sizeof(userPassword), userPhone,
                      (unsigned) sizeof(userPhone), userPoints, (unsigned) sizeof(userPoints));
 
-            if (strcmp(userID, IDENTITY) == 0) {
-                user.ID = copyString(userID);
+            if (strcmp(userId, gIdentity) == 0) {
+                user.id = copyString(userId);
                 user.name = copyString(userName);
                 user.password = copyString(userPassword);
                 user.phone = copyString(userPhone);
@@ -567,14 +578,14 @@ User retrieveUser(char *fileName, UserType userType) {
     fclose(file);
     return user;
 }
-UserType retrieveUserType() {
+eUserType retrieveUserType() {
     // Returning the current logged-in user his user type
-    User user = retrieveUser(FILE_CUSTOMERS, Customer);
-    if (user.ID)
+    sUser user = retrieveUser(FILE_CUSTOMERS, Customer);
+    if (user.id)
         return Customer;
 
     user = retrieveUser(FILE_MANAGERS, Manager);
-    if (user.ID)
+    if (user.id)
         return Manager;
 
     return None;
