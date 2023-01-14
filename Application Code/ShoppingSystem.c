@@ -25,6 +25,7 @@ void checkFolder() {
     if (doesFileExists(FOLDER_DATA_TICKETS_SUMMARY) == False)
         createFolder(FOLDER_DATA_TICKETS_SUMMARY);
 }
+
 void checkFiles() {
     // Checking if the files exist, else create them
     if (doesFileExists(FILE_TEMP) == False)
@@ -45,12 +46,14 @@ void checkFiles() {
     if (doesFileExists(FILE_ORDERS_SUMMARY) == False)
         writeFile(FILE_ORDERS_SUMMARY, "Order No.,Customer ID,Total,sDate,Status");
 }
+
 void createFolder(char *folderName) {
     // Creating new folder with the sent name
     int ret = mkdir(folderName);
     if (ret == -1)
         exit(True);
 }
+
 void resetFile(char *fileName) {
     // Reset the sent file
     FILE *file;
@@ -61,6 +64,7 @@ void resetFile(char *fileName) {
 
     fclose(file);
 }
+
 void writeFile(char *fileName, char *data) {
     // Saving the sent data into the desirable file
     FILE *file;
@@ -68,12 +72,13 @@ void writeFile(char *fileName, char *data) {
 
     if ((err = fopen_s(&file, fileName, "a+")))
         exit(True);
-    
+
     else
         fprintf(file, "%s\n", data);
 
     fclose(file);
 }
+
 void copyFile(char *destinationFileName, char *sourceFileName) {
     // Copy source file content into destination file
     char buffer[500] = {'\0'};
@@ -82,7 +87,7 @@ void copyFile(char *destinationFileName, char *sourceFileName) {
 
     if ((err = fopen_s(&file, sourceFileName, "r")))
         exit(True);
-    
+
     else {
         resetFile(destinationFileName);
 
@@ -91,6 +96,7 @@ void copyFile(char *destinationFileName, char *sourceFileName) {
     }
     fclose(file);
 }
+
 eBool doesFileExists(char *fileName) {
     // Checking if the sent file exist and return accordingly
     struct stat buffer;
@@ -110,6 +116,7 @@ char *copyString(char *string) {
     memcpy(memoryAllocateString, string, stringLen + 1);
     return memoryAllocateString;
 }
+
 int initializeInt() {
     // Initialize string from the user and convert it into an Integer
     // Note: if the input isn't an Integer the return value will be -1 ("Failed")
@@ -118,6 +125,7 @@ int initializeInt() {
     scanf_s(" %[^\n]", string, (unsigned) sizeof(string));
     return convertStringToInt(string);
 }
+
 int convertStringToInt(char *string) {
     // Converting the given string into an Integer
     // Note: if the input isn't an Integer the return value will be -1 ("Failed")
@@ -132,6 +140,7 @@ int convertStringToInt(char *string) {
     }
     return sum;
 }
+
 float initializeFloat() {
     // Initialize string from the user and convert it into a Float
     // Note: if the input isn't a Float the return value will be -1 ("Failed")
@@ -140,6 +149,7 @@ float initializeFloat() {
     scanf_s(" %[^\n]", string, (unsigned) sizeof(string));
     return convertStringToFloat(string);
 }
+
 float convertStringToFloat(char *string) {
     // Converting the given string into a Float
     // Note: if the input isn't a Float the return value will be -1 ("Failed")
@@ -220,6 +230,7 @@ void verifyUserId(sUser *user) {
 
     user->id = copyString(userId);
 }
+
 void verifyUserName(sUser *user) {
     // Initialize the username till its valid
     char userName[100] = {'\0'};
@@ -245,6 +256,7 @@ void verifyUserName(sUser *user) {
 
     user->name = copyString(userName);
 }
+
 void verifyUserPassword(sUser *user) {
     // Initialize the user password till its valid
     int lettersCounter = 0;
@@ -298,6 +310,7 @@ void verifyUserPassword(sUser *user) {
 
     user->password = copyString(userPassword);
 }
+
 void verifyUserPhone(sUser *user) {
     // Initialize the user phone number till its valid
     // Note: the Phone check is according to Israel Phone's
@@ -332,6 +345,7 @@ void verifyUserPhone(sUser *user) {
 
     user->phone = copyString(userPhone);
 }
+
 void verifyUserAge() {
     // Checking the user age, in order to determine if he is allowed to own an account
     printf("sUser Age -->");
@@ -345,6 +359,7 @@ void verifyUserAge() {
         exit(True);
     }
 }
+
 void verifyUserTermsAndConditions() {
     // Checking if the user agreed to the system term and condition in order to create an account
     int selection = 0;
@@ -364,6 +379,7 @@ void verifyUserTermsAndConditions() {
         exit(True);
     }
 }
+
 void registerUser(eUserType userType) {
     // Register the user to the users system database
     char buffer[500] = {'\0'};
@@ -399,6 +415,7 @@ void registerUser(eUserType userType) {
     printf("Phone --> %s\n", user.phone);
     printf("sUser Have Been Successfully Registered To The System\n\n");
 }
+
 void printUserProfile() {
     // Printing the current logged-in user information
     eUserType userType = retrieveUserType();
@@ -415,6 +432,7 @@ void printUserProfile() {
 
     printf("sUser Information Have Been Successfully Printed\n");
 }
+
 void updateUserProfile() {
     // Updating the user information as he desires
     char userId[100] = {'\0'};
@@ -473,6 +491,7 @@ void updateUserProfile() {
 
     printf("sUser Have Been Successfully Updated\n");
 }
+
 void userLogin() {
     // Login the user into the system
     char userId[100] = {'\0'};
@@ -489,7 +508,7 @@ void userLogin() {
 
     if (gIdentity)
         free(gIdentity);
-    
+
     gIdentity = copyString(userId);
     eUserType userType = retrieveUserType();
 
@@ -511,6 +530,7 @@ void userLogin() {
     if (userType == None || isLoggedIn == False)
         printf("Error: Invalid Input, Have Not Found Match Data In Our System\n\n");
 }
+
 void updateUserPoints(float decreasePoints) {
     // Updating the user shopping points by decreasing from the sent parameter
     char userId[100] = {'\0'};
@@ -545,6 +565,7 @@ void updateUserPoints(float decreasePoints) {
     fclose(file);
     copyFile(FILE_CUSTOMERS, FILE_TEMP);
 }
+
 sUser retrieveUser(char *fileName, eUserType userType) {
     // Returning sUser with the current logged-in user information
     char userId[100] = {'\0'};
@@ -578,6 +599,7 @@ sUser retrieveUser(char *fileName, eUserType userType) {
     fclose(file);
     return user;
 }
+
 eUserType retrieveUserType() {
     // Returning the current logged-in user his user type
     sUser user = retrieveUser(FILE_CUSTOMERS, Customer);
@@ -592,105 +614,119 @@ eUserType retrieveUserType() {
 }
 
 
-// Product
-void verifyProductName(Product *product) {
+// sProduct
+void verifyProductName(sProduct *product) {
     // Initialize the product name till its valid
     char productName[100] = {'\0'};
-    Bool isNameValid = False;
+    eBool isNameValid = False;
 
     while (isNameValid == False) {
         isNameValid = True;
 
-        printf("Product Name -->");
+        printf("sProduct Name -->");
         scanf_s(" %[^\n]", productName, (unsigned) sizeof(productName));
 
         for (int i = 0; i < strlen(productName); i++) {
             if (((productName[i] >= 'a' && productName[i] <= 'z') || (productName[i] >= 'A' && productName[i] <= 'Z') ||
                  productName[i] == ' ') == False) {
-                printf("Error: Product Name Contain Only English Alphabet\n\n");
+                printf("Error: sProduct Name Contain Only English Alphabet\n\n");
                 isNameValid = False;
                 break;
             }
         }
     }
+    if (product->name)
+        free(product->name);
+
     product->name = copyString(productName);
 }
-void verifyProductCompany(Product *product) {
+
+void verifyProductCompany(sProduct *product) {
     // Initialize the product company name till its valid
     char productCompany[100] = {'\0'};
-    Bool isCompanyValid = False;
+    eBool isCompanyValid = False;
 
     while (isCompanyValid == False) {
         isCompanyValid = True;
 
-        printf("Product Company -->");
+        printf("sProduct Company -->");
         scanf_s(" %[^\n]", productCompany, (unsigned) sizeof(productCompany));
 
         for (int i = 0; i < strlen(productCompany); i++) {
             if (((productCompany[i] >= 'a' && productCompany[i] <= 'z') ||
                  (productCompany[i] >= 'A' && productCompany[i] <= 'Z') || productCompany[i] == ' ') == False) {
-                printf("Error: Product Company Name Contain Only English Alphabet\n\n");
+                printf("Error: sProduct Company Name Contain Only English Alphabet\n\n");
                 isCompanyValid = False;
                 break;
             }
         }
     }
+    if (product->company)
+        free(product->company);
+
     product->company = copyString(productCompany);
 }
-void verifyProductCategory(Product *product) {
+
+void verifyProductCategory(sProduct *product) {
     // Initialize the product category name till its valid
     char productCategory[100] = {'\0'};
-    Bool isCategoryValid = False;
+    eBool isCategoryValid = False;
 
     while (isCategoryValid == False) {
         isCategoryValid = True;
 
-        printf("Product Category -->");
+        printf("sProduct Category -->");
         scanf_s(" %[^\n]", productCategory, (unsigned) sizeof(productCategory));
 
         for (int i = 0; i < strlen(productCategory); i++) {
             if (((productCategory[i] >= 'a' && productCategory[i] <= 'z') ||
                  (productCategory[i] >= 'A' && productCategory[i] <= 'Z') || productCategory[i] == ' ') == False) {
-                printf("Error: Product Category Name Contain Only English Alphabet\n\n");
+                printf("Error: sProduct Category Name Contain Only English Alphabet\n\n");
                 isCategoryValid = False;
                 break;
             }
         }
     }
+    if (product->category)
+        free(product->category);
+
     product->category = copyString(productCategory);
 }
-void verifyProductPrice(Product *product) {
+
+void verifyProductPrice(sProduct *product) {
     // Initialize the product price till its valid
     float productPrice = 0;
 
     while (productPrice <= 0) {
-        printf("Product Price -->");
+        printf("sProduct Price -->");
         productPrice = initializeFloat();
 
         if (productPrice <= 0)
-            printf("Error: Product Price Must Be Greater Than Zero\n\n");
+            printf("Error: sProduct Price Must Be Greater Than Zero\n\n");
     }
     product->price = productPrice;
 }
-void verifyProductQuantity(Product *product) {
+
+void verifyProductQuantity(sProduct *product) {
     // Initialize the product quantity till its valid
     int productQuantity = 0;
 
     while (productQuantity < 1) {
-        printf("Product Quantity -->");
+        printf("sProduct Quantity -->");
         productQuantity = initializeInt();
 
         if (productQuantity < 1)
-            printf("Error: Product Quantity Must Be Integer Greater Than Zero\n\n");
+            printf("Error: sProduct Quantity Must Be Integer Greater Than Zero\n\n");
     }
     product->quantity = productQuantity;
 }
+
 void addProductToCatalog() {
     // Adding product to the system catalog database
     char buffer[500] = {'\0'};
-    Product product = {NULL, NULL, NULL, 0, 0};
+    sProduct product = {NULL, NULL, NULL, 0, 0};
 
-    printf("\n[Adding Product]\n");
+    printf("\n[Adding sProduct]\n");
     verifyProductName(&product);
     verifyProductCompany(&product);
     verifyProductCategory(&product);
@@ -698,7 +734,7 @@ void addProductToCatalog() {
     verifyProductQuantity(&product);
 
     if (doesProductExist(FILE_CATALOGS, product.name, product.company)) {
-        printf("Error: Product Already Exist In The System\n");
+        printf("Error: sProduct Already Exist In The System\n");
         return;
     }
 
@@ -707,14 +743,15 @@ void addProductToCatalog() {
     writeFile(FILE_CATALOGS, buffer);
 
 
-    printf("\n[Added Product]\n");
+    printf("\n[Added sProduct]\n");
     printf("Name --> %s\n", product.name);
     printf("Company --> %s\n", product.company);
     printf("Category --> %s\n", product.category);
     printf("Price --> %.2f\n", product.price);
     printf("Quantity --> %d\n", product.quantity);
-    printf("Product Have Been Successfully Added To The Catalog\n");
+    printf("sProduct Have Been Successfully Added To The Catalog\n");
 }
+
 void deleteProductFromCatalog() {
     // Deleting product from the system catalog database
     char productName[100] = {'\0'};
@@ -723,11 +760,11 @@ void deleteProductFromCatalog() {
     char productPrice[100] = {'\0'};
     char productQuantity[100] = {'\0'};
     char buffer[500] = {'\0'};
-    Product product = {NULL, NULL, NULL, 0, 0};
+    sProduct product = {NULL, NULL, NULL, 0, 0};
     FILE *file;
     errno_t err;
 
-    printf("\n[Deleting Product]");
+    printf("\n[Deleting sProduct]");
     product = selectProduct(retrieveRequestedCatalog());
     if (product.name == NULL)
         return;
@@ -752,14 +789,19 @@ void deleteProductFromCatalog() {
     copyFile(FILE_CATALOGS, FILE_TEMP);
 
 
-    printf("\n[Deleted Product]\n");
+    printf("\n[Deleted sProduct]\n");
     printf("Name --> %s\n", product.name);
     printf("Company --> %s\n", product.company);
     printf("Category --> %s\n", product.category);
     printf("Price --> %.2f\n", product.price);
     printf("Quantity --> %d\n", product.quantity);
-    printf("Product Have Been Successfully Deleted From The Catalog\n");
+    printf("sProduct Have Been Successfully Deleted From The Catalog\n");
+
+    free(product.name);
+    free(product.company);
+    free(product.category);
 }
+
 void updateProductInCatalog() {
     // Updating product from the system catalog database
     char productName[100] = {'\0'};
@@ -768,11 +810,11 @@ void updateProductInCatalog() {
     char productPrice[100] = {'\0'};
     char productQuantity[100] = {'\0'};
     char buffer[500] = {'\0'};
-    Product product = {NULL, NULL, NULL, 0, 0};
+    sProduct product = {NULL, NULL, NULL, 0, 0};
     FILE *file;
     errno_t err;
 
-    printf("\n[Updating Product]");
+    printf("\n[Updating sProduct]");
     product = selectProduct(retrieveRequestedCatalog());
     if (product.name == NULL)
         return;
@@ -802,20 +844,25 @@ void updateProductInCatalog() {
     copyFile(FILE_CATALOGS, FILE_TEMP);
 
 
-    printf("\n[Updated Product]\n");
+    printf("\n[Updated sProduct]\n");
     printf("Name --> %s\n", product.name);
     printf("Company --> %s\n", product.company);
     printf("Category --> %s\n", product.category);
     printf("Price --> %.2f\n", product.price);
     printf("Quantity --> %d\n", product.quantity);
-    printf("Product Have Been Successfully Updated In The Catalog\n");
+    printf("sProduct Have Been Successfully Updated In The Catalog\n");
+
+    free(product.name);
+    free(product.company);
+    free(product.category);
 }
-Bool doesProductExist(char *fileName, char *productName, char *productCompany) {
+
+eBool doesProductExist(char *fileName, char *productName, char *productCompany) {
     // Checking if the product exist in the catalog system database and return accordingly
     char nameString[100] = {'\0'};
     char companyString[100] = {'\0'};
     char buffer[200] = {'\0'};
-    Bool isProductExist = False;
+    eBool isProductExist = False;
     FILE *file;
     errno_t err;
 
@@ -836,18 +883,19 @@ Bool doesProductExist(char *fileName, char *productName, char *productCompany) {
     fclose(file);
     return isProductExist;
 }
-Product selectProduct(Cart cart) {
+
+sProduct selectProduct(sCart cart) {
     // Printing the available catalog, selecting product from it and retrieve the selected product
     if (cart.itemsCounter == 0) {
         printf("Error: There Are No Available Products\n");
-        Product product = {NULL, NULL, NULL, 0, 0};
+        sProduct product = {NULL, NULL, NULL, 0, 0};
         return product;
     }
 
     int selection = 0;
     while (selection < 1 || selection > cart.itemsCounter) {
         printCart(cart);
-        printf("Select Product -->");
+        printf("Select sProduct -->");
         selection = initializeInt();
 
         if (selection < 1 || selection > cart.itemsCounter)
@@ -855,7 +903,8 @@ Product selectProduct(Cart cart) {
     }
     return cart.products[selection - 1];
 }
-Product retrieveProduct(char *nameString, char *companyString) {
+
+sProduct retrieveProduct(char *nameString, char *companyString) {
     // Returning the product that match to the sent data
     char productName[100] = {'\0'};
     char productCompany[100] = {'\0'};
@@ -863,7 +912,7 @@ Product retrieveProduct(char *nameString, char *companyString) {
     char productPrice[100] = {'\0'};
     char productQuantity[100] = {'\0'};
     char buffer[500] = {'\0'};
-    Product product = {NULL, NULL, NULL, 0, 0};
+    sProduct product = {NULL, NULL, NULL, 0, 0};
     FILE *file;
     errno_t err;
 
@@ -892,16 +941,16 @@ Product retrieveProduct(char *nameString, char *companyString) {
 }
 
 
-// Cart
-void addProductToCart(Cart *cart) {
+// sCart
+void addProductToCart(sCart *cart) {
     // Adding product to the user cart
-    printf("\n[Adding Product]");
+    printf("\n[Adding sProduct]");
 
-    Product product = selectProduct(retrieveRequestedCatalog());
+    sProduct product = selectProduct(retrieveRequestedCatalog());
     if (product.name == NULL)
         return;
 
-    cart->products = (Product *) realloc(cart->products, sizeof(Product) * (cart->itemsCounter + 1));
+    cart->products = (sProduct *) realloc(cart->products, sizeof(sProduct) * (cart->itemsCounter + 1));
     cart->products[cart->itemsCounter].name = copyString(product.name);
     cart->products[cart->itemsCounter].company = copyString(product.company);
     cart->products[cart->itemsCounter].category = copyString(product.category);
@@ -910,50 +959,69 @@ void addProductToCart(Cart *cart) {
     cart->itemsCounter++;
 
 
-    printf("\n[Added Product]\n");
+    printf("\n[Added sProduct]\n");
     printf("Name --> %s\n", cart->products[cart->itemsCounter - 1].name);
     printf("Company --> %s\n", cart->products[cart->itemsCounter - 1].company);
     printf("Category --> %s\n", cart->products[cart->itemsCounter - 1].category);
     printf("Price --> %.2f\n", cart->products[cart->itemsCounter - 1].price);
     printf("Quantity --> %d\n", cart->products[cart->itemsCounter - 1].quantity);
-    printf("Product Have Been Successfully Added To The Cart\n");
+    printf("sProduct Have Been Successfully Added To The sCart\n");
 }
-void deleteProductFromCart(Cart *cart) {
-    // Deleting product from the user cart
-    printf("\n[Deleting Product]");
 
-    Product product = selectProduct(*cart);
+void deleteProductFromCart(sCart *cart) {
+    // Deleting product from the user cart
+    printf("\n[Deleting sProduct]");
+
+    sProduct product = selectProduct(*cart);
     if (product.name == NULL)
         return;
 
-    for (int i = 0; i < cart->itemsCounter - 1; i++) {
+    for (int i = 0; i < cart->itemsCounter; i++) {
         if (strcmp(cart->products[i].name, product.name) == 0 &&
             strcmp(cart->products[i].company, product.company) == 0) {
-            cart->products[i].name = copyString(cart->products[cart->itemsCounter - 1].name);
-            cart->products[i].company = copyString(cart->products[cart->itemsCounter - 1].company);
-            cart->products[i].category = copyString(cart->products[cart->itemsCounter - 1].category);
-            cart->products[i].price = cart->products[cart->itemsCounter - 1].price;
-            cart->products[i].quantity = cart->products[cart->itemsCounter - 1].quantity;
+
+            if (i != cart->itemsCounter - 1) {
+                free(cart->products[i].name);
+                free(cart->products[i].company);
+                free(cart->products[i].category);
+
+                cart->products[i].name = copyString(cart->products[cart->itemsCounter - 1].name);
+                cart->products[i].company = copyString(cart->products[cart->itemsCounter - 1].company);
+                cart->products[i].category = copyString(cart->products[cart->itemsCounter - 1].category);
+                cart->products[i].price = cart->products[cart->itemsCounter - 1].price;
+                cart->products[i].quantity = cart->products[cart->itemsCounter - 1].quantity;
+            }
+
+            free(cart->products[cart->itemsCounter - 1].name);
+            free(cart->products[cart->itemsCounter - 1].company);
+            free(cart->products[cart->itemsCounter - 1].category);
+
+            cart->itemsCounter--;
+
+            if (cart->itemsCounter)
+                cart->products = (sProduct *) realloc(cart->products, sizeof(sProduct) * cart->itemsCounter);
+            else
+                cart->products = NULL;
+
             break;
         }
     }
-    cart->itemsCounter--;
-    cart->products = (Product *) realloc(cart->products, sizeof(Product) * cart->itemsCounter);
 
 
-    printf("\n[Deleted Product]\n");
+    printf("\n[Deleted sProduct]\n");
     printf("Name --> %s\n", product.name);
     printf("Company --> %s\n", product.company);
     printf("Category --> %s\n", product.category);
     printf("Price --> %.2f\n", product.price);
     printf("Quantity --> %d\n", product.quantity);
-    printf("Product Have Been Successfully Deleted From The Cart\n");
+    printf("sProduct Have Been Successfully Deleted From The sCart\n");
 }
-void updateProductInCart(Cart *cart) {
-    // Updating product from the user cart
-    printf("\n[Updating Product Quantity]");
 
-    Product product = selectProduct(*cart);
+void updateProductInCart(sCart *cart) {
+    // Updating product from the user cart
+    printf("\n[Updating sProduct Quantity]");
+
+    sProduct product = selectProduct(*cart);
     if (product.name == NULL)
         return;
 
@@ -966,37 +1034,42 @@ void updateProductInCart(Cart *cart) {
         }
     }
 
-
-    printf("\n[Updated Product]\n");
+    printf("\n[Updated sProduct]\n");
     printf("Name --> %s\n", product.name);
     printf("Company --> %s\n", product.company);
     printf("Category --> %s\n", product.category);
     printf("Price --> %.2f\n", product.price);
     printf("Quantity --> %d\n", product.quantity);
-    printf("Product Have Been Successfully Updated In The Cart\n");
+    printf("sProduct Have Been Successfully Updated In The sCart\n");
+
+    free(product.name);
+    free(product.company);
+    free(product.category);
 }
-void printCart(Cart cart) {
+
+void printCart(sCart cart) {
     // Printing the sent cart
-    printf("\n[Available Cart]\n");
+    printf("\n[Available sCart]\n");
 
     if (cart.itemsCounter == 0) {
-        printf("Error: Did Not Found Any Products In The Cart\n");
+        printf("Error: Did Not Found Any Products In The sCart\n");
         return;
     }
 
     for (int i = 0; i < cart.itemsCounter; i++) {
         if (i == 0)
-            printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "Product No.", "Name", "Company", "Category", "Price",
+            printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "sProduct No.", "Name", "Company", "Category", "Price",
                    "Quantity");
 
         printf("%-15d%-15s%-15s%-15s%-15.2f%-15d\n", i + 1, cart.products[i].name, cart.products[i].company,
                cart.products[i].category, cart.products[i].price, cart.products[i].quantity);
     }
 }
-void purchaseCart(Cart *cart) {
+
+void purchaseCart(sCart *cart) {
     // Purchasing the sent user cart
     if (cart->itemsCounter == 0) {
-        printf("Error: There's Noting To Purchase In Your Cart\n");
+        printf("Error: There's Noting To Purchase In Your sCart\n");
         return;
     }
 
@@ -1008,9 +1081,10 @@ void purchaseCart(Cart *cart) {
     writeOrder(cart);
     updateCatalogAfterPurchase(cart);
 
-    printf("You Have Successfully Purchase The Cart\n");
+    printf("You Have Successfully Purchase The sCart\n");
 }
-void updateCatalogAfterPurchase(Cart *cart) {
+
+void updateCatalogAfterPurchase(sCart *cart) {
     // Updating products from the system catalog database after user has made a purchase
     char productName[100] = {'\0'};
     char productCompany[100] = {'\0'};
@@ -1033,15 +1107,37 @@ void updateCatalogAfterPurchase(Cart *cart) {
                      (unsigned) sizeof(productCompany), productPrice, (unsigned) sizeof(productPrice), productQuantity,
                      (unsigned) sizeof(productQuantity));
 
-            for (int i = cart->itemsCounter - 1; i >= 0; i--) {
+            for (int i = 0; i < cart->itemsCounter; i++) {
                 if (strcmp(productName, cart->products[i].name) == 0 &&
                     strcmp(productCompany, cart->products[i].company) == 0) {
                     sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%s,%s,%s,%d", productName, productCompany,
                               productCategory, productPrice,
                               convertStringToInt(productQuantity) - cart->products[i].quantity);
 
+                    if (i != cart->itemsCounter - 1) {
+                        free(cart->products[i].name);
+                        free(cart->products[i].company);
+                        free(cart->products[i].category);
+
+                        cart->products[i].name = copyString(cart->products[cart->itemsCounter - 1].name);
+                        cart->products[i].company = copyString(cart->products[cart->itemsCounter - 1].company);
+                        cart->products[i].category = copyString(cart->products[cart->itemsCounter - 1].category);
+                        cart->products[i].price = cart->products[cart->itemsCounter - 1].price;
+                        cart->products[i].quantity = cart->products[cart->itemsCounter - 1].quantity;
+                    }
+
+                    free(cart->products[cart->itemsCounter - 1].name);
+                    free(cart->products[cart->itemsCounter - 1].company);
+                    free(cart->products[cart->itemsCounter - 1].category);
+
                     cart->itemsCounter--;
-                    cart->products = (Product *) realloc(cart->products, sizeof(Product) * cart->itemsCounter);
+
+                    if (cart->itemsCounter > 0)
+                        cart->products = (sProduct *) realloc(cart->products, sizeof(sProduct) * cart->itemsCounter);
+                    else
+                        cart->products = NULL;
+
+                    break;
                 }
             }
             writeFile(FILE_TEMP, buffer);
@@ -1050,7 +1146,8 @@ void updateCatalogAfterPurchase(Cart *cart) {
     fclose(file);
     copyFile(FILE_CATALOGS, FILE_TEMP);
 }
-float calculateCartTotal(Cart cart) {
+
+float calculateCartTotal(sCart cart) {
     float totalPrice = 0;
 
     for (int i = 0; i < cart.itemsCounter; i++)
@@ -1058,8 +1155,9 @@ float calculateCartTotal(Cart cart) {
 
     return totalPrice;
 }
-Cart retrieveRequestedCatalog() {
-    // Returning Cart full of the items in the system according to the requested filter
+
+sCart retrieveRequestedCatalog() {
+    // Returning sCart full of the items in the system according to the requested filter
     char productName[100] = {'\0'};
     char productCompany[100] = {'\0'};
     char productCategory[100] = {'\0'};
@@ -1068,7 +1166,7 @@ Cart retrieveRequestedCatalog() {
     char buffer[500] = {'\0'};
     char *filterBy = NULL;
     char *filterWord = NULL;
-    Cart cart = {0, NULL};
+    sCart cart = {0, NULL};
     FILE *file;
     errno_t err;
 
@@ -1097,7 +1195,7 @@ Cart retrieveRequestedCatalog() {
 
             if (convertStringToInt(productQuantity) > 0) {
                 if (filterBy == NULL || (filterBy != NULL && strcmp(filterBy, filterWord) == 0)) {
-                    cart.products = (Product *) realloc(cart.products, sizeof(Product) * (cart.itemsCounter + 1));
+                    cart.products = (sProduct *) realloc(cart.products, sizeof(sProduct) * (cart.itemsCounter + 1));
                     cart.products[cart.itemsCounter].name = copyString(productName);
                     cart.products[cart.itemsCounter].company = copyString(productCompany);
                     cart.products[cart.itemsCounter].category = copyString(productCategory);
@@ -1117,7 +1215,7 @@ Cart retrieveRequestedCatalog() {
 void verifyCountry() {
     // Initialize the country name till its valid
     char countryName[100] = {'\0'};
-    Bool isCountryValid = False;
+    eBool isCountryValid = False;
 
     while (isCountryValid == False) {
         isCountryValid = True;
@@ -1135,10 +1233,11 @@ void verifyCountry() {
         }
     }
 }
+
 void verifyCity() {
     // Initialize the city name till its valid
     char cityName[100] = {'\0'};
-    Bool isCityValid = False;
+    eBool isCityValid = False;
 
     while (isCityValid == False) {
         isCityValid = True;
@@ -1156,10 +1255,11 @@ void verifyCity() {
         }
     }
 }
+
 void verifyStreet() {
     // Initialize the street name till its valid
     char streetName[100] = {'\0'};
-    Bool isStreetValid = False;
+    eBool isStreetValid = False;
 
     while (isStreetValid == False) {
         isStreetValid = True;
@@ -1177,6 +1277,7 @@ void verifyStreet() {
         }
     }
 }
+
 void verifyHomeNumber() {
     // Initialize the home number till its valid
     int homeNumber = 0;
@@ -1189,6 +1290,7 @@ void verifyHomeNumber() {
             printf("Error: Invalid Input, Try Between [1 To 500]\n\n");
     }
 }
+
 void deliveryProcess() {
     // Process of the delivery
     printf("\n[Delivery Process]\n");
@@ -1204,7 +1306,7 @@ void verifyCreditCard() {
     // Initialize the credit card till its valid
     // Note: the credit card checks are according to Israel Credit Card
     char creditCard[100] = {'\0'};
-    Bool isCardValid = False;
+    eBool isCardValid = False;
 
     while (isCardValid == False) {
         isCardValid = True;
@@ -1226,25 +1328,27 @@ void verifyCreditCard() {
         }
     }
 }
-void verifyCreditCardCVC() {
+
+void verifyCreditCardCvc() {
     // Initialize the credit card CVC till its valid
-    // Note: the Credit Cart CVC checks are according to Israel Credit Card CVC
-    int creditCardCVC = 0;
+    // Note: the Credit sCart CVC checks are according to Israel Credit Card CVC
+    int creditCardCvc = 0;
 
-    while (creditCardCVC < 100 || creditCardCVC > 999) {
+    while (creditCardCvc < 100 || creditCardCvc > 999) {
         printf("Credit Card CVC -->");
-        creditCardCVC = initializeInt();
+        creditCardCvc = initializeInt();
 
-        if (creditCardCVC < 100 || creditCardCVC > 999)
+        if (creditCardCvc < 100 || creditCardCvc > 999)
             printf("Error: Invalid Input, Try Between [100 To 999]\n\n");
     }
 }
+
 void verifyCreditCardDate() {
     // Initialize the credit card date till its valid
     int creditCardMonthDate = 0;
     int creditCardYearDate = 0;
-    Bool isDateValid = False;
-    Date currentDate = getCurrentDate();
+    eBool isDateValid = False;
+    sDate currentDate = getCurrentDate();
 
     while (isDateValid == False) {
         creditCardMonthDate = 0;
@@ -1276,13 +1380,14 @@ void verifyCreditCardDate() {
         }
     }
 }
+
 void paymentProcess(float totalCartPrice) {
     // Process of the payment
-    User user = retrieveUser(FILE_CUSTOMERS, Customer);
+    sUser user = retrieveUser(FILE_CUSTOMERS, Customer);
 
     printf("\n[Payment Process: Total Of --> %.2f]", totalCartPrice);
     verifyCreditCard();
-    verifyCreditCardCVC();
+    verifyCreditCardCvc();
     verifyCreditCardDate();
 
     updateUserPoints(
@@ -1291,7 +1396,7 @@ void paymentProcess(float totalCartPrice) {
 
 
 // Orders
-void writeOrder(Cart *cart) {
+void writeOrder(sCart *cart) {
     // Saving the purchase order in the system history purchases
     float totalOrderPrice = calculateCartTotal(*cart);
     char fileName[100] = {'\0'};
@@ -1315,16 +1420,18 @@ void writeOrder(Cart *cart) {
     }
     writeOrderSummary(totalOrderPrice);
 }
+
 void writeOrderSummary(float totalOrderPrice) {
     // Saving the purchase order in the summary orders history
     char buffer[500] = {'\0'};
-    Date currentDate = getCurrentDate();
+    sDate currentDate = getCurrentDate();
 
-    sprintf_s(buffer, (unsigned) sizeof(buffer), "%d,%s,%.2f,%d/%d/%d,%s", getOrderFileName(), IDENTITY,
+    sprintf_s(buffer, (unsigned) sizeof(buffer), "%d,%s,%.2f,%d/%d/%d,%s", getOrderFileName(), gIdentity,
               totalOrderPrice, currentDate.day, currentDate.month, currentDate.year, "WAITING");
     writeFile(FILE_ORDERS_SUMMARY, buffer);
 }
-void printOrdersSummary(int **ordersHistory, char ***customersID, Bool onlyWaitingOrders) {
+
+void printOrdersSummary(int **ordersHistory, char ***customersId, eBool onlyWaitingOrders) {
     // Printing the summarized of the orders
     int index = 0;
     char orderId[100] = {'\0'};
@@ -1341,7 +1448,7 @@ void printOrdersSummary(int **ordersHistory, char ***customersID, Bool onlyWaiti
 
     else {
         *ordersHistory = NULL;
-        *customersID = NULL;
+        *customersId = NULL;
 
         while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
             sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,],%[^,]", orderId, (unsigned) sizeof(orderId), orderCustomerId,
@@ -1350,15 +1457,15 @@ void printOrdersSummary(int **ordersHistory, char ***customersID, Bool onlyWaiti
 
             if (onlyWaitingOrders == False || (onlyWaitingOrders && strcmp(orderStatus, "WAITING") == 0)) {
                 if (onlyWaitingOrders == True && index == 0)
-                    printf("%-15s%-15s%-15s%-15s%-15s\n", "Order No.", "Customer ID", "Price", "Date", "Status");
+                    printf("%-15s%-15s%-15s%-15s%-15s\n", "Order No.", "Customer ID", "Price", "sDate", "Status");
 
                 printf("%-15s%-15s%-15s%-15s%-15s\n", orderId, orderCustomerId, orderPrice, orderDate, orderStatus);
 
                 *ordersHistory = (int *) realloc(*ordersHistory, sizeof(int) * (index));
                 (*ordersHistory)[index] = convertStringToInt(orderId);
 
-                *customersID = (char **) realloc(*customersID, sizeof(char *) * (strlen(orderCustomerId) + 1));
-                (*customersID)[index] = copyString(orderCustomerId);
+                *customersId = (char **) realloc(*customersId, sizeof(char *) * (strlen(orderCustomerId) + 1));
+                (*customersId)[index] = copyString(orderCustomerId);
 
                 index++;
             }
@@ -1366,12 +1473,13 @@ void printOrdersSummary(int **ordersHistory, char ***customersID, Bool onlyWaiti
     }
     fclose(file);
 }
+
 void selectOrdersSummary() {
     // Printing the summarized of the orders and selecting one in order to see the full order
     int selection = 0;
     int ordersAmount = getOrderFileName();
     int *ordersHistory = NULL;
-    char **customersID = NULL;
+    char **customersId = NULL;
 
     if (ordersAmount == 1) {
         printf("Error: Did Not Had Orders Yet\n");
@@ -1380,7 +1488,7 @@ void selectOrdersSummary() {
 
     while (selection < 1 || selection > ordersAmount - 1) {
         printf("\n[Orders Summarize]\n");
-        printOrdersSummary(&ordersHistory, &customersID, False);
+        printOrdersSummary(&ordersHistory, &customersId, False);
 
         printf("Select Order -->");
         selection = initializeInt();
@@ -1388,15 +1496,22 @@ void selectOrdersSummary() {
         if (selection < 1 || selection > ordersAmount - 1)
             printf("Error: Invalid Input, Try Between [1 To %d]\n\n", ordersAmount - 1);
     }
-    printOrder(ordersHistory[selection], customersID[selection]);
+    printOrder(ordersHistory[selection], customersId[selection]);
+
+    for (int i = 0; i < ordersAmount - 1; i++) {
+        free(customersId[i]);
+    }
+    free(customersId);
+    free(ordersHistory);
 }
+
 void selectOrderConfirmation() {
     // Manager accepting waiting in queue orders
     int selection = 0;
     int arraySize = 0;
     int intSize = 0;
     int *waitingConfirmationOrders = NULL;
-    char **customersID = NULL;
+    char **customersId = NULL;
 
     if (getOrderFileName() == 1) {
         printf("Error: Did Not Had Orders Yet\n");
@@ -1405,7 +1520,7 @@ void selectOrderConfirmation() {
 
     while (True) {
         printf("\n[Confirm / Unconfirmed Orders]\n");
-        printOrdersSummary(&waitingConfirmationOrders, &customersID, True);
+        printOrdersSummary(&waitingConfirmationOrders, &customersId, True);
 
         if (waitingConfirmationOrders == NULL) {
             printf("Error: Did Not Had Unconfirmed Orders Yet\n");
@@ -1420,17 +1535,24 @@ void selectOrderConfirmation() {
 
         for (int i = 0; i < arraySize / intSize; i++) {
             if (waitingConfirmationOrders[i] == selection) {
-                printOrder(waitingConfirmationOrders[i], customersID[i]);
+                printOrder(waitingConfirmationOrders[i], customersId[i]);
                 changeOrderStatus(waitingConfirmationOrders[i]);
                 return;
             }
         }
         printf("Error: Invalid Input, Try Available Order ID\n\n");
     }
+
+    for (int i = 0; i < arraySize / intSize - 1; i++) {
+        free(customersId[i]);
+    }
+    free(customersId);
+    free(waitingConfirmationOrders);
 }
-void printOrder(int orderNumber, char *orderID) {
+
+void printOrder(int orderNumber, char *orderId) {
     // Printing the order with the sent parameters
-    printf("\n[Order No. --> %d From %s]\n", orderNumber, orderID);
+    printf("\n[Order No. --> %d From %s]\n", orderNumber, orderId);
 
     char productName[100] = {'\0'};
     char productCompany[100] = {'\0'};
@@ -1464,6 +1586,7 @@ void printOrder(int orderNumber, char *orderID) {
     }
     fclose(file);
 }
+
 void changeOrderStatus(int orderNumber) {
     // Confirm the sent order ID
     char orderId[100] = {'\0'};
@@ -1497,6 +1620,7 @@ void changeOrderStatus(int orderNumber) {
 
     printf("Order Has Been Successfully Approved\n");
 }
+
 int getOrderFileName() {
     // Return the number of the current order
     char buffer[500] = {'\0'};
@@ -1527,7 +1651,7 @@ void writeTicket() {
     sprintf_s(fileName, (unsigned) sizeof(fileName), "%s%d.csv", FOLDER_DATA_TICKETS, ticketNumber);
 
     sprintf_s(buffer, (unsigned) sizeof(buffer), "%s,%d\n%s,%s", "Ticket No: ", ticketNumber, "Customer ID: ",
-              IDENTITY);
+              gIdentity);
     writeFile(fileName, buffer);
 
     printf("Ticket Title -->");
@@ -1542,16 +1666,18 @@ void writeTicket() {
 
     writeTicketSummary();
 }
+
 void writeTicketSummary() {
     // Saving the submitted ticket in the summary tickets history
     char buffer[500] = {'\0'};
-    Date currentDate = getCurrentDate();
+    sDate currentDate = getCurrentDate();
 
-    sprintf_s(buffer, (unsigned) sizeof(buffer), "%d,%s,%d/%d/%d,%s", getTicketFileName(), IDENTITY, currentDate.day,
+    sprintf_s(buffer, (unsigned) sizeof(buffer), "%d,%s,%d/%d/%d,%s", getTicketFileName(), gIdentity, currentDate.day,
               currentDate.month, currentDate.year, "WAITING");
     writeFile(FILE_TICKETS_SUMMARY, buffer);
 }
-void printTicketsSummary(int **ticketsHistory, char ***customersID, Bool onlyWaitingTickets) {
+
+void printTicketsSummary(int **ticketsHistory, char ***customersId, eBool onlyWaitingTickets) {
     // Printing the summarized tickets
     int index = 0;
     char ticketId[100] = {'\0'};
@@ -1567,7 +1693,7 @@ void printTicketsSummary(int **ticketsHistory, char ***customersID, Bool onlyWai
 
     else {
         *ticketsHistory = NULL;
-        *customersID = NULL;
+        *customersId = NULL;
 
         while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1) {
             sscanf_s(buffer, " %[^,],%[^,],%[^,],%[^,]", ticketId, (unsigned) sizeof(ticketId), ticketCustomerId,
@@ -1576,15 +1702,15 @@ void printTicketsSummary(int **ticketsHistory, char ***customersID, Bool onlyWai
 
             if (onlyWaitingTickets == False || (onlyWaitingTickets && strcmp(ticketStatus, "WAITING") == 0)) {
                 if (onlyWaitingTickets == True && index == 0)
-                    printf("%-15s%-15s%-15s%-15s\n", "Ticket No.", "Customer ID", "Date", "Status");
+                    printf("%-15s%-15s%-15s%-15s\n", "Ticket No.", "Customer ID", "sDate", "Status");
 
                 printf("%-15s%-15s%-15s%-15s\n", ticketId, ticketCustomerId, ticketDate, ticketStatus);
 
                 *ticketsHistory = (int *) realloc(*ticketsHistory, sizeof(int) * (index));
                 (*ticketsHistory)[index] = convertStringToInt(ticketId);
 
-                *customersID = (char **) realloc(*customersID, sizeof(char *) * (strlen(ticketCustomerId) + 1));
-                (*customersID)[index] = copyString(ticketCustomerId);
+                *customersId = (char **) realloc(*customersId, sizeof(char *) * (strlen(ticketCustomerId) + 1));
+                (*customersId)[index] = copyString(ticketCustomerId);
 
                 index++;
             }
@@ -1592,12 +1718,13 @@ void printTicketsSummary(int **ticketsHistory, char ***customersID, Bool onlyWai
     }
     fclose(file);
 }
+
 void selectTicketsSummary() {
     // Printing the summarized of the tickets and selecting one in order to see the full ticket
     int selection = 0;
     int ticketsAmount = getTicketFileName();
     int *ticketsHistory = NULL;
-    char **customersID = NULL;
+    char **customersId = NULL;
 
     if (ticketsAmount == 1) {
         printf("Error: Did Not Had Tickets Yet\n");
@@ -1606,7 +1733,7 @@ void selectTicketsSummary() {
 
     while (selection < 1 || selection > ticketsAmount - 1) {
         printf("\n[Tickets Summarize]\n");
-        printTicketsSummary(&ticketsHistory, &customersID, False);
+        printTicketsSummary(&ticketsHistory, &customersId, False);
 
         printf("Select Ticket -->");
         selection = initializeInt();
@@ -1614,15 +1741,22 @@ void selectTicketsSummary() {
         if (selection < 1 || selection > ticketsAmount - 1)
             printf("Error: Invalid Input, Try Between [1 To %d]\n", ticketsAmount - 1);
     }
-    printTicket(ticketsHistory[selection], customersID[selection]);
+    printTicket(ticketsHistory[selection], customersId[selection]);
+
+    for (int i = 0; i < ticketsAmount - 1; i++) {
+        free(customersId[i]);
+    }
+    free(customersId);
+    free(ticketsHistory);
 }
+
 void selectTicketConfirmation() {
     // Accepting waiting in queue tickets
     int selection = 0;
     int arraySize = 0;
     int intSize = 0;
     int *waitingConfirmationTickets = NULL;
-    char **customersID = NULL;
+    char **customersId = NULL;
 
     if (getTicketFileName() == 1) {
         printf("Error: Did Not Had Tickets Yet\n");
@@ -1631,7 +1765,7 @@ void selectTicketConfirmation() {
 
     while (True) {
         printf("\n[Confirm / Unconfirmed Tickets]\n");
-        printTicketsSummary(&waitingConfirmationTickets, &customersID, True);
+        printTicketsSummary(&waitingConfirmationTickets, &customersId, True);
 
         if (waitingConfirmationTickets == NULL) {
             printf("Error: Did Not Had Unconfirmed Tickets Yet\n");
@@ -1646,17 +1780,24 @@ void selectTicketConfirmation() {
 
         for (int i = 0; i < arraySize / intSize; i++) {
             if (waitingConfirmationTickets[i] == selection) {
-                printTicket(waitingConfirmationTickets[i], customersID[i]);
+                printTicket(waitingConfirmationTickets[i], customersId[i]);
                 changeTicketStatus(waitingConfirmationTickets[i]);
                 return;
             }
         }
         printf("Error: Invalid Input, Try Available Ticket ID\n");
     }
+
+    for (int i = 0; i < arraySize / intSize; i++) {
+        free(customersId[i]);
+    }
+    free(customersId);
+    free(waitingConfirmationTickets);
 }
-void printTicket(int ticketNumber, char *ticketID) {
+
+void printTicket(int ticketNumber, char *ticketId) {
     // Printing the ticket with the sent parameters
-    printf("\n[Ticket No. --> %d From %s]\n", ticketNumber, ticketID);
+    printf("\n[Ticket No. --> %d From %s]\n", ticketNumber, ticketId);
 
     char title[500] = {'\0'};
     char submit[500] = {'\0'};
@@ -1677,6 +1818,7 @@ void printTicket(int ticketNumber, char *ticketID) {
     }
     fclose(file);
 }
+
 void changeTicketStatus(int ticketNumber) {
     // Confirm the sent ticket ID
     char ticketId[100] = {'\0'};
@@ -1710,6 +1852,7 @@ void changeTicketStatus(int ticketNumber) {
 
     printf("Ticket Has Been Successfully Approved\n");
 }
+
 int getTicketFileName() {
     // Return the number of the current ticket
     char buffer[500] = {'\0'};
@@ -1729,8 +1872,8 @@ int getTicketFileName() {
 }
 
 
-// Date
-Date getCurrentDate() {
+// sDate
+sDate getCurrentDate() {
     // Getting the date of the current day (Today)
     char dayString[100] = {'\0'};
     char monthString[100] = {'\0'};
@@ -1738,7 +1881,7 @@ Date getCurrentDate() {
     char strDate[100];
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
-    Date date = {0, 0, 0};
+    sDate date = {0, 0, 0};
 
     strftime(strDate, sizeof(strDate), "%d %m %Y", tm);
     sscanf_s(strDate, " %s %s %s", dayString, (unsigned) sizeof(dayString), monthString, (unsigned) sizeof(monthString),
@@ -1749,12 +1892,13 @@ Date getCurrentDate() {
     date.year = convertStringToInt(yearString);
     return date;
 }
-int calculateDateDiff(Date date) {
+
+int calculateDateDiff(sDate date) {
     // Returning the amount of days between the current date and the received one
     int currentDateInDays = 0;
     int dateInDays = 0;
     int daysInEveryMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    Date currentDate = getCurrentDate();
+    sDate currentDate = getCurrentDate();
 
     currentDateInDays = currentDate.year * 365 + currentDate.day;
     for (int i = 0; i < currentDate.month; i++)
@@ -1795,6 +1939,7 @@ void systemMenu() {
         }
     }
 }
+
 void registrationMenu() {
     // The registration menu
     while (True) {
@@ -1830,11 +1975,12 @@ void registrationMenu() {
         }
     }
 }
+
 void userProfileMenu() {
     // The profile menu
     while (True) {
         printf("\n[Profile Menu]\n");
-        printf("1' Print User Profile    '2' Update User Profile    '3' Return\nInput -->");
+        printf("1' Print sUser Profile    '2' Update sUser Profile    '3' Return\nInput -->");
 
         int selection = initializeInt();
         switch (selection) {
@@ -1855,33 +2001,34 @@ void userProfileMenu() {
         }
     }
 }
-void userProfileUpdateMenu(User *user) {
+
+void userProfileUpdateMenu(sUser *user) {
     // The update profile menu
     int selection = 0;
 
     while (selection < 1 || selection > 5) {
-        printf("\n[User Profile Update Menu]\n");
-        printf("'1' User ID    '2' User Name    '3' User Password    '4' User Phone    '5' Return\nInput -->");
+        printf("\n[sUser Profile Update Menu]\n");
+        printf("'1' sUser ID    '2' sUser Name    '3' sUser Password    '4' sUser Phone    '5' Return\nInput -->");
 
         selection = initializeInt();
         switch (selection) {
             case 1:
-                printf("\n[User ID Update]\n");
+                printf("\n[sUser ID Update]\n");
                 verifyUserId(user);
                 break;
 
             case 2:
-                printf("\n[User Name Update]\n");
+                printf("\n[sUser Name Update]\n");
                 verifyUserName(user);
                 break;
 
             case 3:
-                printf("\n[User Password Update]\n");
+                printf("\n[sUser Password Update]\n");
                 verifyUserPassword(user);
                 break;
 
             case 4:
-                printf("\n[User Phone Update]\n");
+                printf("\n[sUser Phone Update]\n");
                 verifyUserPhone(user);
                 break;
 
@@ -1894,6 +2041,7 @@ void userProfileUpdateMenu(User *user) {
         }
     }
 }
+
 void catalogFilterMenu(char **filterBy, char **filterWord) {
     // The filter catalog menu
     int selection = 0;
@@ -1927,7 +2075,7 @@ void catalogFilterMenu(char **filterBy, char **filterWord) {
 
     if (*filterBy) {
         char insertedFilterWord[100] = {'\0'};
-        Bool isFilterWordValid = False;
+        eBool isFilterWordValid = False;
 
         while (isFilterWordValid == False) {
             isFilterWordValid = True;
@@ -1950,6 +2098,7 @@ void catalogFilterMenu(char **filterBy, char **filterWord) {
         *filterWord = copyString(insertedFilterWord);
     }
 }
+
 void managerMenu() {
     // The Manager menu
     while (True) {
@@ -1988,11 +2137,12 @@ void managerMenu() {
         }
     }
 }
+
 void managerStoreMenu() {
     // The Manager store menu
     while (True) {
         printf("\n[Manager Store Menu]\n");
-        printf("'1' Add Product    '2' Delete Product    '3' Update Product    '4' Return\nInput -->");
+        printf("'1' Add sProduct    '2' Delete sProduct    '3' Update sProduct    '4' Return\nInput -->");
 
         int selection = initializeInt();
         switch (selection) {
@@ -2017,6 +2167,7 @@ void managerStoreMenu() {
         }
     }
 }
+
 void revenueMenu() {
     // The Manager revenue menu
     if (getOrderFileName() == 1) {
@@ -2064,6 +2215,7 @@ void revenueMenu() {
         }
     }
 }
+
 void ordersMenu() {
     // The Manager orders menu
     while (True) {
@@ -2089,6 +2241,7 @@ void ordersMenu() {
         }
     }
 }
+
 void ticketsMenu() {
     // The Manager tickets menu
     while (True) {
@@ -2114,13 +2267,14 @@ void ticketsMenu() {
         }
     }
 }
-void productUpdateMenu(Product *product) {
+
+void productUpdateMenu(sProduct *product) {
     // The Manager product update menu
     int selection = 0;
 
     while (selection < 1 || selection > 2) {
-        printf("\n[Product Update Menu]\n");
-        printf("'1' Product Price    '2' Product Quantity\nInput -->");
+        printf("\n[sProduct Update Menu]\n");
+        printf("'1' sProduct Price    '2' sProduct Quantity\nInput -->");
         selection = initializeInt();
 
         if (selection < 1 || selection > 2)
@@ -2133,13 +2287,14 @@ void productUpdateMenu(Product *product) {
     else
         verifyProductQuantity(product);
 }
+
 void customerMenu() {
     // The Customer menu
-    Cart cart = {0, NULL};
+    sCart cart = {0, NULL};
 
     while (True) {
         printf("\n[Customer Menu]\n");
-        printf("'1' Store Menu    '2' Profile Menu    '3' Cart Menu    '4' Submit Ticket    '5' Log Out\nInput -->");
+        printf("'1' Store Menu    '2' Profile Menu    '3' sCart Menu    '4' Submit Ticket    '5' Log Out\nInput -->");
 
         int selection = initializeInt();
         switch (selection) {
@@ -2161,6 +2316,18 @@ void customerMenu() {
 
             case 5:
                 printf("You Have Successfully Logged Out From The System\n\n");
+
+                for (int i = cart.itemsCounter - 1; i >= 0; i--) {
+                    free(cart.products[i].name);
+                    free(cart.products[i].company);
+                    free(cart.products[i].category);
+
+                    cart.itemsCounter--;
+                    if (cart.itemsCounter)
+                        cart.products = (sProduct *) realloc(cart.products, sizeof(sProduct) * cart.itemsCounter);
+                    else
+                        cart.products = NULL;
+                }
                 return;
 
             default:
@@ -2169,11 +2336,12 @@ void customerMenu() {
         }
     }
 }
-void customerStoreMenu(Cart *cart) {
+
+void customerStoreMenu(sCart *cart) {
     // The Customer store menu
     while (True) {
         printf("\n[Customer Store Menu]\n");
-        printf("'1' Add Product    '2' Delete Product    '3' Update Product    '4' Return\nInput -->");
+        printf("'1' Add sProduct    '2' Delete sProduct    '3' Update sProduct    '4' Return\nInput -->");
 
         int selection = initializeInt();
         switch (selection) {
@@ -2198,11 +2366,12 @@ void customerStoreMenu(Cart *cart) {
         }
     }
 }
-void cartMenu(Cart *cart) {
-    // The Customer Cart menu
+
+void cartMenu(sCart *cart) {
+    // The Customer sCart menu
     while (True) {
-        printf("\n[Cart Menu]\n");
-        printf("'1' Print Cart    '2' Purchase Cart    '3' Return\nInput -->");
+        printf("\n[sCart Menu]\n");
+        printf("'1' Print sCart    '2' Purchase sCart    '3' Return\nInput -->");
 
         int selection = initializeInt();
         switch (selection) {
@@ -2223,6 +2392,7 @@ void cartMenu(Cart *cart) {
         }
     }
 }
+
 void printAskedRevenue(int revenueDays) {
     // Printing the system revenue in the sent amount of days
     int ordersCounter = 0;
@@ -2245,8 +2415,8 @@ void printAskedRevenue(int revenueDays) {
                      (unsigned) sizeof(priceString), dayString, (unsigned) sizeof(dayString), monthString,
                      (unsigned) sizeof(monthString), yearString, (unsigned) sizeof(yearString));
 
-            Date orderDate = {convertStringToInt(dayString), convertStringToInt(monthString),
-                              convertStringToInt(yearString)};
+            sDate orderDate = {convertStringToInt(dayString), convertStringToInt(monthString),
+                               convertStringToInt(yearString)};
             totalPrice = convertStringToFloat(priceString);
 
             if (calculateDateDiff(orderDate) <= revenueDays) {
@@ -2259,17 +2429,19 @@ void printAskedRevenue(int revenueDays) {
     }
     fclose(file);
 }
+
 int main() {
     checkFolder();
     checkFiles();
     systemMenu();
 }
-int selectProductQuantity(Product product) {
+
+int selectProductQuantity(sProduct product) {
     // Selecting product quantity menu
     int productQuantity = 0;
 
     while (productQuantity < 1 || productQuantity > product.quantity) {
-        printf("Product Quantity -->");
+        printf("sProduct Quantity -->");
         productQuantity = initializeInt();
 
         if (productQuantity < 1 || productQuantity > product.quantity)
@@ -2277,12 +2449,13 @@ int selectProductQuantity(Product product) {
     }
     return productQuantity;
 }
-int purchaseCartMenu(Cart cart) {
+
+int purchaseCartMenu(sCart cart) {
     // The Customer purchase menu
     int selection = 0;
 
     while (selection < 1 || selection > 2) {
-        printf("\n[Purchase Cart Menu]");
+        printf("\n[Purchase sCart Menu]");
         printCart(cart);
         printf("\nAre You Sure You Would Like To Finish Your Order?\n'1' Yes    '2' No\nInput -->");
         selection = initializeInt();
@@ -2292,7 +2465,8 @@ int purchaseCartMenu(Cart cart) {
     }
     return selection;
 }
-float shoppingPointsMenu(User user, float totalPrice) {
+
+float shoppingPointsMenu(sUser user, float totalPrice) {
     // The Customer shopping points menu
     int selection = 0;
     float shoppingPoints = 0;
