@@ -15,7 +15,7 @@
 <ol>
   <li>Clone or download the repository to your local machine</li>
 <pre>
-$ git clone https://github.com/username/repo.git
+$ git clone https://github.com/Nitzantomer1998/ShoppingSystem.git
 </pre>
   <li>Open the project in CLion IDE</li>
   <li>Build and run the program</li>
@@ -49,7 +49,7 @@ $ git clone https://github.com/username/repo.git
 </ul>
 
 <h2>Support</h2>
-<p>For any questions or issues, please open an issue on the GitHub repository or contact the developer directly.</p>
+<p>For any questions or issues, please open an issue on the GitHub repository or contact the me directly.</p>
 
 <h2> Contributing </h2>
 <p>We welcome contributions from the community. If you are interested in contributing to this project, please follow these guidelines:</p>
