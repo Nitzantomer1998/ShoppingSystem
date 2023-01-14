@@ -58,8 +58,10 @@ void resetFile(char *fileName) {
     FILE *file;
     errno_t err;
 
-    if ((err = fopen_s(&file, fileName, "w")))
-        exit(True);
+    if ((err = fopen_s(&file, fileName, "w"))) {
+        printf("Error opening file %s: %s\n", fileName, strerror(err));
+        exit(EXIT_FAILURE);
+    }
 
     fclose(file);
 }
@@ -82,10 +84,10 @@ void copyFile(char *destinationFileName, char *sourceFileName) {
     FILE *file;
     errno_t err;
 
-    if ((err = fopen_s(&file, sourceFileName, "r")))
-        exit(True);
-
-    else {
+    if ((err = fopen_s(&file, sourceFileName, "r"))) {
+        printf("Error creating file %s: %s\n", sourceFileName, strerror(err));
+        exit(EXIT_FAILURE);
+    } else {
         resetFile(destinationFileName);
 
         while (fscanf_s(file, " %[^\n]", buffer, (unsigned) sizeof(buffer)) == 1)
