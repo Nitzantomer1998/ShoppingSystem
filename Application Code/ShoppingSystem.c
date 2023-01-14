@@ -40,15 +40,18 @@ void checkFiles() {
         writeFile(FILE_CATALOGS, "Name,Company,Category,Price,Quantity");
 
     if (doesFileExists(FILE_TICKETS_SUMMARY) == False)
-        writeFile(FILE_TICKETS_SUMMARY, "Ticket No.,Customer ID,Date,Status");
+        writeFile(FILE_TICKETS_SUMMARY, "Ticket No.,Customer ID,sDate,Status");
 
     if (doesFileExists(FILE_ORDERS_SUMMARY) == False)
-        writeFile(FILE_ORDERS_SUMMARY, "Order No.,Customer ID,Total,Date,Status");
+        writeFile(FILE_ORDERS_SUMMARY, "Order No.,Customer ID,Total,sDate,Status");
 }
 void createFolder(char *folderName) {
     // Creating new folder with the sent name
-    if (mkdir(folderName))
-        exit(True);
+    int ret = mkdir(folderName);
+    if (ret == -1) {
+        printf("Error creating folder %s: %s\n", folderName, strerror(errno));
+        exit(EXIT_FAILURE);
+    }
 }
 void resetFile(char *fileName) {
     // Reset the sent file
@@ -65,10 +68,10 @@ void writeFile(char *fileName, char *data) {
     FILE *file;
     errno_t err;
 
-    if ((err = fopen_s(&file, fileName, "a+")))
-        exit(True);
-
-    else
+    if ((err = fopen_s(&file, fileName, "a+"))) {
+        printf("Error creating file %s: %s\n", fileName, strerror(err));
+        exit(EXIT_FAILURE);
+    } else
         fprintf(file, "%s\n", data);
 
     fclose(file);
@@ -90,7 +93,7 @@ void copyFile(char *destinationFileName, char *sourceFileName) {
     }
     fclose(file);
 }
-Bool doesFileExists(char *fileName) {
+eBool doesFileExists(char *fileName) {
     // Checking if the sent file exist and return accordingly
     struct stat buffer;
     return stat(fileName, &buffer) == False;
