@@ -104,12 +104,14 @@ eBool doesFileExists(char *fileName) {
 
 // Strings
 char *copyString(char *string) {
+    if (string == NULL) return NULL;
     // Allocates the given string into a new string with initialized needed size of memory
-    char *memoryAllocateString = (char *) malloc(sizeof(char) * (strlen(string) + 1));
+    size_t stringLen = strlen(string);
+    char *memoryAllocateString = (char *) malloc(sizeof(char) * (stringLen + 1));
     if (memoryAllocateString == NULL)
-        exit(True);
+        return NULL;
 
-    strcpy_s(memoryAllocateString, strlen(string) + 1, string);
+    memcpy(memoryAllocateString, string, stringLen + 1);
     return memoryAllocateString;
 }
 int initializeInt() {
