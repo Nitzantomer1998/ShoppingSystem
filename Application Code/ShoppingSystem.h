@@ -11,22 +11,22 @@
 
 
 // Folders
-#define FOLDER_DATA "Data\\"
-#define FOLDER_DATA_USERS "Data\\Users\\"
-#define FOLDER_DATA_ORDERS "Data\\Orders\\"
-#define FOLDER_DATA_TICKETS "Data\\Tickets\\"
-#define FOLDER_DATA_CATALOGS "Data\\Catalogs\\"
-#define FOLDER_DATA_ORDERS_SUMMARY "Data\\Orders\\Summary\\"
-#define FOLDER_DATA_TICKETS_SUMMARY "Data\\Tickets\\Summary\\"
+#define FOLDER_DATA "..\\Data\\"
+#define FOLDER_DATA_USERS "..\\Data\\Users\\"
+#define FOLDER_DATA_ORDERS "..\\Data\\Orders\\"
+#define FOLDER_DATA_TICKETS "..\\Data\\Tickets\\"
+#define FOLDER_DATA_CATALOGS "..\\Data\\Catalogs\\"
+#define FOLDER_DATA_ORDERS_SUMMARY "..\\Data\\orders\\Summary\\"
+#define FOLDER_DATA_TICKETS_SUMMARY "..\\Data\\Tickets\\Summary\\"
 
 
 // Files
-#define FILE_TEMP "Data\\Temp.csv"
-#define FILE_MANAGERS "Data\\Users\\Managers.csv"
-#define FILE_CUSTOMERS "Data\\Users\\Customers.csv"
-#define FILE_CATALOGS "Data\\Catalogs\\Catalog.csv"
-#define FILE_ORDERS_SUMMARY "Data\\Orders\\Summary\\OrdersSummary.csv"
-#define FILE_TICKETS_SUMMARY "Data\\Tickets\\Summary\\TicketsSummary.csv"
+#define FILE_TEMP "..\\Data\\Temp.csv"
+#define FILE_MANAGERS "..\\Data\\Users\\Managers.csv"
+#define FILE_CUSTOMERS "..\\Data\\Users\\Customers.csv"
+#define FILE_CATALOGS "..\\Data\\Catalogs\\Catalog.csv"
+#define FILE_ORDERS_SUMMARY "..\\Data\\Orders\\Summary\\OrdersSummary.csv"
+#define FILE_TICKETS_SUMMARY "..\\Data\\Tickets\\Summary\\TicketsSummary.csv"
 
 
 // Constants
@@ -44,40 +44,40 @@
 // Enums
 typedef enum {
     False, True
-} Bool;
+} eBool;
 typedef enum {
     None, Customer, Manager
-} UserType;
+} eUserType;
 
 
 // Structs
-typedef struct User {
-    char *ID;
+typedef struct {
+    char *id;
     char *name;
     char *password;
     char *phone;
     float points;
-} User;
-typedef struct Product {
+} sUser;
+typedef struct {
     char *name;
     char *company;
     char *category;
     float price;
     int quantity;
-} Product;
-typedef struct Cart {
+} sProduct;
+typedef struct {
     int itemsCounter;
-    Product *products;
-} Cart;
-typedef struct Date {
+    sProduct *products;
+} sCart;
+typedef struct {
     int day;
     int month;
     int year;
-} Date;
+} sDate;
 
 
 // Global Variable
-char *IDENTITY = NULL;
+char *gIdentity = NULL;
 
 
 // Folders & Files
@@ -87,7 +87,7 @@ void createFolder(char *folderName);
 void resetFile(char *fileName);
 void writeFile(char *fileName, char *data);
 void copyFile(char *destinationFileName, char *sourceFileName);
-Bool doesFileExists(char *fileName);
+eBool doesFileExists(char *fileName);
 
 
 // Strings
@@ -98,45 +98,45 @@ float initializeFloat();
 float convertStringToFloat(char *string);
 
 
-// User
-void verifyUserId(User *user);
-void verifyUserName(User *user);
-void verifyUserPassword(User *user);
-void verifyUserPhone(User *user);
+// sUser
+void verifyUserId(sUser *user);
+void verifyUserName(sUser *user);
+void verifyUserPassword(sUser *user);
+void verifyUserPhone(sUser *user);
 void verifyUserAge();
 void verifyUserTermsAndConditions();
-void registerUser(UserType userType);
+void registerUser(eUserType userType);
 void printUserProfile();
 void updateUserProfile();
 void userLogin();
 void updateUserPoints(float decreasePoints);
-User retrieveUser(char *fileName, UserType userType);
-UserType retrieveUserType();
+sUser retrieveUser(char *fileName, eUserType userType);
+eUserType retrieveUserType();
 
 
-// Product
-void verifyProductName(Product *product);
-void verifyProductCompany(Product *product);
-void verifyProductCategory(Product *product);
-void verifyProductPrice(Product *product);
-void verifyProductQuantity(Product *product);
+// sProduct
+void verifyProductName(sProduct *product);
+void verifyProductCompany(sProduct *product);
+void verifyProductCategory(sProduct *product);
+void verifyProductPrice(sProduct *product);
+void verifyProductQuantity(sProduct *product);
 void addProductToCatalog();
 void deleteProductFromCatalog();
 void updateProductInCatalog();
-Bool doesProductExist(char *fileName, char *productName, char *productCompany);
-Product selectProduct(Cart cart);
-Product retrieveProduct(char *nameString, char *companyString);
+eBool doesProductExist(char *fileName, char *productName, char *productCompany);
+sProduct selectProduct(sCart cart);
+sProduct retrieveProduct(char *nameString, char *companyString);
 
 
-// Cart
-void addProductToCart(Cart *cart);
-void deleteProductFromCart(Cart *cart);
-void updateProductInCart(Cart *cart);
-void printCart(Cart cart);
-void purchaseCart(Cart *cart);
-void updateCatalogAfterPurchase(Cart *cart);
-float calculateCartTotal(Cart cart);
-Cart retrieveRequestedCatalog();
+// sCart
+void addProductToCart(sCart *cart);
+void deleteProductFromCart(sCart *cart);
+void updateProductInCart(sCart *cart);
+void printCart(sCart cart);
+void purchaseCart(sCart *cart);
+void updateCatalogAfterPurchase(sCart *cart);
+float calculateCartTotal(sCart cart);
+sCart retrieveRequestedCatalog();
 
 
 // Delivery
@@ -149,18 +149,18 @@ void deliveryProcess();
 
 // Payment
 void verifyCreditCard();
-void verifyCreditCardCVC();
+void verifyCreditCardCvc();
 void verifyCreditCardDate();
 void paymentProcess(float totalCartPrice);
 
 
 // Orders
-void writeOrder(Cart *cart);
+void writeOrder(sCart *cart);
 void writeOrderSummary(float totalOrderPrice);
-void printOrdersSummary(int **ordersHistory, char ***customersID, Bool onlyWaitingOrders);
+void printOrdersSummary(int **ordersHistory, char ***customersId, eBool onlyWaitingOrders);
 void selectOrdersSummary();
 void selectOrderConfirmation();
-void printOrder(int orderNumber, char *orderID);
+void printOrder(int orderNumber, char *orderId);
 void changeOrderStatus(int orderNumber);
 int getOrderFileName();
 
@@ -168,39 +168,39 @@ int getOrderFileName();
 // Tickets
 void writeTicket();
 void writeTicketSummary();
-void printTicketsSummary(int **ticketsHistory, char ***customersID, Bool onlyWaitingTickets);
+void printTicketsSummary(int **ticketsHistory, char ***customersId, eBool onlyWaitingTickets);
 void selectTicketsSummary();
 void selectTicketConfirmation();
-void printTicket(int ticketNumber, char *ticketID);
+void printTicket(int ticketNumber, char *ticketId);
 void changeTicketStatus(int ticketNumber);
 int getTicketFileName();
 
 
-// Date
-Date getCurrentDate();
-int calculateDateDiff(Date date);
+// sDate
+sDate getCurrentDate();
+int calculateDateDiff(sDate date);
 
 
 // Menu's
 void systemMenu();
 void registrationMenu();
 void userProfileMenu();
-void userProfileUpdateMenu(User *user);
+void userProfileUpdateMenu(sUser *user);
 void catalogFilterMenu(char **filterBy, char **filterWord);
 void managerMenu();
 void managerStoreMenu();
 void revenueMenu();
 void ordersMenu();
 void ticketsMenu();
-void productUpdateMenu(Product *product);
+void productUpdateMenu(sProduct *product);
 void customerMenu();
-void customerStoreMenu(Cart *cart);
-void cartMenu(Cart *cart);
+void customerStoreMenu(sCart *cart);
+void cartMenu(sCart *cart);
 void printAskedRevenue(int revenueDays);
 int main();
-int selectProductQuantity(Product product);
-int purchaseCartMenu(Cart cart);
-float shoppingPointsMenu(User user, float totalPrice);
+int selectProductQuantity(sProduct product);
+int purchaseCartMenu(sCart cart);
+float shoppingPointsMenu(sUser user, float totalPrice);
 
 
 #endif
