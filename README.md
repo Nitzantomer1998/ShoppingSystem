@@ -6,10 +6,7 @@
 </p>
 
 <h2>Getting Started</h2>
-<p>
-   To run the system, you will need to have a C compiler and CLion IDE installed on your machine.<br>
-   The appropriate needed CSV files for access to the information about products and user accounts will create automatically within folder "Data".
-</p>
+<p>To build and run this project, you need to have the following tools installed</p>
 
 <h3>Prerequisites</h3>
 <ul>
@@ -20,12 +17,10 @@
 
 <h3>Installation</h3>
 <ol>
-   <li>Clone or download the repository to your local machine</li>
-   
-   <pre>
-      $ git clone https://github.com/Nitzantomer1998/ShoppingSystem.git
-   </pre>
-   
+   <li>
+      Clone or download the repository to your local machine
+      <pre>$ git clone https://github.com/Nitzantomer1998/ShoppingSystem.git</pre>
+   </li>
    <li>Open the project in CLion IDE</li>
    <li>Build and run the program</li>
    <li>Follow the prompts to create an account or log in as an existing user</li>
@@ -40,7 +35,7 @@
    <li>Order history and tracking</li>
    <li>Admin panel for managing products and user accounts</li>
    <li>Customers feedback support</li>
-   <li>Etc..</li>
+   <li>And a lot more</li>
 </ul>
 
 <h2>Limitations</h2>
@@ -58,15 +53,10 @@
 </ul>
 
 <h2>Support</h2>
-<p>
-   For any questions or issues, please open an issue on the GitHub repository or contact the me directly.
-</p>
+<p>For any questions or issues, please open an issue on the GitHub repository or contact the me directly.</p>
 
 <h2>Contributing</h2>
-<p>
-   We welcome contributions from the community. If you are interested in contributing to this project, please follow these guidelines:
-</p>
-
+<p>I welcome contributions from the community. If you are interested in contributing to this project, please follow these guidelines</p>
 <ul>
    <li>Fork the repository and create a new branch for your changes.</li>
    <li>Make your changes and ensure that the code is well-documented and properly tested.</li>
